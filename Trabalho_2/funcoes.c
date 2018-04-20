@@ -8,8 +8,8 @@ int sorteiaNumero(){
     do{
       numSorteado = ((rand() % FILEMAX) + 1);
       situacao = NREPETIDO;
-      for(int aux = 0; aux < NUMMAX; aux++){
-        if(numSorteado == vetor[aux]){
+      for(int aux = 0; (aux < i) && (situacao == NREPETIDO); aux++){
+        if(vetor[i] == vetor[aux]){
             situacao = REPETIDO;
         }
       }
