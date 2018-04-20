@@ -12,14 +12,13 @@
 #define TAMIMAGEM 512
 #define FILEMAX 50
 #define NUMMAX 25
+#define REPETIDO 1
+#define NREPETIDO 0
 #define ASPHAULTFILE "asphalt_"
 #define GRASSFILE "grass_"
 #define EXTENSION ".txt"
 
 int sorteiaNumero();
-int validaNumeroSorteado(int, int *);
-void selecionaImagens(int *);
-void preencheVetor();
 void abreArquivo();
 void leArquivo();
 void fechaArquivo();
