@@ -2,8 +2,10 @@
 
 int main(int argc, char *argv[]){
   // Variaveis
-  int sorteadoGrass[NUMMAX], sorteadoAsphalt[NUMMAX];
+  int treinamentoGrass[NUMMAX], treinamentoAsphalt[NUMMAX], testeGrass[NUMMAX], testeAsphalt[NUMMAX];
   int numSorteado;
-  sorteiaNumero();
+  sorteiaNumero(treinamentoGrass);
+  //ordenaVetor(treinamentoGrass);
+  comparaVetor(treinamentoGrass, testeGrass);
   return 0;
 }

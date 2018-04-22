@@ -18,7 +18,9 @@
 #define GRASSFILE "grass_"
 #define EXTENSION ".txt"
 
-int sorteiaNumero();
+int sorteiaNumero(int *);
+//void ordenaVetor(int *);
+int comparaVetor(int *, int *);
 void abreArquivo();
 void leArquivo();
 void fechaArquivo();
