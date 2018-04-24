@@ -21,7 +21,7 @@
 int sorteiaNumero(int *);
 //void ordenaVetor(int *);
 int comparaVetor(int *, int *);
-void abreArquivo();
-void leArquivo();
-void fechaArquivo();
+void abreArquivo(FILE *, int);
+void leArquivo(FILE *);
+void fechaArquivo(FILE *);
 void leImagem();

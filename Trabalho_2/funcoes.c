@@ -1,24 +1,26 @@
 #include "funcoes.h"
+#include <string.h>
 
 int sorteiaNumero(int *treinamentoGrass){
   int numSorteado, vetor[NUMMAX] = {51}, situacao;
+  FILE *arq;
 
   srand((unsigned) time(NULL));
-  printf("Conjunto de Treinamento: ");
+  printf("Conjunto de Treinamento: \n");
   for(int i = 0; i < NUMMAX; i++){
     do{
       numSorteado = ((rand() % FILEMAX) + 1);
       situacao = NREPETIDO;
       for(int aux = 0; aux < NUMMAX; aux++){
         if(numSorteado == vetor[aux]){
-            int v2[NUMMAX];
             situacao = REPETIDO;
         }
       }
     }while(situacao == REPETIDO);
     vetor[i] = numSorteado;
     treinamentoGrass[i] = vetor[i];
-    printf("%d  ", treinamentoGrass[i]);
+    printf("%d ", treinamentoGrass[i]);
+    abreArquivo(arq, numSorteado);
   }
   printf("\n\n");
 }
@@ -30,6 +32,7 @@ int comparaVetor(int *treinamentoGrass, int *testeGrass){
   int comparador = 0;
   int vet[NUMMAX];
   int soma = 0;
+  FILE *arq;
   for(int i = 0; i < FILEMAX; i++){
       soma=0;
       comparador = vetorCompara[i];//pega um valor e do vetor de 50 posições e vê se ele existe em treinamentoGrass
@@ -41,17 +44,57 @@ int comparaVetor(int *treinamentoGrass, int *testeGrass){
         break;
       }
     }
-      if(soma == 25 ){ //se entrou nesse if é porque percorreu todo o vetor de treinamento e não encontrou nenhum 
+      if(soma == 25 ){ //se entrou nesse if é porque percorreu todo o vetor de treinamento e não encontrou nenhum
                         //valor igual ao do vetor compara
-        testeGrass[j] = comparador; //usa j porque se não, na vez que o comparador existir em treinamentoGrass, 
-                                    //ele pulará esse if e continuará o for e o vetor vai ficar vázio no índice correspondente
+        testeGrass[j] = comparador; //usa j porque se não, na vez que o comparador existir em treinamentoGrass,
+
         j++;
-          if(j==25) //Como o for mais externo vai até 50 e testeGrass tem tamanho 25, tem que testar j<25 
+          if(j==25) //Como o for mais externo vai até 50 e testeGrass tem tamanho 25, tem que testar j<25
             break;
       }
   }
-  printf("Conjunto de Teste: ");
+  printf("Conjunto de Teste: \n");
   for (int j=0; j<NUMMAX; j++) {
     printf("%d ", testeGrass[j]);
+    abreArquivo(arq, comparador);
+  }
+  puts("");
+}
+
+void abreArquivo(FILE *arq, int num){
+  int i;
+  char arquivo[29]; //29 é o numero de caracteres do caminho d arq de grama
+  if(num < 10)
+    snprintf(arquivo, sizeof(arquivo), "%s0%d%s", "./DataSet/grass/grass_", num, EXTENSION);
+  else
+    snprintf(arquivo, sizeof(arquivo), "%s%d%s", "./DataSet/grass/grass_", num, EXTENSION);
+
+   if((arq=fopen(arquivo,"rt"))==NULL){
+       puts("Não foi encontrado registro ");
+       getchar();
     }
+    leArquivo(arq);
+    fechaArquivo(arq);
+}
+
+void leArquivo(FILE *arq){
+  char detectorPonto;
+  int contLinha = 0, contColuna = 0;
+  fseek(arq, 0, SEEK_SET);
+
+  while(fread(&detectorPonto,sizeof(char),1,arq)==1){
+    if(detectorPonto == '\n'){
+      contLinha++;
+      contColuna++;
+    }
+    if(detectorPonto == ';'){
+      contColuna++;
+    }
+  }
+  contColuna/=contLinha; //divisão
+  printf("%d ", contLinha);
+  printf("%d\n", contColuna);
+}
+void fechaArquivo(FILE *arq){
+  fclose(arq);
 }
