@@ -1,5 +1,5 @@
 #include "funcoes.h"
-#include <string.h>
+/*
 
 int sorteiaNumero(int *treinamentoGrass){
   int numSorteado, vetor[NUMMAX] = {51}, situacao;
@@ -95,6 +95,33 @@ void leArquivo(FILE *arq){
   printf("%d ", contLinha);
   printf("%d\n", contColuna);
 }
+
+*/
+void converterIntChar(int i, char *indice){
+  sprintf(indice,"%02d", i);
+}
+
+void concantenaNomeArquivo(char *nomeArquivo, char *define, char *indice){
+  //*nomeArquivo = "./";
+
+  strcat(nomeArquivo, define);
+  strcat(nomeArquivo, indice);
+  strcat(nomeArquivo, EXTENSION);
+  printf("\nFuncao\t%s\n", nomeArquivo);
+}
+
+FILE* abreArquivo(char *nomeArquivo){
+  FILE* arq;
+
+  arq = fopen(nomeArquivo, "r");
+  if(arq == NULL){
+		printf("Erro ao abrir o arquivo!");
+    exit(1);
+	}
+
+  return arq;
+}
+
 void fechaArquivo(FILE *arq){
   fclose(arq);
 }
