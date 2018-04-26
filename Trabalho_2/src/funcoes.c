@@ -107,7 +107,7 @@ void concantenaNomeArquivo(char *nomeArquivo, char *define, char *indice){
   strcat(nomeArquivo, define);
   strcat(nomeArquivo, indice);
   strcat(nomeArquivo, EXTENSION);
-  printf("\nFuncao\t%s\n", nomeArquivo);
+  printf("\nFunção\t%s\n", nomeArquivo);
 }
 
 FILE* abreArquivo(char *nomeArquivo){
@@ -120,6 +120,37 @@ FILE* abreArquivo(char *nomeArquivo){
 	}
 
   return arq;
+}
+
+void calculaDimensao(FILE *arq, int *dimMatriz){
+  char detectorPonto;
+  int contLinha = 0, contColuna = 0;
+  fseek(arq, 0, SEEK_SET);
+
+  while(fread(&detectorPonto,sizeof(char),1,arq)==1){
+    if(detectorPonto == '\n'){
+      contLinha++;
+      contColuna++;
+    }
+    if(detectorPonto == ';'){
+      contColuna++;
+    }
+  }
+  contColuna/=contLinha; //divisão
+  *(dimMatriz + 0) = contLinha;
+  *(dimMatriz + 1) = contColuna;
+  printf("%d ", contLinha);
+  printf("%d\n", contColuna);
+}
+
+int* alocaMatriz(int tamanho){
+  int *matriz;
+  matriz = (int *) calloc(tamanho, sizeof(int));
+  if(matriz == NULL){
+    printf("Alocação falhou!");
+    exit(1);
+  }
+  return matriz;
 }
 
 void fechaArquivo(FILE *arq){

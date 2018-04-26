@@ -31,4 +31,6 @@ void leImagem();
 void converterIntChar(int, char *);
 void concantenaNomeArquivo(char *, char *, char *);
 FILE* abreArquivo(char *);
+void calculaDimensao(FILE *, int *);
+int* alocaMatriz(int);
 void fechaArquivo(FILE *);
