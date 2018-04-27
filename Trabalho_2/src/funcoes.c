@@ -102,7 +102,6 @@ void converterIntChar(int i, char *indice){
 }
 
 void concantenaNomeArquivo(char *nomeArquivo, char *define, char *indice){
-  //*nomeArquivo = "./";
 
   strcat(nomeArquivo, define);
   strcat(nomeArquivo, indice);
@@ -169,7 +168,6 @@ void salvaMatrizMemoria(FILE *arq, int *matriz, int *dimMatriz){
     }
   }
 }
-
 
 void fechaArquivo(FILE *arq){
   fclose(arq);

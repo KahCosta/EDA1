@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
   comparaVetor(treinamentoGrass, testeGrass);
   */
   setlocale(LC_ALL, "Portuguese");
-  for(int i = 1; i <= 1; i++){
+  for(int i = 1; i <= FILEMAX; i++){
     converterIntChar(i, indice);
     for(int i = 0; i < FILEMAX; i++){
       nomeArquivo[i] = setaArquivo[i];
@@ -26,7 +26,6 @@ int main(int argc, char *argv[]){
     tamanhoMatriz = ((*(dimMatriz + 0)) * (*(dimMatriz + 1)));
     matriz = alocaMatriz(tamanhoMatriz);// matriz é o ponteiro da alocação dinamica
     salvaMatrizMemoria(arq, matriz, dimMatriz);
-    //aloca
     //calcula
     //guarda
     fechaArquivo(arq);
