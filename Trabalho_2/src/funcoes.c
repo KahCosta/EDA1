@@ -153,6 +153,24 @@ int* alocaMatriz(int tamanho){
   return matriz;
 }
 
+void salvaMatrizMemoria(FILE *arq, int *matriz, int *dimMatriz){
+  int nLin = 0, nCol = 0;
+  nLin = *(dimMatriz +0);
+  nCol = *(dimMatriz + 1);
+  char guarda[nLin][nCol];
+
+  printf("\nnLin:%d\tnCol:%d",nLin, nCol);
+
+  rewind(arq);
+  for(int i = 0; i < nLin; i++){
+    for(int j = 0; j < nCol; j++){
+      fscanf(arq, "%d%c", matriz+(i*nCol)+j, &guarda[i][j]);
+      printf("\nLinha:%d\tColuna:%d\tConteudo:%d\t",i,j, *(matriz+(i*nCol)+j));
+    }
+  }
+}
+
+
 void fechaArquivo(FILE *arq){
   fclose(arq);
 }

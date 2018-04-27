@@ -33,4 +33,5 @@ void concantenaNomeArquivo(char *, char *, char *);
 FILE* abreArquivo(char *);
 void calculaDimensao(FILE *, int *);
 int* alocaMatriz(int);
+void salvaMatrizMemoria(FILE *, int *, int *);
 void fechaArquivo(FILE *);
