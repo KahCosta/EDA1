@@ -4,7 +4,7 @@ SRCFOLDER := src/
 OBJFOLDER := obj/
 
 CC := gcc
-CFLAGS := -Wall
+CFLAGS := -Wall -lm
 
 SRCFILES := $(wildcard src/*.c)
 

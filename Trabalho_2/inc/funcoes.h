@@ -3,6 +3,7 @@
 #include <time.h>
 #include <locale.h>
 #include <string.h>
+#include <math.h>
 
 #ifdef WIN32
     #define LIMPA_TELA system("cls")
@@ -34,4 +35,5 @@ FILE* abreArquivo(char *);
 void calculaDimensao(FILE *, int *);
 int* alocaMatriz(int);
 void salvaMatrizMemoria(FILE *, int *, int *);
+void calculaILBP(int *, int *);
 void fechaArquivo(FILE *);

@@ -172,3 +172,54 @@ void salvaMatrizMemoria(FILE *arq, int *matriz, int *dimMatriz){
 void fechaArquivo(FILE *arq){
   fclose(arq);
 }
+
+void calculaILBP(int *matriz, int *ilbp){
+  int pixel = 0, linhas = 3, colunas = 3, pixelCentral = 0, somatorio = 0, precisaoCalcT = 0, tamanhoMatriz = 0;
+  int *matrizBinaria = NULL, numVizinhos = 0;
+  float mediaPixelCentral = 0.0;
+
+  //calcula filtro de média (por enquanto só dos primeiros 9 elementos)
+  pixelCentral = *(matriz + 4);
+  //printf("Pixel Central = %d \n", pixelCentral);
+  for (int i = 0; i < linhas; i++) {
+    for (int j = 0; j < colunas; j++) {
+      printf("Elementos da matriz %d\n", (*(matriz+(i*colunas)+j)));
+      somatorio = somatorio + (*(matriz+(i*colunas)+j));
+    }
+  }
+  mediaPixelCentral = somatorio / (9.0);
+  *(matriz+4) = mediaPixelCentral;
+//  printf("Linhas = %d\n Colunas = %d\n Somatório = %d", linhas, colunas, somatorio );
+  printf("\nMedia = %f \n", mediaPixelCentral);
+
+/*Limiarização Simples */
+  tamanhoMatriz = linhas * colunas;
+  matrizBinaria = alocaMatriz(tamanhoMatriz);
+  for (int i = 0; i < linhas; i++) {
+    for (int j = 0; j < colunas; j++) {
+      if((*(matriz+(i*colunas)+j)) > *(matriz+4)){
+        (*(matrizBinaria+(i*colunas)+j)) = 1;
+      }else{
+        (*(matrizBinaria+(i*colunas)+j)) = 0;
+      }
+      printf("Matriz Binária: %d\n", (*(matrizBinaria+(i*colunas)+j)));
+
+    }
+  }
+
+  //Calcular Menor Binário para invariância de rotação e cálculo do ILBP
+  numVizinhos = 8;
+  float num = 0;
+  int binario, decimal = 0,
+
+  /*for (int i = 0; i <= 7; i++) {
+      num = num + (*(matrizBinaria + i))*(pow(2.0, numVizinhos));
+    //  printf("Descritor local = %d\n",*(matrizBinaria + i));
+  }
+  printf("Decimal = %f\n", num);
+*/
+
+
+
+  free(matrizBinaria);
+}
