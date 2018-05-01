@@ -209,16 +209,60 @@ void calculaILBP(int *matriz, int *ilbp){
 
   //Calcular Menor Binário para invariância de rotação e cálculo do ILBP
   numVizinhos = 8;
-  float num = 0;
-  int binario, decimal = 0,
+  int num = 0; //valor decimal
+  int binario[9], aux[9], decimal = 0;
+  int numMin = 511; //1024 / (2 -1)
+  int res = 0;
+  int contador = 0;
 
-  /*for (int i = 0; i <= 7; i++) {
-      num = num + (*(matrizBinaria + i))*(pow(2.0, numVizinhos));
-    //  printf("Descritor local = %d\n",*(matrizBinaria + i));
+  for(int i = 0; i < linhas; i++){
+    for(int j = 0; j < colunas; j++, contador++){
+      *(binario+contador) = (*(matrizBinaria+(i*colunas)+j));
+     // printf("BinarioPrimeiro[%d] = %d\n",j,binario[contador] ); //OK
+    }
   }
-  printf("Decimal = %f\n", num);
-*/
 
+  for(int i = 0; i < 9; i++, contador++){
+   // printf("Binario[%d] = %d\n", i, binario[contador]);
+  }
+
+  for (int i = 0; i < 9; i++) { //conversor bin -> dec
+    for (int j = 0; j < 9; j++){
+      if (binario[j] == 1)
+      {
+        num += pow(2,8-j);
+        printf("j = %d\n",j); 
+      }
+      //num += binario[j] * pow(2, j);    
+      //printf("Bin - Dec = %d\n",num);  
+    }
+      for (int k = 0; k < numVizinhos; k++){
+        aux[k] = *(binario+(k + 1));
+      }
+
+      for (int l = 0; l < 9; l++){
+        *(binario + l) = aux[l];
+       // printf("AAA%d\n",*(matrizBinaria + l) );
+      }
+        printf("Debug num = %d\n", num);
+
+      if (numMin > num ){
+        numMin = num;
+        printf("Numero Min = %d\n", numMin );
+      }
+
+    for (int j = 0; j < 9; j++){
+      if (binario[j] == 1)
+      {
+        num += pow(2,8-j);
+        printf("j = %d\n",j); 
+      }
+    }
+
+  }
+  printf("min Final = %d \n", numMin);
+
+  
 
 
   free(matrizBinaria);
