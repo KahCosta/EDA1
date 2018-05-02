@@ -3,7 +3,6 @@
 #include <time.h>
 #include <locale.h>
 #include <string.h>
-#include <math.h>
 
 #ifdef WIN32
     #define LIMPA_TELA system("cls")
@@ -33,7 +32,8 @@ void converterIntChar(int, char *);
 void concantenaNomeArquivo(char *, char *, char *);
 FILE* abreArquivo(char *);
 void calculaDimensao(FILE *, int *);
-int* alocaMatriz(int);
-void salvaMatrizMemoria(FILE *, int *, int *);
-void calculaILBP(int *, int *);
+int** alocaMatriz(int);
+void salvaMatrizMemoria(FILE *, int **, int *, int *);
+void CalculaMatrizAux(int , int **, int, int);
+void VetorGLCM(int, int **, int);
 void fechaArquivo(FILE *);
