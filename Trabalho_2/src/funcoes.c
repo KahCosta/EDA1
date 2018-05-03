@@ -236,8 +236,6 @@ int calculaILBP(int **matriz, int **ilbp, int *dimMatriz, int **matrizBinaria){
     *(ilbp + numMin) = *(ilbp + numMin) + 1;
     //printf("frequencia ilbp = %d", *(ilbp+numMin));
 
-
-
   free(matrizBinaria);
 }
 
@@ -245,7 +243,7 @@ int calculaILBP(int **matriz, int **ilbp, int *dimMatriz, int **matrizBinaria){
 
 // Criando matrizes de direções para calculo de VetorGLCM
 
-void direita(int **matrizDireita, int **matriz){ //função que calcula Matriz glcm a direita
+void direita(int **matrizDireita, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
@@ -271,12 +269,14 @@ void direita(int **matrizDireita, int **matriz){ //função que calcula Matriz g
 
         }
     }
-    printf("\nDireita:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
-
+    printf("\n\nDireita:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+    *(vetorResultado + 512) = energia;
+    *(vetorResultado + 513) = contraste;
+    *(vetorResultado + 514) = homogenidade;
   free(matrizDireita);
 }
 
-void esquerda(int **matrizEsquerda, int **matriz){ //função que calcula Matriz glcm a direita
+void esquerda(int **matrizEsquerda, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
@@ -300,11 +300,14 @@ void esquerda(int **matrizEsquerda, int **matriz){ //função que calcula Matriz
 
         }
     }
-      printf("\n\nEsquerda:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+    printf("\n\nEsquerda:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+    *(vetorResultado + 515) = energia;
+    *(vetorResultado + 516) = contraste;
+    *(vetorResultado + 517) = homogenidade;
   free(matrizEsquerda);
 }
 
-void acima(int **matrizAcima, int **matriz){ //função que calcula Matriz glcm a direita
+void acima(int **matrizAcima, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
@@ -328,10 +331,13 @@ void acima(int **matrizAcima, int **matriz){ //função que calcula Matriz glcm 
         }
     }
   printf("\n\nAcima:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  *(vetorResultado + 518) = energia;
+  *(vetorResultado + 519) = contraste;
+  *(vetorResultado + 520) = homogenidade;
   free(matrizAcima);
 }
 
-void abaixo(int **matrizAbaixo,int **matriz){ //função que calcula Matriz glcm a direita
+void abaixo(int **matrizAbaixo,int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
@@ -355,10 +361,13 @@ void abaixo(int **matrizAbaixo,int **matriz){ //função que calcula Matriz glcm
         }
     }
   printf("\n\nAbaixo:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  *(vetorResultado + 521) = energia;
+  *(vetorResultado + 522) = contraste;
+  *(vetorResultado + 523) = homogenidade;
   free(matrizAbaixo);
 }
 
-void diagonalEsquerdaSuperior(int **matrizEsquerdaSuperior, int **matriz){ //função que calcula Matriz glcm a direita
+void diagonalEsquerdaSuperior(int **matrizEsquerdaSuperior, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
@@ -382,10 +391,13 @@ void diagonalEsquerdaSuperior(int **matrizEsquerdaSuperior, int **matriz){ //fun
         }
     }
   printf("\n\nEsquerdaSuperior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  *(vetorResultado + 524) = energia;
+  *(vetorResultado + 525) = contraste;
+  *(vetorResultado + 526) = homogenidade;
   free(matrizEsquerdaSuperior);
 }
 
-void diagonalDireitaSuperior(int **matrizDireitaSuperior, int **matriz){ //função que calcula Matriz glcm a direita
+void diagonalDireitaSuperior(int **matrizDireitaSuperior, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
@@ -409,10 +421,13 @@ void diagonalDireitaSuperior(int **matrizDireitaSuperior, int **matriz){ //funç
         }
     }
   printf("\n\nDireitaSuperior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  *(vetorResultado + 527) = energia;
+  *(vetorResultado + 528) = contraste;
+  *(vetorResultado + 529) = homogenidade;
   free(matrizDireitaSuperior);
 }
 
-void diagonalEsquerdaInferior(int **matrizEsquerdaInferior, int **matriz){ //função que calcula Matriz glcm a direita
+void diagonalEsquerdaInferior(int **matrizEsquerdaInferior, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
@@ -436,10 +451,13 @@ void diagonalEsquerdaInferior(int **matrizEsquerdaInferior, int **matriz){ //fun
         }
     }
   printf("\n\nEsquerdaInferior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  *(vetorResultado + 530) = energia;
+  *(vetorResultado + 531) = contraste;
+  *(vetorResultado + 532) = homogenidade;
   free(matrizEsquerdaInferior);
 }
 
-void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz){ //função que calcula Matriz glcm a direita
+void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
@@ -464,7 +482,17 @@ void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz){ //funç�
         }
     }
   printf("\n\nDireitaInferior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  *(vetorResultado + 533) = energia;
+  *(vetorResultado + 534) = contraste;
+  *(vetorResultado + 535) = homogenidade;
   free(matrizDireitaInferior);
+}
+
+FILE* salvaArquivo(FILE* resultadoArq, float* vetorResultado){
+  rewind(resultadoArq);
+  for(int i = 0; i < 536; i++){
+      fprintf(resultadoArq, "%d", *(vetorResultado+i));
+  }
 }
 
 void fechaArquivo(FILE *arq){

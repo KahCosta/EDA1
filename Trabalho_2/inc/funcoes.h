@@ -31,6 +31,7 @@ FILE* abreArquivo(char *);
 void calculaDimensao(FILE *, int *);
 int** alocaMatriz(int *);
 void salvaMatrizMemoria(FILE *, int **, int *, int *);
+FILE* salvaArquivo(FILE *, float *);
 void fechaArquivo(FILE *);
 
 //ILBP
@@ -39,11 +40,11 @@ void calculaMatrizBinaria(int **, int **, int *, int **);
 int calculaILBP(int **, int **, int *, int **);
 
 //GLCM
-void direita(int **, int **);
-void esquerda(int **, int **);
-void acima(int **, int **);
-void abaixo(int **, int **);
-void diagonalEsquerdaSuperior(int **, int **);
-void diagonalDireitaSuperior(int **, int **);
-void diagonalEsquerdaInferior(int **, int **);
-void diagonalDireitaInferior(int **, int **);
+void direita(int **, int **, float *);
+void esquerda(int **, int **, float *);
+void acima(int **, int **, float *);
+void abaixo(int **, int **, float *);
+void diagonalEsquerdaSuperior(int **, int **, float *);
+void diagonalDireitaSuperior(int **, int **, float *);
+void diagonalEsquerdaInferior(int **, int **, float *);
+void diagonalDireitaInferior(int **, int **, float *);
