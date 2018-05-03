@@ -12,6 +12,7 @@ int main(int argc, char *argv[]){
   int treinamento[NUMMAX], teste[NUMMAX];
   float vetorResultado[536];
   char *r = "r", *w= "w";
+  char *string;
   /*
   int treinamentoGrass[NUMMAX], treinamentoAsphalt[NUMMAX], testeGrass[NUMMAX], testeAsphalt[NUMMAX];
   int numSorteado;
@@ -29,9 +30,11 @@ int main(int argc, char *argv[]){
       printf("nomeArquivo: %s\t setaArquivo: %s", nomeArquivo, setaArquivo);
       if(contador == 1){
         concantenaNomeArquivo(nomeArquivo, ASPHAULTFILE, indice);
+        string = "Resultado_Asfalto ";
       }
       else{
         concantenaNomeArquivo(nomeArquivo, GRASSFILE, indice);
+        string = "Resultado_Grama ";
       }
       arq = abreArquivo(nomeArquivo, r);
       calculaDimensao(arq, dimMatriz);
@@ -55,7 +58,7 @@ int main(int argc, char *argv[]){
         printf("\nConteudo:%.3f\tIndice: %d", *(vetorResultado+i), i);
       }
       resultadoArq = abreArquivo("Resultados.txt", "a+");
-      salvaArquivo(resultadoArq, vetorResultado);
+      salvaArquivo(resultadoArq, vetorResultado, string);
       fechaArquivo(arq);
       fechaArquivo(resultadoArq);
       free(matriz);

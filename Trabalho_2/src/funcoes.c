@@ -488,9 +488,8 @@ void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz, float *ve
   free(matrizDireitaInferior);
 }
 
-FILE* salvaArquivo(FILE* resultadoArq, float* vetorResultado){
-  //rewind(resultadoArq);
-  char *string = "Resultado ", espaco = '\n';
+FILE* salvaArquivo(FILE* resultadoArq, float* vetorResultado, char *string){
+  char espaco = '\n';
   fprintf(resultadoArq, "%s", string);
   for(int i = 0; i < 536; i++){
       fprintf(resultadoArq, "%.2f ", *(vetorResultado+i));
