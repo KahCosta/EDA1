@@ -4,12 +4,12 @@ SRCFOLDER := src/
 OBJFOLDER := obj/
 
 CC := gcc
-CFLAGS := -Wall -lm
+CFLAGS := -Wall
 
 SRCFILES := $(wildcard src/*.c)
 
 all: $(SRCFILES:src/%.c=obj/%.o)
-	$(CC) $(CFLAGS) obj/*.o -o bin/main
+	$(CC) $(CFLAGS) obj/*.o -o bin/main -lm
 
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I./inc

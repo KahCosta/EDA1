@@ -34,6 +34,14 @@ FILE* abreArquivo(char *);
 void calculaDimensao(FILE *, int *);
 int** alocaMatriz(int);
 void salvaMatrizMemoria(FILE *, int **, int *, int *);
-void CalculaMatrizAux(int , int **, int, int);
-void VetorGLCM(int, int **, int);
+void direita(int **, int, int, int **);
+void esquerda(int **, int, int, int **);
+void acima(int **, int, int, int **);
+void abaixo(int **, int, int, int **);
+void diagonalEsquerdaSuperior(int **, int, int, int **);
+void diagonalDireitaSuperior(int **, int, int, int **);
+void diagonalEsquerdaInferior(int **, int, int, int **);
+void diagonalDireitaInferior(int **, int, int, int **);
 void fechaArquivo(FILE *);
+
+float media(int *, int *, int *);

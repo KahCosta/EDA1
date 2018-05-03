@@ -164,116 +164,198 @@ void salvaMatrizMemoria(FILE *arq, int **matriz, int *dimMatriz, int *valorMaior
   }
   *valorMaior = tempValorMaior;
 }
+// Criando matrizes de direções para calculo de VetorGLCM
 
-void CalculaMatrizAux(int valorMaior, int **matriz, int tamanhoMatriz, int posicaoInicial){
-  int **matrizAux,i,j;
-  int direcao, vet[3];
-  matrizAux = (int**)calloc(valorMaior,sizeof(int*));
-  for(i=0;i<valorMaior;i++){
-    *(matrizAux+i) = calloc(valorMaior,sizeof(int));
-  }
-  for(direcao = 0; direcao <= 7; direcao++){
-    switch(direcao){
-        case 0:  // "direita"
-          for(i=0;i<tamanhoMatriz;i++){
-             for(j=1;j<tamanhoMatriz;j++){
-                matrizAux[matriz[i][j-1]][matriz[i][j]]++;
-             }
-          }
-          break;
-
-        case 1:    //"esquerda"
-          for(i=0;i<tamanhoMatriz;i++){
-             for(j=0;j<(tamanhoMatriz-1);j++){
-                matrizAux[matriz[i][j+1]][matriz[i][j]]++;
-             }
-          }
-          break;
-
-        case 2:   //"abaixo"
-          for(i=1;i<tamanhoMatriz;i++){
-             for(j=0;j<tamanhoMatriz;j++){
-                matrizAux[matriz[i-1][j]][matriz[i][j]]++;
-             }
-          }
-          break;
-
-        case 3:  //"acima"
-          for(i=0;i<(tamanhoMatriz-1);i++){
-             for(j=0;j<tamanhoMatriz;j++){
-                matrizAux[matriz[i+1][j]][matriz[i][j]]++;
-             }
-          }
-          break;
-
-        case 4:  //"diagonalEsquerdaInferior"
-          for(i=1;i<tamanhoMatriz;i++){
-             for(j=0;j<(tamanhoMatriz-1);j++){
-                matrizAux[matriz[i-1][j+1]][matriz[i][j]]++;
-             }
-          }
-          break;
-
-        case 5:  //"diagonalEsquerdaSuperior"
-          for(i=0;i<(tamanhoMatriz-1);i++){
-             for(j=0;j<(tamanhoMatriz-1);j++){
-                matrizAux[matriz[i+1][j+1]][matriz[i][j]]++;
-             }
-          }
-          break;
-
-        case 6:  //"diagonalDireitaSuperior"
-          for(i=0;i<(tamanhoMatriz-1);i++){
-             for(j=1;j<tamanhoMatriz;j++){
-                matrizAux[matriz[i+1][j-1]][matriz[i][j]]++;
-             }
-          }
-          break;
-
-        case 7:  //"diagonalDireitaInferior"
-          for(i=1;i<tamanhoMatriz;i++){
-             for(j=1;j<tamanhoMatriz;j++){
-                matrizAux[matriz[i-1][j-1]][matriz[i][j]]++;
-             }
-          }
-          break;
+void direita(int **matrizDireita, int valorMaior, int tamanhoMatriz, int **matriz){ //função que calcula Matriz glcm a direita
+    int i,j; //criando matriz auxiliar a direita
+    matrizDireita = (int**)calloc(valorMaior,sizeof(int*)); //alocando matriz auxiliar a direita
+    for(i=0;i<valorMaior;i++){
+      *(matrizDireita+i) = calloc(valorMaior,sizeof(int));
     }
-  }
-
+    for(i=0;i<tamanhoMatriz;i++){
+       for(j=1;j<tamanhoMatriz;j++){
+          matrizDireita[matriz[i][j-1]][matriz[i][j]]++;
+       }
+    }
   float contraste=0,energia=0,homogenidade=0;
 
-   for(i=0;i<valorMaior;i++){
-       for(j=0;j<valorMaior;j++){
+     for(i=0;i<valorMaior;i++){
+         for(j=0;j<valorMaior;j++){
 
-           energia += pow(matrizAux[i][j],2);
-           contraste += pow(i-j,2) * matrizAux[i][j];
-           homogenidade += matrizAux[i][j]/(1+sqrt(pow(i-j,2)));
-
-         }
-       }
-
- vet[posicaoInicial] = contraste;
- vet[posicaoInicial+1] = energia;
- vet[posicaoInicial+2] = homogenidade;
-
-   for(i=0;i<valorMaior;i++){
-
-        free(matrizAux[i]);
-
-       }
-        free(matrizAux);
+             energia += pow(matrizDireita[i][j],2);
+             contraste += pow(i-j,2) * matrizDireita[i][j];
+             homogenidade += matrizDireita[i][j]/(1+sqrt(pow(i-j,2)));
+             printf("%d\n,%d\n,%d\n", energia,contraste,homogenidade);
+        }
+    }
 }
-void VetorGLCM(int tamanhoMatriz, int **matriz, int valorMaior){
 
-  int i;
-  int posicaoInicial=512;
-  int direcao=0;
+void esquerda(int **matrizEsquerda, int valorMaior, int tamanhoMatriz, int **matriz){ //função que calcula Matriz glcm a direita
+    int i,j; //criando matriz auxiliar a direita
+    matrizEsquerda = (int**)calloc(valorMaior,sizeof(int*)); //alocando matriz auxiliar a direita
+    for(i=0;i<valorMaior;i++){
+      *(matrizEsquerda+i) = calloc(valorMaior,sizeof(int));
+    }
+    for(i=0;i<tamanhoMatriz;i++){
+       for(j=0;j<(tamanhoMatriz-1);j++){
+          matrizEsquerda[matriz[i][j+1]][matriz[i][j]]++;
+       }
+    }
+  float contraste=0,energia=0,homogenidade=0;
 
-  for(i=0;i<8;i++){
+     for(i=0;i<valorMaior;i++){
+         for(j=0;j<valorMaior;j++){
 
-     CalculaMatrizAux(valorMaior, matriz, tamanhoMatriz, posicaoInicial+i);
-     posicaoInicial += 3;
-  }
+             energia += pow(matrizEsquerda[i][j],2);
+             contraste += pow(i-j,2) * matrizEsquerda[i][j];
+             homogenidade += matrizEsquerda[i][j]/(1+sqrt(pow(i-j,2)));
+             printf("%d\n,%d\n,%d\n", energia,contraste,homogenidade);
+        }
+    }
+}
+
+void acima(int **matrizAcima, int valorMaior, int tamanhoMatriz, int **matriz){ //função que calcula Matriz glcm a direita
+    int i,j; //criando matriz auxiliar a direita
+    matrizAcima = (int**)calloc(valorMaior,sizeof(int*)); //alocando matriz auxiliar a direita
+    for(i=0;i<valorMaior;i++){
+      *(matrizAcima+i) = calloc(valorMaior,sizeof(int));
+    }
+    for(i=0;i<(tamanhoMatriz-1);i++){
+       for(j=0;j<tamanhoMatriz;j++){
+          matrizAcima[matriz[i+1][j]][matriz[i][j]]++;
+       }
+    }
+  float contraste=0,energia=0,homogenidade=0;
+
+     for(i=0;i<valorMaior;i++){
+         for(j=0;j<valorMaior;j++){
+
+             energia += pow(matrizAcima[i][j],2);
+             contraste += pow(i-j,2) * matrizAcima[i][j];
+             homogenidade += matrizAcima[i][j]/(1+sqrt(pow(i-j,2)));
+             printf("%d\n,%d\n,%d\n", energia,contraste,homogenidade);
+        }
+    }
+}
+
+void abaixo(int **matrizAbaixo, int valorMaior, int tamanhoMatriz, int **matriz){ //função que calcula Matriz glcm a direita
+    int i,j; //criando matriz auxiliar a direita
+    matrizAbaixo = (int**)calloc(valorMaior,sizeof(int*)); //alocando matriz auxiliar a direita
+    for(i=0;i<valorMaior;i++){
+      *(matrizAbaixo+i) = calloc(valorMaior,sizeof(int));
+    }
+    for(i=1;i<tamanhoMatriz;i++){
+       for(j=0;j<tamanhoMatriz;j++){
+          matrizAbaixo[matriz[i-1][j]][matriz[i][j]]++;
+       }
+    }
+  float contraste=0,energia=0,homogenidade=0;
+
+     for(i=0;i<valorMaior;i++){
+         for(j=0;j<valorMaior;j++){
+
+             energia += pow(matrizAbaixo[i][j],2);
+             contraste += pow(i-j,2) * matrizAbaixo[i][j];
+             homogenidade += matrizAbaixo[i][j]/(1+sqrt(pow(i-j,2)));
+             printf("%d\n,%d\n,%d\n", energia,contraste,homogenidade);
+        }
+    }
+}
+
+void diagonalEsquerdaSuperior(int **matrizEsquerdaSuperior, int valorMaior, int tamanhoMatriz, int **matriz){ //função que calcula Matriz glcm a direita
+    int i,j; //criando matriz auxiliar a direita
+    matrizEsquerdaSuperior = (int**)calloc(valorMaior,sizeof(int*)); //alocando matriz auxiliar a direita
+    for(i=0;i<valorMaior;i++){
+      *(matrizEsquerdaSuperior+i) = calloc(valorMaior,sizeof(int));
+    }
+    for(i=0;i<(tamanhoMatriz-1);i++){
+       for(j=0;j<(tamanhoMatriz-1);j++){
+          matrizEsquerdaSuperior[matriz[i+1][j+1]][matriz[i][j]]++;
+       }
+    }
+  float contraste=0,energia=0,homogenidade=0;
+
+     for(i=0;i<valorMaior;i++){
+         for(j=0;j<valorMaior;j++){
+
+             energia += pow(matrizEsquerdaSuperior[i][j],2);
+             contraste += pow(i-j,2) * matrizEsquerdaSuperior[i][j];
+             homogenidade += matrizEsquerdaSuperior[i][j]/(1+sqrt(pow(i-j,2)));
+             printf("%d\n,%d\n,%d\n", energia,contraste,homogenidade);
+        }
+    }
+}
+
+void diagonalDireitaSuperior(int **matrizDireitaSuperior, int valorMaior, int tamanhoMatriz, int **matriz){ //função que calcula Matriz glcm a direita
+    int i,j; //criando matriz auxiliar a direita
+    matrizDireitaSuperior = (int**)calloc(valorMaior,sizeof(int*)); //alocando matriz auxiliar a direita
+    for(i=0;i<valorMaior;i++){
+      *(matrizDireitaSuperior+i) = calloc(valorMaior,sizeof(int));
+    }
+    for(i=0;i<(tamanhoMatriz-1);i++){
+       for(j=1;j<tamanhoMatriz;j++){
+          matrizDireitaSuperior[matriz[i+1][j-1]][matriz[i][j]]++;
+       }
+    }
+  float contraste=0,energia=0,homogenidade=0;
+
+     for(i=0;i<valorMaior;i++){
+         for(j=0;j<valorMaior;j++){
+
+             energia += pow(matrizDireitaSuperior[i][j],2);
+             contraste += pow(i-j,2) * matrizDireitaSuperior[i][j];
+             homogenidade += matrizDireitaSuperior[i][j]/(1+sqrt(pow(i-j,2)));
+             printf("%d\n,%d\n,%d\n", energia,contraste,homogenidade);
+        }
+    }
+}
+
+void diagonalEsquerdaInferior(int **matrizEsquerdaInferior, int valorMaior, int tamanhoMatriz, int **matriz){ //função que calcula Matriz glcm a direita
+    int i,j; //criando matriz auxiliar a direita
+    matrizEsquerdaInferior = (int**)calloc(valorMaior,sizeof(int*)); //alocando matriz auxiliar a direita
+    for(i=0;i<valorMaior;i++){
+      *(matrizEsquerdaInferior+i) = calloc(valorMaior,sizeof(int));
+    }
+    for(i=1;i<tamanhoMatriz;i++){
+       for(j=0;j<(tamanhoMatriz-1);j++){
+          matrizEsquerdaInferior[matriz[i-1][j+1]][matriz[i][j]]++;
+       }
+    }
+  float contraste=0,energia=0,homogenidade=0;
+
+     for(i=0;i<valorMaior;i++){
+         for(j=0;j<valorMaior;j++){
+
+             energia += pow(matrizEsquerdaInferior[i][j],2);
+             contraste += pow(i-j,2) * matrizEsquerdaInferior[i][j];
+             homogenidade += matrizEsquerdaInferior[i][j]/(1+sqrt(pow(i-j,2)));
+             printf("%d\n,%d\n,%d\n", energia,contraste,homogenidade);
+        }
+    }
+}
+
+void diagonalDireitaInferior(int **matrizDireitaInferior, int valorMaior,int tamanhoMatriz, int **matriz){ //função que calcula Matriz glcm a direita
+    int i,j; //criando matriz auxiliar a direita
+    matrizDireitaInferior = (int**)calloc(valorMaior,sizeof(int*)); //alocando matriz auxiliar a direita
+    for(i=0;i<valorMaior;i++){
+      *(matrizDireitaInferior+i) = calloc(valorMaior,sizeof(int));
+    }
+    for(i=1;i<tamanhoMatriz;i++){
+       for(j=1;j<tamanhoMatriz;j++){
+          matrizDireitaInferior[matriz[i-1][j-1]][matriz[i][j]]++;
+       }
+    }
+  float contraste=0,energia=0,homogenidade=0;
+
+     for(i=0;i<valorMaior;i++){
+         for(j=0;j<valorMaior;j++){
+
+             energia += pow(matrizDireitaInferior[i][j],2);
+             contraste += pow(i-j,2) * matrizDireitaInferior[i][j];
+             homogenidade += matrizDireitaInferior[i][j]/(1+sqrt(pow(i-j,2)));
+             printf("%d\n,%d\n,%d\n", energia,contraste,homogenidade);
+        }
+    }
 }
 
 void fechaArquivo(FILE *arq){
