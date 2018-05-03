@@ -3,6 +3,7 @@
 #include <time.h>
 #include <locale.h>
 #include <string.h>
+#include <math.h>
 
 #ifdef WIN32
     #define LIMPA_TELA system("cls")
@@ -22,26 +23,27 @@
 int sorteiaNumero(int *);
 //void ordenaVetor(int *);
 int comparaVetor(int *, int *);
-void abreArquivo(FILE *, int);
-void leArquivo(FILE *);
-void fechaArquivo(FILE *);
-void leImagem();
 */
 
 void converterIntChar(int, char *);
 void concantenaNomeArquivo(char *, char *, char *);
 FILE* abreArquivo(char *);
 void calculaDimensao(FILE *, int *);
-int** alocaMatriz(int);
+int** alocaMatriz(int *);
 void salvaMatrizMemoria(FILE *, int **, int *, int *);
-void direita(int **, int, int, int **);
-void esquerda(int **, int, int, int **);
-void acima(int **, int, int, int **);
-void abaixo(int **, int, int, int **);
-void diagonalEsquerdaSuperior(int **, int, int, int **);
-void diagonalDireitaSuperior(int **, int, int, int **);
-void diagonalEsquerdaInferior(int **, int, int, int **);
-void diagonalDireitaInferior(int **, int, int, int **);
 void fechaArquivo(FILE *);
 
-float media(int *, int *, int *);
+//ILBP
+float media(int **, int *, int *);
+void calculaMatrizBinaria(int **, int **, int *, int **);
+int calculaILBP(int **, int **, int *, int **);
+
+//GLCM
+void direita(int **, int **);
+void esquerda(int **, int **);
+void acima(int **, int **);
+void abaixo(int **, int **);
+void diagonalEsquerdaSuperior(int **, int **);
+void diagonalDireitaSuperior(int **, int **);
+void diagonalEsquerdaInferior(int **, int **);
+void diagonalDireitaInferior(int **, int **);
