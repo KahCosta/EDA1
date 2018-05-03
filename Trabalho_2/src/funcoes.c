@@ -1,10 +1,9 @@
 #include "funcoes.h"
 
-int sorteiaNumero(int *treinamentoGrass){
+int sorteiaNumero(int *treinamento){
   int numSorteado, vetor[NUMMAX] = {51}, situacao;
-  FILE *arq;
   srand((unsigned) time(NULL));
-  printf("Conjunto de Treinamento: \n");
+  printf("\n\nConjunto de Treinamento: \n");
   for(int i = 0; i < NUMMAX; i++){
     do{
       numSorteado = ((rand() % FILEMAX) + 1);
@@ -16,25 +15,25 @@ int sorteiaNumero(int *treinamentoGrass){
       }
     }while(situacao == REPETIDO);
     vetor[i] = numSorteado;
-    treinamentoGrass[i] = vetor[i];
-    printf("%d ", treinamentoGrass[i]);
-    abreArquivo(arq, numSorteado);
+    treinamento[i] = vetor[i];
+    printf("%d ", treinamento[i]);
   }
   printf("\n\n");
 }
-int comparaVetor(int *treinamentoGrass, int *testeGrass){
+
+int comparaVetor(int *treinamento, int *teste){
   int vetorCompara[FILEMAX] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,
                               26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50};
   int j=0;
   int comparador = 0;
   int vet[NUMMAX];
   int soma = 0;
-  FILE *arq;
+
   for(int i = 0; i < FILEMAX; i++){
       soma=0;
       comparador = vetorCompara[i];//pega um valor e do vetor de 50 posições e vê se ele existe em treinamentoGrass
     for(int aux = 0; aux < NUMMAX; aux++){
-      if(comparador != *(treinamentoGrass + aux)){
+      if(comparador != *(treinamento + aux)){
         soma++; //Só vê se o valor não existe em treinamentoGrass
       }else{
         vet[aux] = comparador; //se já existe no vetor de treinamento ele guarda num vetor qualquer
@@ -43,52 +42,19 @@ int comparaVetor(int *treinamentoGrass, int *testeGrass){
     }
       if(soma == 25 ){ //se entrou nesse if é porque percorreu todo o vetor de treinamento e não encontrou nenhum
                         //valor igual ao do vetor compara
-        testeGrass[j] = comparador; //usa j porque se não, na vez que o comparador existir em treinamentoGrass,
+        teste[j] = comparador; //usa j porque se não, na vez que o comparador existir em treinamentoGrass,
         j++;
           if(j==25) //Como o for mais externo vai até 50 e testeGrass tem tamanho 25, tem que testar j<25
             break;
       }
   }
-  printf("Conjunto de Teste: \n");
+  printf("\nConjunto de Teste: \n");
   for (int j=0; j<NUMMAX; j++) {
-    printf("%d ", testeGrass[j]);
-    abreArquivo(arq, comparador);
+    printf("%d ", teste[j]);
   }
   puts("");
 }
-/*
-void abreArquivo(FILE *arq, int num){
-  int i;
-  char arquivo[29]; //29 é o numero de caracteres do caminho d arq de grama
-  if(num < 10)
-    snprintf(arquivo, sizeof(arquivo), "%s0%d%s", "./DataSet/grass/grass_", num, EXTENSION);
-  else
-    snprintf(arquivo, sizeof(arquivo), "%s%d%s", "./DataSet/grass/grass_", num, EXTENSION);
-   if((arq=fopen(arquivo,"rt"))==NULL){
-       puts("Não foi encontrado registro ");
-       getchar();
-    }
-    leArquivo(arq);
-    fechaArquivo(arq);
-}
-void leArquivo(FILE *arq){
-  char detectorPonto;
-  int contLinha = 0, contColuna = 0;
-  fseek(arq, 0, SEEK_SET);
-  while(fread(&detectorPonto,sizeof(char),1,arq)==1){
-    if(detectorPonto == '\n'){
-      contLinha++;
-      contColuna++;
-    }
-    if(detectorPonto == ';'){
-      contColuna++;
-    }
-  }
-  contColuna/=contLinha; //divisão
-  printf("%d ", contLinha);
-  printf("%d\n", contColuna);
-}
-*/
+
 void converterIntChar(int i, char *indice){
   sprintf(indice,"%02d", i);
 }
@@ -162,12 +128,11 @@ void salvaMatrizMemoria(FILE *arq, int **matriz, int *dimMatriz, int *valorMaior
 
       if(*(*(matriz+i)+j) > tempValorMaior){
           tempValorMaior = (*(*(matriz+i)+j));
-          printf("\ntempValorMaior:%d", tempValorMaior);
       }
     }
   }
   *valorMaior = tempValorMaior;
-  printf("\nvalorMaior:%d", *valorMaior);
+  printf("\n\nValorMaior:%d", *valorMaior);
 }
 
 float media(int **matriz, int *ilbp, int *dimMatriz){
@@ -179,7 +144,7 @@ float media(int **matriz, int *ilbp, int *dimMatriz){
 
     for (int i = 0; i < linhas; i++) {
       for (int j = 0; j < colunas; j++) {
-        printf("Elementos da matriz %d\n", *(*((matriz+i)+j)));
+        printf("\nElementos da matriz %d\n", *(*((matriz+i)+j)));
         somatorio = somatorio + (*((matriz+i)+j));
       }
     }
@@ -291,14 +256,7 @@ void direita(int **matrizDireita, int **matriz){ //função que calcula Matriz g
 
     for(i=0;i < nLin ;i++){
        for(j=1;j < nCol;j++){
-        // printf("\nmatriz[i][j-1]:%d\tmatriz[i][j]%d", matriz[i][j-1], matriz[i][j]);
            matrizDireita[matriz[i][j-1]][matriz[i][j]]++;
-           //printf("AAA %d\n", matrizDireita[i][j]);
-           //printf("BBB %d\n", matrizDireita[matriz[i][j-1]][matriz[i][j]]);
-/*          matrizDireita[i] = matriz[i][j-1];
-          matrizDireita[j] = matriz[i][j];
-          matrizDireita++;*/
-          //matriz[matrizDireita[i][j-1]][matrizDireita[i][j]]++;
        }
     }
 
@@ -342,7 +300,7 @@ void esquerda(int **matrizEsquerda, int **matriz){ //função que calcula Matriz
 
         }
     }
-      printf("\nEsquerda:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+      printf("\n\nEsquerda:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
   free(matrizEsquerda);
 }
 
@@ -369,7 +327,7 @@ void acima(int **matrizAcima, int **matriz){ //função que calcula Matriz glcm 
              homogenidade += matrizAcima[i][j]/(1+sqrt(pow(i-j,2)));
         }
     }
-  printf("\nAcima:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  printf("\n\nAcima:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
   free(matrizAcima);
 }
 
@@ -396,7 +354,7 @@ void abaixo(int **matrizAbaixo,int **matriz){ //função que calcula Matriz glcm
              homogenidade += matrizAbaixo[i][j]/(1+sqrt(pow(i-j,2)));
         }
     }
-  printf("\nAbaixo:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  printf("\n\nAbaixo:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
   free(matrizAbaixo);
 }
 
@@ -423,7 +381,7 @@ void diagonalEsquerdaSuperior(int **matrizEsquerdaSuperior, int **matriz){ //fun
              homogenidade += matrizEsquerdaSuperior[i][j]/(1+sqrt(pow(i-j,2)));
         }
     }
-  printf("\nEsquerdaSuperior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  printf("\n\nEsquerdaSuperior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
   free(matrizEsquerdaSuperior);
 }
 
@@ -450,7 +408,7 @@ void diagonalDireitaSuperior(int **matrizDireitaSuperior, int **matriz){ //funç
              homogenidade += matrizDireitaSuperior[i][j]/(1+sqrt(pow(i-j,2)));
         }
     }
-  printf("\nDireitaSuperior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  printf("\n\nDireitaSuperior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
   free(matrizDireitaSuperior);
 }
 
@@ -477,7 +435,7 @@ void diagonalEsquerdaInferior(int **matrizEsquerdaInferior, int **matriz){ //fun
              homogenidade += matrizEsquerdaInferior[i][j]/(1+sqrt(pow(i-j,2)));
         }
     }
-  printf("\nEsquerdaInferior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  printf("\n\nEsquerdaInferior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
   free(matrizEsquerdaInferior);
 }
 
@@ -505,7 +463,7 @@ void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz){ //funç�
 
         }
     }
-  printf("\nDireitaInferior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
+  printf("\n\nDireitaInferior:%.3f,\t%.3f,\t%.3f\t", energia,contraste,homogenidade);
   free(matrizDireitaInferior);
 }
 
