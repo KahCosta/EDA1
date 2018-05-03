@@ -31,7 +31,7 @@ FILE* abreArquivo(char *, char *);
 void calculaDimensao(FILE *, int *);
 int** alocaMatriz(int *);
 void salvaMatrizMemoria(FILE *, int **, int *, int *);
-FILE* salvaArquivo(FILE *, float *, char *);
+void salvaArquivo(FILE *, float *, char *);
 void fechaArquivo(FILE *);
 
 //ILBP

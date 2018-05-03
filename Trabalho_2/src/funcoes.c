@@ -31,20 +31,20 @@ int comparaVetor(int *treinamento, int *teste){
 
   for(int i = 0; i < FILEMAX; i++){
       soma=0;
-      comparador = vetorCompara[i];//pega um valor e do vetor de 50 posições e vê se ele existe em treinamentoGrass
+      comparador = vetorCompara[i];
     for(int aux = 0; aux < NUMMAX; aux++){
       if(comparador != *(treinamento + aux)){
-        soma++; //Só vê se o valor não existe em treinamentoGrass
+        soma++;
       }else{
-        vet[aux] = comparador; //se já existe no vetor de treinamento ele guarda num vetor qualquer
+        vet[aux] = comparador;
         break;
       }
     }
-      if(soma == 25 ){ //se entrou nesse if é porque percorreu todo o vetor de treinamento e não encontrou nenhum
-                        //valor igual ao do vetor compara
-        teste[j] = comparador; //usa j porque se não, na vez que o comparador existir em treinamentoGrass,
+      if(soma == 25 ){
+
+        teste[j] = comparador;
         j++;
-          if(j==25) //Como o for mais externo vai até 50 e testeGrass tem tamanho 25, tem que testar j<25
+          if(j==25)
             break;
       }
   }
@@ -242,12 +242,11 @@ int calculaILBP(int **matriz, int **ilbp, int *dimMatriz, int **matrizBinaria){
 
 
 // Criando matrizes de direções para calculo de VetorGLCM
-
-void direita(int **matrizDireita, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
+void direita(int **matrizDireita, int **matriz, float *vetorResultado){
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
-    matrizDireita = (int**) calloc(nLin, sizeof(int*)); //alocando matriz auxiliar a direita
+    matrizDireita = (int**) calloc(nLin, sizeof(int*));
     for(i=0;i < 256;i++){
       *(matrizDireita+i) = (int*)calloc(nCol,sizeof(int));
     }
@@ -276,11 +275,11 @@ void direita(int **matrizDireita, int **matriz, float *vetorResultado){ //funç�
   free(matrizDireita);
 }
 
-void esquerda(int **matrizEsquerda, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
+void esquerda(int **matrizEsquerda, int **matriz, float *vetorResultado){
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
-    matrizEsquerda = (int**)calloc(256,sizeof(int*)); //alocando matriz auxiliar a direita
+    matrizEsquerda = (int**)calloc(256,sizeof(int*));
     for(i=0;i<256;i++){
       *(matrizEsquerda+i) = (int*)calloc(256,sizeof(int));
     }
@@ -307,11 +306,11 @@ void esquerda(int **matrizEsquerda, int **matriz, float *vetorResultado){ //fun�
   free(matrizEsquerda);
 }
 
-void acima(int **matrizAcima, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
+void acima(int **matrizAcima, int **matriz, float *vetorResultado){
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
-    matrizAcima = (int**)calloc(256,sizeof(int*)); //alocando matriz auxiliar a direita
+    matrizAcima = (int**)calloc(256,sizeof(int*));
     for(i=0;i<256;i++){
       *(matrizAcima+i) = (int*)calloc(256,sizeof(int));
     }
@@ -337,11 +336,11 @@ void acima(int **matrizAcima, int **matriz, float *vetorResultado){ //função q
   free(matrizAcima);
 }
 
-void abaixo(int **matrizAbaixo,int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
+void abaixo(int **matrizAbaixo,int **matriz, float *vetorResultado){
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
-    matrizAbaixo = (int**)calloc(256,sizeof(int*)); //alocando matriz auxiliar a direita
+    matrizAbaixo = (int**)calloc(256,sizeof(int*));
     for(i=0;i<256;i++){
       *(matrizAbaixo+i) = (int*)calloc(256,sizeof(int));
     }
@@ -367,11 +366,11 @@ void abaixo(int **matrizAbaixo,int **matriz, float *vetorResultado){ //função 
   free(matrizAbaixo);
 }
 
-void diagonalEsquerdaSuperior(int **matrizEsquerdaSuperior, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
+void diagonalEsquerdaSuperior(int **matrizEsquerdaSuperior, int **matriz, float *vetorResultado){
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
-    matrizEsquerdaSuperior = (int**)calloc(256,sizeof(int*)); //alocando matriz auxiliar a direita
+    matrizEsquerdaSuperior = (int**)calloc(256,sizeof(int*));
     for(i=0;i<256;i++){
       *(matrizEsquerdaSuperior+i) = (int*)calloc(256,sizeof(int));
     }
@@ -397,11 +396,11 @@ void diagonalEsquerdaSuperior(int **matrizEsquerdaSuperior, int **matriz, float 
   free(matrizEsquerdaSuperior);
 }
 
-void diagonalDireitaSuperior(int **matrizDireitaSuperior, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
+void diagonalDireitaSuperior(int **matrizDireitaSuperior, int **matriz, float *vetorResultado){
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
-    matrizDireitaSuperior = (int**)calloc(256,sizeof(int*)); //alocando matriz auxiliar a direita
+    matrizDireitaSuperior = (int**)calloc(256,sizeof(int*));
     for(i=0;i<256;i++){
       *(matrizDireitaSuperior+i) = (int*)calloc(256,sizeof(int));
     }
@@ -427,11 +426,11 @@ void diagonalDireitaSuperior(int **matrizDireitaSuperior, int **matriz, float *v
   free(matrizDireitaSuperior);
 }
 
-void diagonalEsquerdaInferior(int **matrizEsquerdaInferior, int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
+void diagonalEsquerdaInferior(int **matrizEsquerdaInferior, int **matriz, float *vetorResultado){
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
-    matrizEsquerdaInferior = (int**)calloc(256,sizeof(int*)); //alocando matriz auxiliar a direita
+    matrizEsquerdaInferior = (int**)calloc(256,sizeof(int*));
     for(i=0;i<256;i++){
       *(matrizEsquerdaInferior+i) = (int*)calloc(256,sizeof(int));
     }
@@ -457,11 +456,11 @@ void diagonalEsquerdaInferior(int **matrizEsquerdaInferior, int **matriz, float 
   free(matrizEsquerdaInferior);
 }
 
-void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz, float *vetorResultado){ //função que calcula Matriz glcm a direita
+void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz, float *vetorResultado){
     int i, j, nLin = 0, nCol = 0;
     nLin = 256;
     nCol = 256;
-    matrizDireitaInferior = (int**)calloc(256,sizeof(int*)); //alocando matriz auxiliar a direita
+    matrizDireitaInferior = (int**)calloc(256,sizeof(int*));
     for(i=0;i<256;i++){
       *(matrizDireitaInferior+i) = (int*)calloc(256,sizeof(int));
     }
@@ -488,7 +487,7 @@ void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz, float *ve
   free(matrizDireitaInferior);
 }
 
-FILE* salvaArquivo(FILE* resultadoArq, float* vetorResultado, char *string){
+void salvaArquivo(FILE* resultadoArq, float* vetorResultado, char *string){
   char espaco = '\n';
   fprintf(resultadoArq, "%s", string);
   for(int i = 0; i < 536; i++){
