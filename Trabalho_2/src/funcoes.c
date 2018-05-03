@@ -67,10 +67,10 @@ void concantenaNomeArquivo(char *nomeArquivo, char *define, char *indice){
   printf("\nFunção\t%s\n", nomeArquivo);
 }
 
-FILE* abreArquivo(char *nomeArquivo){
+FILE* abreArquivo(char *nomeArquivo, char *tipo){
   FILE* arq;
 
-  arq = fopen(nomeArquivo, "r");
+  arq = fopen(nomeArquivo, tipo);
   if(arq == NULL){
 		printf("Erro ao abrir o arquivo!");
     exit(1);
@@ -489,10 +489,13 @@ void diagonalDireitaInferior(int **matrizDireitaInferior,int **matriz, float *ve
 }
 
 FILE* salvaArquivo(FILE* resultadoArq, float* vetorResultado){
-  rewind(resultadoArq);
+  //rewind(resultadoArq);
+  char *string = "Resultado ", espaco = '\n';
+  fprintf(resultadoArq, "%s", string);
   for(int i = 0; i < 536; i++){
-      fprintf(resultadoArq, "%d", *(vetorResultado+i));
+      fprintf(resultadoArq, "%.2f ", *(vetorResultado+i));
   }
+  fprintf(resultadoArq, "%c", espaco);
 }
 
 void fechaArquivo(FILE *arq){

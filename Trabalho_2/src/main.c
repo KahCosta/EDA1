@@ -11,6 +11,7 @@ int main(int argc, char *argv[]){
   int valorMaior, contador = 0;
   int treinamento[NUMMAX], teste[NUMMAX];
   float vetorResultado[536];
+  char *r = "r", *w= "w";
   /*
   int treinamentoGrass[NUMMAX], treinamentoAsphalt[NUMMAX], testeGrass[NUMMAX], testeAsphalt[NUMMAX];
   int numSorteado;
@@ -32,7 +33,7 @@ int main(int argc, char *argv[]){
       else{
         concantenaNomeArquivo(nomeArquivo, GRASSFILE, indice);
       }
-      arq = abreArquivo(nomeArquivo);
+      arq = abreArquivo(nomeArquivo, r);
       calculaDimensao(arq, dimMatriz);
       tamanhoMatriz = ((*(dimMatriz + 0)) * (*(dimMatriz + 1)));
       printf("Tamanho da matriz: %d\n",tamanhoMatriz );
@@ -53,7 +54,7 @@ int main(int argc, char *argv[]){
       for(int i = 512; i < 536; i++){
         printf("\nConteudo:%.3f\tIndice: %d", *(vetorResultado+i), i);
       }
-      resultadoArq = abreArquivo("Resultados.txt");
+      resultadoArq = abreArquivo("Resultados.txt", "a+");
       salvaArquivo(resultadoArq, vetorResultado);
       fechaArquivo(arq);
       fechaArquivo(resultadoArq);

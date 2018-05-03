@@ -27,7 +27,7 @@ int comparaVetor(int *, int *);
 
 void converterIntChar(int, char *);
 void concantenaNomeArquivo(char *, char *, char *);
-FILE* abreArquivo(char *);
+FILE* abreArquivo(char *, char *);
 void calculaDimensao(FILE *, int *);
 int** alocaMatriz(int *);
 void salvaMatrizMemoria(FILE *, int **, int *, int *);
