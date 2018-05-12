@@ -89,22 +89,25 @@ void leArquivo(FILE *arq, int qtdRegistros){
     exit(2);
   }
   fseek(arq, 0, SEEK_SET);
-  for(int i = 0; i < qtdRegistros; i++){
-    trataFgets(contatosExistentes->nomeCompleto, MAXNOMEENDERECO, arq);
-    trataFgets(contatosExistentes->telefone, MAXTELEFONEDATA, arq);
-    trataFgets(contatosExistentes->endereco, MAXNOMEENDERECO, arq);
+  //for(int i = 0; i < qtdRegistros; i++){
+    while(fgets(contatosExistentes->nomeCompleto, MAXNOMEENDERECO, arq) && fgets(contatosExistentes->telefone, MAXTELEFONEDATA, arq) && 
+          fgets(contatosExistentes->endereco, MAXNOMEENDERECO, arq) && fscanf(arq, "%u\n",&contatosExistentes->cep) &&
+          fgets(contatosExistentes->dataNascimento, MAXTELEFONEDATA, arq)!= EOF){
+    //trataFgets(contatosExistentes->nomeCompleto, MAXNOMEENDERECO, arq);
+    //trataFgets(contatosExistentes->telefone, MAXTELEFONEDATA, arq);
+    //trataFgets(contatosExistentes->endereco, MAXNOMEENDERECO, arq);
     LIMPA_BUFFER;
-    fscanf(arq, "%u\n",&contatosExistentes->cep);
-    trataFgets(contatosExistentes->dataNascimento, MAXTELEFONEDATA, arq);//fgets(contatosExistentes->dataNascimento,MAXTELEFONEDATA, arq);
-    LIMPA_BUFFER;
-    fscanf(arq, "%c\n", &fim[i]);
+    //fscanf(arq, "%u\n",&contatosExistentes->cep);
+    //trataFgets(contatosExistentes->dataNascimento, MAXTELEFONEDATA, arq);//fgets(contatosExistentes->dataNascimento,MAXTELEFONEDATA, arq);
+//    LIMPA_BUFFER;
+    //fscanf(arq, "%c\n", &fim[i]);
     //fscanf(arq, "%s\n%s\n%s\n%u\n%s\n%c\n",contatosExistentes->nomeCompleto, contatosExistentes->telefone, contatosExistentes->endereco,
     //&contatosExistentes->cep, contatosExistentes->dataNascimento, &fim[i]);
     printf("\nNome: %s", contatosExistentes->nomeCompleto);
     printf("\nTelefone: %s", contatosExistentes->telefone);
     printf("\nEndereço: %s", contatosExistentes->endereco);
-    printf("\nCEP: %u", contatosExistentes->cep);
-    printf("\nData de nascimento: %s", contatosExistentes->dataNascimento);
+    //printf("\nCEP: %u", contatosExistentes->cep);
+    //printf("\nData de nascimento: %s", contatosExistentes->dataNascimento);
   }
 }
 
