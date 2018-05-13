@@ -11,7 +11,7 @@ FILE* abreArquivo(char *nomeArquivo){
   FILE* arq;
 
   //Instruções
-  arq = fopen(nomeArquivo, "r+");
+  arq = fopen(nomeArquivo, "a+");
   if(arq == NULL){
     arq = fopen(nomeArquivo, "w+");
   }
@@ -171,7 +171,7 @@ contato insereDadosContato(){
     LIMPA_BUFFER;
     fgets(novoContato.endereco, MAXNOMEENDERECO, stdin);
     printf("\nCEP: ");
-   // scanf("%u", &novoContato.cep);
+    scanf("%u", &novoContato.cep);
     printf("\nData de nascimento (FORMATO: dd/mm/aaaa): ");
     LIMPA_BUFFER;
     fgets(novoContato.dataNascimento, MAXTELEFONEDATA, stdin);
@@ -186,16 +186,23 @@ contato insereDadosContato(){
   return novoContato;
 }
 
-No* insereInicioLista(No* lista, contato novoContato){
+No* insereInicioLista(No* lista, contato novoContato, FILE *arq){
     //Variaveis
     No *novoElemento;
     //Instruções
-
+    /*novoContato = (contato *) malloc(qtdRegistros * sizeof(contato));
+    if(novoContato == NULL){
+      printf("\nAlocação falhou!");
+      exit(2);
+    }*/
+    fseek(arq, 0, SEEK_SET);
+ 
     novoElemento = (No*) malloc(sizeof(No));
     if(novoElemento == NULL){
       printf("\nAlocação falhou!");
       exit(2);
     }
+
     novoElemento->anterior = NULL;
     novoElemento->conteudo = novoContato;
     if(lista == NULL){
@@ -205,6 +212,15 @@ No* insereInicioLista(No* lista, contato novoContato){
       novoElemento->proximo = lista;
       lista->anterior = novoElemento;//Duvida?
     }
-
+    fprintf(arq, novoElemento->conteudo.nomeCompleto);
+    fprintf(arq, novoElemento->conteudo.telefone);
+    fprintf(arq,"\n");
+    fprintf(arq, novoElemento->conteudo.endereco);
+    fprintf(arq, "%u",novoElemento->conteudo.cep);
+    fprintf(arq,"\n");
+    fprintf(arq, novoElemento->conteudo.dataNascimento);
+    fprintf(arq,"\n");
+    fprintf(arq, "$");
+    fprintf(arq, "\n");
     return lista;
 }

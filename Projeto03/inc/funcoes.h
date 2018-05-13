@@ -58,7 +58,7 @@ void validaNome(char *);
 void validaTelefone(char *);
 void validaDataNascimento(char *);
 void validaOpcao(char);
-No* insereInicioLista(No *, contato);
+No* insereInicioLista(No *, contato, FILE *);
 
 /*
 //Codigos de erro

@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
   darBoasVindas();
   qtdRegistros = calculaQtdRegistros(arq);
   leArquivo(arq, qtdRegistros);
-  /*
+  
   do{
     opcao = menu();
     switch(opcao){
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
           break;
         case INSERIR:
           novoContato = insereDadosContato();
-          lista = insereInicioLista(lista, novoContato);
+          lista = insereInicioLista(lista, novoContato, arq);
           break;
         case REMOVER:
           break;
@@ -49,6 +49,6 @@ int main(int argc, char *argv[]){
           break;
     }
   }while(opcao != SAIR);
-  */
+  
   return 0;
 }
