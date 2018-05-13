@@ -38,6 +38,7 @@ typedef struct Contato{
   char endereco[MAXNOMEENDERECO];
   unsigned int cep; //8 numeros
   char dataNascimento[MAXTELEFONEDATA];
+  char cifrao[2];
 }contato;
 
 typedef struct No{

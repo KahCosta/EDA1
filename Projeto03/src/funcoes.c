@@ -79,8 +79,7 @@ void trataFgets(char *string, int tamanho, FILE *arq){
 void leArquivo(FILE *arq, int qtdRegistros){
   //Variaveis
   char fim[100];
-  int penultimo1, penultimo2, penultimo3;
-  contato *contatosExistentes;
+  contato *contatosExistentes = NULL;
 
   //Instruções
   contatosExistentes = (contato *) malloc(qtdRegistros * sizeof(contato));
@@ -89,25 +88,24 @@ void leArquivo(FILE *arq, int qtdRegistros){
     exit(2);
   }
   fseek(arq, 0, SEEK_SET);
-  //for(int i = 0; i < qtdRegistros; i++){
-    while(fgets(contatosExistentes->nomeCompleto, MAXNOMEENDERECO, arq) && fgets(contatosExistentes->telefone, MAXTELEFONEDATA, arq) && 
-          fgets(contatosExistentes->endereco, MAXNOMEENDERECO, arq) && fscanf(arq, "%u\n",&contatosExistentes->cep) &&
-          fgets(contatosExistentes->dataNascimento, MAXTELEFONEDATA, arq)!= EOF){
-    //trataFgets(contatosExistentes->nomeCompleto, MAXNOMEENDERECO, arq);
-    //trataFgets(contatosExistentes->telefone, MAXTELEFONEDATA, arq);
-    //trataFgets(contatosExistentes->endereco, MAXNOMEENDERECO, arq);
-    LIMPA_BUFFER;
-    //fscanf(arq, "%u\n",&contatosExistentes->cep);
-    //trataFgets(contatosExistentes->dataNascimento, MAXTELEFONEDATA, arq);//fgets(contatosExistentes->dataNascimento,MAXTELEFONEDATA, arq);
-//    LIMPA_BUFFER;
-    //fscanf(arq, "%c\n", &fim[i]);
-    //fscanf(arq, "%s\n%s\n%s\n%u\n%s\n%c\n",contatosExistentes->nomeCompleto, contatosExistentes->telefone, contatosExistentes->endereco,
-    //&contatosExistentes->cep, contatosExistentes->dataNascimento, &fim[i]);
+  for(int i = 0; i < qtdRegistros; i++){
+    trataFgets(contatosExistentes->nomeCompleto, MAXNOMEENDERECO, arq);
+    trataFgets(contatosExistentes->telefone, MAXTELEFONEDATA, arq);
+    fgetc(arq);
+    trataFgets(contatosExistentes->endereco, MAXNOMEENDERECO, arq);
+    fscanf(arq, "%u\n",&contatosExistentes->cep);
+    fgetc(arq);
+    trataFgets(contatosExistentes->dataNascimento, MAXTELEFONEDATA, arq);
+    fgetc(arq);
+    trataFgets(contatosExistentes->cifrao,1, arq);
+    fgetc(arq);
     printf("\nNome: %s", contatosExistentes->nomeCompleto);
     printf("\nTelefone: %s", contatosExistentes->telefone);
     printf("\nEndereço: %s", contatosExistentes->endereco);
-    //printf("\nCEP: %u", contatosExistentes->cep);
-    //printf("\nData de nascimento: %s", contatosExistentes->dataNascimento);
+    printf("\nCEP: %u", contatosExistentes->cep);
+    printf("\nData de nascimento: %s", contatosExistentes->dataNascimento);
+    //printf("\nCifrao: %s", contatosExistentes->cifrao);
+    printf("\n");
   }
 }
 
@@ -173,7 +171,7 @@ contato insereDadosContato(){
     LIMPA_BUFFER;
     fgets(novoContato.endereco, MAXNOMEENDERECO, stdin);
     printf("\nCEP: ");
-    scanf("%u", &novoContato.cep);
+   // scanf("%u", &novoContato.cep);
     printf("\nData de nascimento (FORMATO: dd/mm/aaaa): ");
     LIMPA_BUFFER;
     fgets(novoContato.dataNascimento, MAXTELEFONEDATA, stdin);
