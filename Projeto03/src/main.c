@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
   FILE *arq;
   int opcao, qtdRegistros;
   contato novoContato;
-  No *lista;//Referencia da lista
+  No *lista = NULL;//Referencia da lista
 
   //Instruções
   arq = abreArquivo(NOMEARQUIVO);
@@ -22,33 +22,38 @@ int main(int argc, char *argv[]){
   }
   darBoasVindas();
   qtdRegistros = calculaQtdRegistros(arq);
-  leArquivo(arq, qtdRegistros);
-  
+  lista = leArquivo(arq, qtdRegistros, lista);
+  //imprimeListaFinalproInicio(lista);
+
   do{
     opcao = menu();
     switch(opcao){
         case SAIR:
+          //liberarLista();
+          fclose(arq);
           LIMPA_TELA;
           printf("================================================");
           printf("\n\nPrograma finalizado com sucesso!\n\n");
           printf("================================================\n");
+          imprimeListaFinalproInicio(lista);
           break;
         case INSERIR:
           novoContato = insereDadosContato();
-          lista = insereInicioLista(lista, novoContato, arq);
+          lista = insereInicioLista(lista, novoContato);
+          imprimeListaFinalproInicio(lista);
           break;
         case REMOVER:
           break;
         case VISUALIZARNOME:
+          pesquisaElemento(lista);
           break;
         case VISUALIZARORDEMALFABETICA:
           break;
         default:
-          LIMPA_TELA;
           printf("\nOpção inválida! Por favor, digite novamente\n\n");
           break;
     }
   }while(opcao != SAIR);
-  
+
   return 0;
 }

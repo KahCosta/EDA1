@@ -11,7 +11,7 @@ FILE* abreArquivo(char *nomeArquivo){
   FILE* arq;
 
   //Instruções
-  arq = fopen(nomeArquivo, "a+");
+  arq = fopen(nomeArquivo, "r+");
   if(arq == NULL){
     arq = fopen(nomeArquivo, "w+");
   }
@@ -34,7 +34,6 @@ int menu(){
   int opcao;
 
   //Instruções
-  LIMPA_TELA;
   printf("Escolha a operação que deseja realizar na agenda:");
   printf("\n1 - Inserir novo contato");
   printf("\n2 - Remover registro");
@@ -65,10 +64,21 @@ int calculaQtdRegistros(FILE *arq){
   return qtdRegistros;
 }
 
-void trataFgets(char *string, int tamanho, FILE *arq){
+void entradaString(char *string, int tamanho){
   int penultimo;
 
   LIMPA_BUFFER;
+	fgets(string, tamanho, stdin);
+  penultimo = strlen(string) - 1;
+	if(string[penultimo] == '\n'){
+		string[penultimo] = '\0';
+	}
+}
+
+
+void leLinha(char *string, int tamanho, FILE *arq){
+  int penultimo;
+
 	fgets(string, tamanho, arq);
 	penultimo = strlen(string) - 1;
 	if(string[penultimo] == '\n'){
@@ -76,9 +86,10 @@ void trataFgets(char *string, int tamanho, FILE *arq){
 	}
 }
 
-void leArquivo(FILE *arq, int qtdRegistros){
+No* leArquivo(FILE *arq, int qtdRegistros, No* lista){
   //Variaveis
-  char fim[100];
+  char cep[8];
+  fpos_t position;
   contato *contatosExistentes = NULL;
 
   //Instruções
@@ -87,26 +98,43 @@ void leArquivo(FILE *arq, int qtdRegistros){
     printf("\nAlocação falhou!");
     exit(2);
   }
-  fseek(arq, 0, SEEK_SET);
-  for(int i = 0; i < qtdRegistros; i++){
-    trataFgets(contatosExistentes->nomeCompleto, MAXNOMEENDERECO, arq);
-    trataFgets(contatosExistentes->telefone, MAXTELEFONEDATA, arq);
-    fgetc(arq);
-    trataFgets(contatosExistentes->endereco, MAXNOMEENDERECO, arq);
-    fscanf(arq, "%u\n",&contatosExistentes->cep);
-    fgetc(arq);
-    trataFgets(contatosExistentes->dataNascimento, MAXTELEFONEDATA, arq);
-    fgetc(arq);
-    trataFgets(contatosExistentes->cifrao,1, arq);
-    fgetc(arq);
-    printf("\nNome: %s", contatosExistentes->nomeCompleto);
-    printf("\nTelefone: %s", contatosExistentes->telefone);
-    printf("\nEndereço: %s", contatosExistentes->endereco);
-    printf("\nCEP: %u", contatosExistentes->cep);
-    printf("\nData de nascimento: %s", contatosExistentes->dataNascimento);
-    //printf("\nCifrao: %s", contatosExistentes->cifrao);
-    printf("\n");
+  rewind(arq);
+  for(int registro = 0; registro < (qtdRegistros*6); registro+=6){
+    fsetpos (arq, &position);
+    for(int linha = 1; linha <= 6; linha++){
+      if(linha == 1){
+        leLinha(contatosExistentes[registro].nomeCompleto, MAXNOMEENDERECO, arq);
+      }
+      if(linha == 2){
+        leLinha(contatosExistentes[registro].telefone, MAXTELEFONEDATA, arq);
+      }
+      if(linha == 3){
+        leLinha(contatosExistentes[registro].endereco, MAXNOMEENDERECO, arq);
+      }
+      if(linha == 4){
+        leLinha(cep, MAXNOMEENDERECO, arq);
+        contatosExistentes[registro].cep = atoi(cep);
+      }
+      if(linha == 5){
+        leLinha(contatosExistentes[registro].dataNascimento, MAXTELEFONEDATA, arq);
+      }
+      if(linha == 6){
+        leLinha(contatosExistentes[registro].cifrao, MAXNOMEENDERECO, arq);
+        fgetpos (arq, &position);
+      }
+    }
+
+    printf("\nNome: %s", contatosExistentes[registro].nomeCompleto);
+    printf("\nTelefone: %s", contatosExistentes[registro].telefone);
+    printf("\nEndereço: %s", contatosExistentes[registro].endereco);
+    printf("\nCep: %u", contatosExistentes[registro].cep);
+    printf("\nData Nascimento: %s", contatosExistentes[registro].dataNascimento);
+    printf("\nCifrão: %s\n", contatosExistentes[registro].cifrao);
+
+    lista = insereInicioLista(lista, contatosExistentes[registro]);
   }
+  free(contatosExistentes);
+  return lista;
 }
 
 void validaNome(char *nome) {
@@ -114,29 +142,26 @@ void validaNome(char *nome) {
   while(strlen(nome) < 3 || strstr(nome, " ") == NULL){
     printf("\nNome inválido.");
 		printf("\nNome completo (MAX: %d): ", (MAXNOMEENDERECO - 1));
-    LIMPA_BUFFER;
-    fgets(nome,MAXNOMEENDERECO,stdin);
+    entradaString(nome, MAXNOMEENDERECO);
   }
 }
 
 void validaTelefone(char *telefone){
   //Instruções
-  while(telefone[5] != '-' || strlen(telefone) < (MAXTELEFONEDATA - 1)){
+  while(telefone[5] != '-' || strlen(telefone) < 10){//(MAXTELEFONEDATA - 1)){
     printf("\nFormato inválido.");
     printf("\nTelefone (FORMATO: xxxxx-xxxx): ");
-    LIMPA_BUFFER;
-    fgets(telefone,MAXTELEFONEDATA,stdin);
+    entradaString(telefone, MAXTELEFONEDATA);
   }
 }
 
 
 void validaDataNascimento(char *dataNascimento){
   //Instruções
-  while(dataNascimento[2] != '/' || dataNascimento[5] != '/' || strlen(dataNascimento) < (MAXTELEFONEDATA - 1)){
+  while(dataNascimento[2] != '/' || dataNascimento[5] != '/' || strlen(dataNascimento) < 10){//(MAXTELEFONEDATA - 1)){
     printf("\nFormato inválido.");
     printf("\nData de nascimento (FORMATO: dd/mm/aaaa): ");
-    LIMPA_BUFFER;
-    fgets(dataNascimento, MAXTELEFONEDATA, stdin);
+    entradaString(dataNascimento, MAXTELEFONEDATA);
   }
 }
 
@@ -160,22 +185,20 @@ contato insereDadosContato(){
     LIMPA_TELA;
     printf("ADICIONAR NOVO CONTATO");
     printf("\nNome completo (MAX: %d): ", (MAXNOMEENDERECO - 1));
-    LIMPA_BUFFER;
-    fgets(novoContato.nomeCompleto, MAXNOMEENDERECO, stdin);
+    entradaString(novoContato.nomeCompleto, MAXNOMEENDERECO);
     validaNome(novoContato.nomeCompleto);
     printf("\nTelefone (FORMATO: xxxxx-xxxx): ");
-    LIMPA_BUFFER;
-    fgets(novoContato.telefone, MAXTELEFONEDATA, stdin);
+    entradaString(novoContato.telefone, MAXTELEFONEDATA);
     validaTelefone(novoContato.telefone);
     printf("\nEndereço (MAX: %d): ", (MAXNOMEENDERECO - 1));
-    LIMPA_BUFFER;
-    fgets(novoContato.endereco, MAXNOMEENDERECO, stdin);
+    entradaString(novoContato.endereco, MAXNOMEENDERECO);
     printf("\nCEP: ");
+    LIMPA_BUFFER;
     scanf("%u", &novoContato.cep);
     printf("\nData de nascimento (FORMATO: dd/mm/aaaa): ");
-    LIMPA_BUFFER;
-    fgets(novoContato.dataNascimento, MAXTELEFONEDATA, stdin);
+    entradaString(novoContato.dataNascimento, MAXTELEFONEDATA);
     validaDataNascimento(novoContato.dataNascimento);
+    novoContato.cifrao[0] = '$';
     printf("\n\n\nConfirma os dados do novo contato? (s/n): ");
     LIMPA_BUFFER;
     opcao = getchar();
@@ -186,17 +209,14 @@ contato insereDadosContato(){
   return novoContato;
 }
 
-No* insereInicioLista(No* lista, contato novoContato, FILE *arq){
+No* insereInicioLista(No* lista, contato novoContato){
     //Variaveis
     No *novoElemento;
+
     //Instruções
-    /*novoContato = (contato *) malloc(qtdRegistros * sizeof(contato));
-    if(novoContato == NULL){
-      printf("\nAlocação falhou!");
-      exit(2);
-    }*/
-    fseek(arq, 0, SEEK_SET);
- 
+
+    //fseek(arq, 0, SEEK_SET);
+
     novoElemento = (No*) malloc(sizeof(No));
     if(novoElemento == NULL){
       printf("\nAlocação falhou!");
@@ -212,15 +232,71 @@ No* insereInicioLista(No* lista, contato novoContato, FILE *arq){
       novoElemento->proximo = lista;
       lista->anterior = novoElemento;//Duvida?
     }
-    fprintf(arq, novoElemento->conteudo.nomeCompleto);
-    fprintf(arq, novoElemento->conteudo.telefone);
-    fprintf(arq,"\n");
-    fprintf(arq, novoElemento->conteudo.endereco);
-    fprintf(arq, "%u",novoElemento->conteudo.cep);
-    fprintf(arq,"\n");
-    fprintf(arq, novoElemento->conteudo.dataNascimento);
-    fprintf(arq,"\n");
-    fprintf(arq, "$");
-    fprintf(arq, "\n");
-    return lista;
+
+    return novoElemento;
 }
+
+void imprimeListaFinalproInicio(No *lista){
+  No *aux, *aux2;
+  aux = lista;
+  do{
+    aux2 = aux;
+    aux = aux->proximo;
+  }while(aux != NULL);
+
+  printf("\nCONTEUDO DA LISTA");
+  do{
+    printf("\nNome completo: %s", aux2->conteudo.nomeCompleto);
+    printf("\nTelefone: %s", aux2->conteudo.telefone);
+    printf("\nEndereço: %s", aux2->conteudo.endereco);
+    printf("\nCEP: %u", aux2->conteudo.cep);
+    printf("\nData Nascimento: %s", aux2->conteudo.dataNascimento);
+    printf("\nFim do registro: %s", aux2->conteudo.cifrao);
+    printf("\n");
+    //printf("\nConteudo: %d\n", aux2->conteudo);
+    aux2 = aux2->anterior;
+  }while(aux2 != NULL);
+}
+
+void pesquisaElemento(No *lista){
+  char nomePesquisado[MAXNOMEENDERECO];
+  No *auxLista;
+
+  printf("\nInsira o nome completo do registro que deseja buscar: ");
+  entradaString(nomePesquisado,MAXNOMEENDERECO);
+
+  for (auxLista = lista; auxLista != NULL; auxLista = auxLista->proximo){
+    if (auxLista->conteudo.nomeCompleto == nomePesquisado){
+      printf("\nNome completo: %s", auxLista->conteudo.nomeCompleto);
+      printf("\nTelefone: %s", auxLista->conteudo.telefone);
+      printf("\nEndereço: %s", auxLista->conteudo.endereco);
+      printf("\nCEP: %u", auxLista->conteudo.cep);
+      printf("\nData Nascimento: %s", auxLista->conteudo.dataNascimento);
+      printf("\nFim do registro: %s", auxLista->conteudo.cifrao);
+      printf("\n");
+
+      //return auxLista;
+    }
+    //else{
+    //  return NULL;
+    //}
+  }
+}
+
+/*
+void escreveArquivo(){
+
+      fprintf(arq,"%s",novoElemento->conteudo.nomeCompleto);
+      fprintf(arq,"\n");
+      fprintf(arq, "%s", novoElemento->conteudo.telefone);
+      fprintf(arq,"\n");
+      fprintf(arq, "%s", novoElemento->conteudo.endereco);
+      fprintf(arq,"\n");
+      fprintf(arq, "%u",novoElemento->conteudo.cep);
+      fprintf(arq,"\n");
+      fprintf(arq, "%s", novoElemento->conteudo.dataNascimento);
+      fprintf(arq,"\n");
+      fprintf(arq,"%s","$");
+      fprintf(arq, "\n");
+}
+*/

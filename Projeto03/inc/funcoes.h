@@ -23,7 +23,7 @@
 //Constantes
 #define NOMEARQUIVO "contatos.txt"
 #define MAXNOMEENDERECO 101 // contar o terminador
-#define MAXTELEFONEDATA 11 //contar o terminador
+#define MAXTELEFONEDATA 100 //contar o terminador
 #define SAIR 0
 #define INSERIR 1
 #define REMOVER 2
@@ -47,19 +47,28 @@ typedef struct No{
   struct No *proximo;
 }No;
 
+typedef struct Descritor {
+    No *inicio;
+    int tamanho;
+    No *Fim;
+} Descritor;
+
 //Prototipos
 void darBoasVindas();
 FILE* abreArquivo(char *);
 int menu();
 int calculaQtdRegistros(FILE *);
-void leArquivo(FILE *, int);
+void entradaString(char *, int);
+void leLinha(char *, int, FILE *);
+No* leArquivo(FILE *, int,  No* );
 contato insereDadosContato();
 void validaNome(char *);
 void validaTelefone(char *);
 void validaDataNascimento(char *);
 void validaOpcao(char);
-No* insereInicioLista(No *, contato, FILE *);
-
+No* insereInicioLista(No *, contato);
+void imprimeListaFinalproInicio(No *);
+void pesquisaElemento(No *);
 /*
 //Codigos de erro
 1-> Falha ao abrir o arquivo
