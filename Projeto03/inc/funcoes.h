@@ -47,11 +47,6 @@ typedef struct No{
   struct No *proximo;
 }No;
 
-typedef struct Descritor {
-    No *inicio;
-    int tamanho;
-    No *Fim;
-} Descritor;
 
 //Prototipos
 void darBoasVindas();
@@ -66,10 +61,12 @@ void validaNome(char *);
 void validaTelefone(char *);
 void validaDataNascimento(char *);
 void validaOpcao(char);
-No* insereInicioLista(No *, contato);
+No* insereLista(No *, contato);
 No* excluiElemento(No*);
-void imprimeListaFinalproInicio(No *);
+void imprimeLista(No *);
 void pesquisaElemento(No *);
+void escreveArquivo(No *lista, FILE *);
+void liberarLista(No *);
 /*
 //Codigos de erro
 1-> Falha ao abrir o arquivo

@@ -16,43 +16,36 @@ int main(int argc, char *argv[]){
 
   //Instruções
   arq = abreArquivo(NOMEARQUIVO);
-  if(arq == NULL){
-    printf("Erro  ao abrir o arquivo!");
-    exit(1);
-  }
   darBoasVindas();
   qtdRegistros = calculaQtdRegistros(arq);
   lista = leArquivo(arq, qtdRegistros, lista);
-  //imprimeListaFinalproInicio(lista);
-
+  fclose(arq);
+  LIMPA_TELA;
   do{
     opcao = menu();
     switch(opcao){
         case SAIR:
-          //liberarLista();
+          arq = fopen(NOMEARQUIVO, "w+");
+          escreveArquivo(lista, arq);
           fclose(arq);
+          //liberarLista(lista);
           LIMPA_TELA;
           printf("================================================");
           printf("\n\nPrograma finalizado com sucesso!\n\n");
           printf("================================================\n");
-          imprimeListaFinalproInicio(lista);
           break;
         case INSERIR:
           novoContato = insereDadosContato();
-          lista = insereInicioLista(lista, novoContato);
-          imprimeListaFinalproInicio(lista);
+          lista = insereLista(lista, novoContato);
           break;
         case REMOVER:
           lista = excluiElemento(lista);
-          imprimeListaFinalproInicio(lista);
           break;
         case VISUALIZARNOME:
           pesquisaElemento(lista);
           break;
         case VISUALIZARORDEMALFABETICA:
-          break;
-        default:
-          printf("\nOpção inválida! Por favor, digite novamente\n\n");
+          imprimeLista(lista);
           break;
     }
   }while(opcao != SAIR);

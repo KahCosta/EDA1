@@ -13,19 +13,22 @@ FILE* abreArquivo(char *nomeArquivo){
   //Instruções
   arq = fopen(nomeArquivo, "r+");
   if(arq == NULL){
-    arq = fopen(nomeArquivo, "w+");
+    printf("Erro  ao abrir o arquivo!");
+    exit(1);
   }
   return arq;
 }
 
 void darBoasVindas(){
+  //Variaveis
+
+  //Instruções
   LIMPA_TELA;
   printf("Seja bem vindo a Agenda Pessoal");
   printf("\nEstamos carregando seus contatos... Por favor, aguarde =)\n");
-  for(int i = 0; i < 10; i++){
+  for(int i = 0; i < 4; i++){
     sleep(1);
     printf(".\n");
-    //__fpurge(stdout);
   }
 }
 
@@ -34,6 +37,7 @@ int menu(){
   int opcao;
 
   //Instruções
+  LIMPA_TELA;
   printf("Escolha a operação que deseja realizar na agenda:");
   printf("\n1 - Inserir novo contato");
   printf("\n2 - Remover registro");
@@ -65,8 +69,10 @@ int calculaQtdRegistros(FILE *arq){
 }
 
 void entradaString(char *string, int tamanho){
+  //Variaveis
   int penultimo;
 
+  //Instruções
   LIMPA_BUFFER;
 	fgets(string, tamanho, stdin);
   penultimo = strlen(string) - 1;
@@ -77,8 +83,10 @@ void entradaString(char *string, int tamanho){
 
 
 void leLinha(char *string, int tamanho, FILE *arq){
+  //Variaveis
   int penultimo;
 
+  //Instruções
 	fgets(string, tamanho, arq);
 	penultimo = strlen(string) - 1;
 	if(string[penultimo] == '\n'){
@@ -124,6 +132,7 @@ No* leArquivo(FILE *arq, int qtdRegistros, No* lista){
       }
     }
 
+    lista = insereLista(lista, contatosExistentes[registro]);
     printf("\nNome: %s", contatosExistentes[registro].nomeCompleto);
     printf("\nTelefone: %s", contatosExistentes[registro].telefone);
     printf("\nEndereço: %s", contatosExistentes[registro].endereco);
@@ -131,7 +140,6 @@ No* leArquivo(FILE *arq, int qtdRegistros, No* lista){
     printf("\nData Nascimento: %s", contatosExistentes[registro].dataNascimento);
     printf("\nCifrão: %s\n", contatosExistentes[registro].cifrao);
 
-    lista = insereInicioLista(lista, contatosExistentes[registro]);
   }
   free(contatosExistentes);
   return lista;
@@ -147,6 +155,8 @@ void validaNome(char *nome) {
 }
 
 void validaTelefone(char *telefone){
+  //Variaveis
+
   //Instruções
   while(telefone[5] != '-' || strlen(telefone) < 10){//(MAXTELEFONEDATA - 1)){
     printf("\nFormato inválido.");
@@ -157,6 +167,8 @@ void validaTelefone(char *telefone){
 
 
 void validaDataNascimento(char *dataNascimento){
+  //Variaveis
+
   //Instruções
   while(dataNascimento[2] != '/' || dataNascimento[5] != '/' || strlen(dataNascimento) < 10){//(MAXTELEFONEDATA - 1)){
     printf("\nFormato inválido.");
@@ -166,6 +178,8 @@ void validaDataNascimento(char *dataNascimento){
 }
 
 void validaOpcao(char opcao){
+  //Variaveis
+
   //Instruções
   while(opcao != 'n' && opcao != 's'){
     printf("\nOpção inválida! Digite novamente");
@@ -180,6 +194,7 @@ contato insereDadosContato(){
   //Variaveis
   contato novoContato;
   char opcao;
+
   //Instruções
   do{
     LIMPA_TELA;
@@ -209,60 +224,88 @@ contato insereDadosContato(){
   return novoContato;
 }
 
-No* insereInicioLista(No* lista, contato novoContato){
+No* insereLista(No* lista, contato novoContato){
     //Variaveis
     No *novoElemento;
+    No *aux;
+    No* anterior = NULL;// ponteiro q aponta sempre pro anterior ao aux
 
     //Instruções
-
-    //fseek(arq, 0, SEEK_SET);
-
+    aux = lista;
     novoElemento = (No*) malloc(sizeof(No));
     if(novoElemento == NULL){
       printf("\nAlocação falhou!");
       exit(2);
     }
 
-    novoElemento->anterior = NULL;
     novoElemento->conteudo = novoContato;
+
     if(lista == NULL){
         novoElemento->proximo = NULL;
+        novoElemento->anterior = NULL;
+        lista = novoElemento;
     }
     else{
-      novoElemento->proximo = lista;
-      lista->anterior = novoElemento;//Duvida?
+      while(aux != NULL && (strcmp(aux->conteudo.nomeCompleto, novoContato.nomeCompleto) < 0)){
+        anterior = aux;
+        aux = aux->proximo;
+      }
+
+        novoElemento->proximo = aux;
+
+      if(anterior == NULL){ // inserindo na primeira posição
+        novoElemento->anterior = NULL;
+        lista = novoElemento;
+      }
+      else{
+        novoElemento->anterior = anterior;
+        anterior->proximo = novoElemento;
+      }
+      if(aux != NULL){
+        aux->anterior = novoElemento;
+      }
     }
 
-    return novoElemento;
+    return lista;
 }
 
-void imprimeListaFinalproInicio(No *lista){
-  No *aux, *aux2;
-  aux = lista;
-  do{
-    aux2 = aux;
-    aux = aux->proximo;
-  }while(aux != NULL);
+void imprimeLista(No *lista){
+  //Variaveis
+  No *aux;
 
-  printf("\nCONTEUDO DA LISTA");
-  do{
-    printf("\nNome completo: %s", aux2->conteudo.nomeCompleto);
-    printf("\nTelefone: %s", aux2->conteudo.telefone);
-    printf("\nEndereço: %s", aux2->conteudo.endereco);
-    printf("\nCEP: %u", aux2->conteudo.cep);
-    printf("\nData Nascimento: %s", aux2->conteudo.dataNascimento);
-    printf("\nFim do registro: %s", aux2->conteudo.cifrao);
-    printf("\n");
-    //printf("\nConteudo: %d\n", aux2->conteudo);
-    aux2 = aux2->anterior;
-  }while(aux2 != NULL);
+  //Instruções
+  aux = lista;
+  LIMPA_TELA;
+  printf("CONTEUDO DA LISTA");
+  if(aux == NULL){
+    printf("Lista Vazia!");
+  }
+  else{
+    do{
+      printf("\nNome completo: %s", aux->conteudo.nomeCompleto);
+      printf("\nTelefone: %s", aux->conteudo.telefone);
+      printf("\nEndereço: %s", aux->conteudo.endereco);
+      printf("\nCEP: %u", aux->conteudo.cep);
+      printf("\nData Nascimento: %s", aux->conteudo.dataNascimento);
+      printf("\nFim do registro: %s", aux->conteudo.cifrao);
+      printf("\n");
+      aux = aux->proximo;
+    }while(aux != NULL);
+  }
+  printf("\nAperte ENTER para sair... ");
+  LIMPA_BUFFER;
+  getchar();
+
 }
 
 void pesquisaElemento(No *lista){
+  //Variaveis
   char nomePesquisado[MAXNOMEENDERECO];
   No *auxLista;
 
-  printf("\nInsira o nome completo do registro que deseja buscar: ");
+  //Instruções
+  LIMPA_TELA;
+  printf("Insira o nome completo do registro que deseja buscar: ");
   entradaString(nomePesquisado,MAXNOMEENDERECO);
 
   for (auxLista = lista; auxLista != NULL; auxLista = auxLista->proximo){
@@ -276,19 +319,18 @@ void pesquisaElemento(No *lista){
       printf("\n");
     }
   }
+  printf("\nAperte ENTER para sair... ");
+  LIMPA_BUFFER;
+  getchar();
 }
 
 No* excluiElemento(No* lista){
+  //Variaveis
   No *aux;
   char nomePesquisado[MAXNOMEENDERECO];
 
-  aux = (No*) malloc(sizeof(No));
-
-  if(aux == NULL){
-    printf("\nAlocação falhou!");
-    exit(2);
-  }
-
+  //Instruções
+  LIMPA_TELA;
   printf("\nInsira o nome completo do registro que deseja APAGAR: ");
   entradaString(nomePesquisado,MAXNOMEENDERECO);
 
@@ -309,20 +351,58 @@ No* excluiElemento(No* lista){
    sleep(1);
    return lista;
 }
-/*
-void escreveArquivo(){
 
-      fprintf(arq,"%s",novoElemento->conteudo.nomeCompleto);
-      fprintf(arq,"\n");
-      fprintf(arq, "%s", novoElemento->conteudo.telefone);
-      fprintf(arq,"\n");
-      fprintf(arq, "%s", novoElemento->conteudo.endereco);
-      fprintf(arq,"\n");
-      fprintf(arq, "%u",novoElemento->conteudo.cep);
-      fprintf(arq,"\n");
-      fprintf(arq, "%s", novoElemento->conteudo.dataNascimento);
-      fprintf(arq,"\n");
-      fprintf(arq,"%s","$");
-      fprintf(arq, "\n");
+void escreveArquivo(No *lista, FILE *arq){
+  //Variaveis
+  No *aux;
+  //Instruções
+  aux = lista;
+  do{
+    fprintf(arq,"%s",aux->conteudo.nomeCompleto);
+    fprintf(arq,"\n");
+    fprintf(arq, "%s", aux->conteudo.telefone);
+    fprintf(arq,"\n");
+    fprintf(arq, "%s", aux->conteudo.endereco);
+    fprintf(arq,"\n");
+    fprintf(arq, "%u", aux->conteudo.cep);
+    fprintf(arq,"\n");
+    fprintf(arq, "%s", aux->conteudo.dataNascimento);
+    fprintf(arq,"\n");
+    fprintf(arq,"%s","$");
+    fprintf(arq, "\n");
+    aux = aux->proximo;
+  }while(aux != NULL);
 }
-*/
+
+//Do final para o inicio
+void liberarLista(No *lista){
+  //Variaveis
+  No *aux, *aux2;
+
+  //Instruções
+  aux = lista;
+  if (lista == NULL) {
+    printf("Lista Vazia\n");
+    return;
+  }
+  do{
+    aux2 = aux;
+    aux = aux->proximo;
+  }while(aux != NULL);
+
+  do{
+    aux = aux2;
+    aux2 = aux2->anterior;
+    aux->proximo = NULL;
+    aux->anterior = NULL;
+    printf("Apagando: %s\n", aux->conteudo.nomeCompleto);
+    //free(aux->conteudo);
+    free(aux);
+  }while(aux2 != NULL);
+
+  printf("\nAperte ENTER para sair... ");
+  LIMPA_BUFFER;
+  getchar();
+
+  lista = NULL;
+}
