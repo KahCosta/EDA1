@@ -67,6 +67,7 @@ void validaTelefone(char *);
 void validaDataNascimento(char *);
 void validaOpcao(char);
 No* insereInicioLista(No *, contato);
+No* excluiElemento(No*);
 void imprimeListaFinalproInicio(No *);
 void pesquisaElemento(No *);
 /*

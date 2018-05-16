@@ -278,6 +278,37 @@ void pesquisaElemento(No *lista){
   }
 }
 
+No* excluiElemento(No* lista){
+  No *aux;
+  char nomePesquisado[MAXNOMEENDERECO];
+
+  aux = (No*) malloc(sizeof(No));
+
+  if(aux == NULL){
+    printf("\nAlocação falhou!");
+    exit(2);
+  }
+
+  printf("\nInsira o nome completo do registro que deseja APAGAR: ");
+  entradaString(nomePesquisado,MAXNOMEENDERECO);
+
+  aux = lista;
+  while(aux != NULL && (strcmp(aux->conteudo.nomeCompleto, nomePesquisado) != 0)){
+   aux = aux->proximo;
+  }
+   if(aux->anterior == NULL){
+     lista = aux->proximo;
+   }else{
+     aux->anterior->proximo = aux->proximo;
+   }
+   if(aux->proximo != NULL){
+     aux->proximo->anterior = aux->anterior;
+   }
+   free(aux);
+   printf("\nCONTATO EXCLUIDO!\n");
+   sleep(1);
+   return lista;
+}
 /*
 void escreveArquivo(){
 

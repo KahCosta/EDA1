@@ -43,6 +43,8 @@ int main(int argc, char *argv[]){
           imprimeListaFinalproInicio(lista);
           break;
         case REMOVER:
+          lista = excluiElemento(lista);
+          imprimeListaFinalproInicio(lista);
           break;
         case VISUALIZARNOME:
           pesquisaElemento(lista);
