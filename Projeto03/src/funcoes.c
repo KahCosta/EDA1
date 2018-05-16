@@ -266,7 +266,7 @@ void pesquisaElemento(No *lista){
   entradaString(nomePesquisado,MAXNOMEENDERECO);
 
   for (auxLista = lista; auxLista != NULL; auxLista = auxLista->proximo){
-    if (auxLista->conteudo.nomeCompleto == nomePesquisado){
+    if (strcmp(auxLista->conteudo.nomeCompleto, nomePesquisado) == 0){
       printf("\nNome completo: %s", auxLista->conteudo.nomeCompleto);
       printf("\nTelefone: %s", auxLista->conteudo.telefone);
       printf("\nEndereço: %s", auxLista->conteudo.endereco);
@@ -274,12 +274,7 @@ void pesquisaElemento(No *lista){
       printf("\nData Nascimento: %s", auxLista->conteudo.dataNascimento);
       printf("\nFim do registro: %s", auxLista->conteudo.cifrao);
       printf("\n");
-
-      //return auxLista;
     }
-    //else{
-    //  return NULL;
-    //}
   }
 }
 
