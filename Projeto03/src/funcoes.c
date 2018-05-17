@@ -5,12 +5,9 @@
 
 #include "funcoes.h"
 
-//Implementação das funções
 FILE* abreArquivo(char *nomeArquivo){
-  //Variaveis
   FILE* arq;
 
-  //Instruções
   arq = fopen(nomeArquivo, "r+");
   if(arq == NULL){
     printf("Erro  ao abrir o arquivo!");
@@ -20,9 +17,6 @@ FILE* abreArquivo(char *nomeArquivo){
 }
 
 void darBoasVindas(){
-  //Variaveis
-
-  //Instruções
   LIMPA_TELA;
   printf("Seja bem vindo a Agenda Pessoal");
   printf("\nEstamos carregando seus contatos... Por favor, aguarde =)\n");
@@ -33,10 +27,8 @@ void darBoasVindas(){
 }
 
 int menu(){
-  //Variaveis
   int opcao;
 
-  //Instruções
   LIMPA_TELA;
   printf("Escolha a operação que deseja realizar na agenda:");
   printf("\n1 - Inserir novo contato");
@@ -52,11 +44,9 @@ int menu(){
 }
 
 int calculaQtdRegistros(FILE *arq){
-  //Variaveis
   int qtdRegistros = 0;
   char detectaRegistro;
 
-  //Instruções
   fseek(arq, 0, SEEK_SET);
 
   while(fread(&detectaRegistro,sizeof(char),1,arq)==1){
@@ -69,10 +59,8 @@ int calculaQtdRegistros(FILE *arq){
 }
 
 void entradaString(char *string, int tamanho){
-  //Variaveis
   int penultimo;
 
-  //Instruções
   LIMPA_BUFFER;
 	fgets(string, tamanho, stdin);
   penultimo = strlen(string) - 1;
@@ -83,10 +71,8 @@ void entradaString(char *string, int tamanho){
 
 
 void leLinha(char *string, int tamanho, FILE *arq){
-  //Variaveis
   int penultimo;
 
-  //Instruções
 	fgets(string, tamanho, arq);
 	penultimo = strlen(string) - 1;
 	if(string[penultimo] == '\n'){
@@ -95,12 +81,10 @@ void leLinha(char *string, int tamanho, FILE *arq){
 }
 
 No* leArquivo(FILE *arq, int qtdRegistros, No* lista){
-  //Variaveis
   char cep[8];
   fpos_t position;
   contato *contatosExistentes = NULL;
 
-  //Instruções
   contatosExistentes = (contato *) malloc(qtdRegistros * sizeof(contato));
   if(contatosExistentes == NULL){
     printf("\nAlocação falhou!");
@@ -146,7 +130,6 @@ No* leArquivo(FILE *arq, int qtdRegistros, No* lista){
 }
 
 void validaNome(char *nome) {
-  //Instruções
   while(strlen(nome) < 3 || strstr(nome, " ") == NULL){
     printf("\nNome inválido. Digite nome e sobrenome separados por pelo menos um espaço");
 		printf("\nNome completo (MAX: %d): ", (MAXNOMEENDERECO - 1));
@@ -155,9 +138,8 @@ void validaNome(char *nome) {
 }
 
 void validaTelefone(char *telefone){
-  //Variaveis
   int tamanho;
-  //Instruções
+
   tamanho = strlen(telefone);
   while(telefone[5] != '-' || tamanho != 10){
     printf("\nFormato inválido.");
@@ -169,9 +151,8 @@ void validaTelefone(char *telefone){
 
 
 void validaDataNascimento(char *dataNascimento){
-  //Variaveis
   int tamanho;
-  //Instruções
+
   tamanho = strlen(dataNascimento);
   while(dataNascimento[2] != '/' || dataNascimento[5] != '/' || tamanho != 10){
     printf("\nFormato inválido.");
@@ -182,9 +163,6 @@ void validaDataNascimento(char *dataNascimento){
 }
 
 char validaOpcao(char opcao){
-  //Variaveis
-
-  //Instruções
   while(opcao != 'n' && opcao != 's'){
     printf("\nOpção inválida! Digite novamente");
     printf("\nConfirma os dados do novo contato? (s/n): ");
@@ -196,11 +174,9 @@ char validaOpcao(char opcao){
 }
 
 contato insereDadosContato(){
-  //Variaveis
   contato novoContato;
   char opcao;
 
-  //Instruções
   do{
     LIMPA_TELA;
     printf("ADICIONAR NOVO CONTATO");
@@ -231,12 +207,9 @@ contato insereDadosContato(){
 }
 
 No* insereLista(No* lista, contato novoContato){
-    //Variaveis
-    No *novoElemento;
-    No *aux;
-    No* anterior = NULL;// ponteiro q aponta sempre pro anterior ao aux
+    No *novoElemento, *aux;
+    No* anterior = NULL;
 
-    //Instruções
     aux = lista;
     novoElemento = (No*) malloc(sizeof(No));
     if(novoElemento == NULL){
@@ -259,7 +232,7 @@ No* insereLista(No* lista, contato novoContato){
 
         novoElemento->proximo = aux;
 
-      if(anterior == NULL){ // inserindo na primeira posição
+      if(anterior == NULL){
         novoElemento->anterior = NULL;
         lista = novoElemento;
       }
@@ -276,10 +249,8 @@ No* insereLista(No* lista, contato novoContato){
 }
 
 void imprimeLista(No *lista){
-  //Variaveis
   No *aux;
 
-  //Instruções
   aux = lista;
   LIMPA_TELA;
   printf("CONTATOS EM ORDEM ALFABÉTICA\n");
@@ -304,11 +275,10 @@ void imprimeLista(No *lista){
 }
 
 void pesquisaElemento(No *lista){
-  //Variaveis
   char nomePesquisado[MAXNOMEENDERECO];
   No *auxLista;
   int encontrou = 0;
-  //Instruções
+
   LIMPA_TELA;
   printf("Insira o nome completo do registro que deseja buscar: ");
   entradaString(nomePesquisado,MAXNOMEENDERECO);
@@ -333,10 +303,9 @@ void pesquisaElemento(No *lista){
 }
 
 No* excluiElemento(No* lista){
-  //Variaveis
   No *aux;
   char nomePesquisado[MAXNOMEENDERECO];
-  //Instruções
+
   LIMPA_TELA;
   printf("\nInsira o nome completo do registro que deseja APAGAR: ");
   entradaString(nomePesquisado,MAXNOMEENDERECO);
@@ -360,9 +329,8 @@ No* excluiElemento(No* lista){
 }
 
 void escreveArquivo(No *lista, FILE *arq){
-  //Variaveis
   No *aux;
-  //Instruções
+
   aux = lista;
   do{
     fprintf(arq,"%s",aux->conteudo.nomeCompleto);
@@ -381,20 +349,19 @@ void escreveArquivo(No *lista, FILE *arq){
   }while(aux != NULL);
 }
 
-//Do final para o inicio
 void liberarLista(No *lista){
-  //Variaveis
   No *aux, *aux2;
 
-  //Instruções
   aux = lista;
   if (lista == NULL) {
     printf("Lista Vazia\n");
     return;
   }
+
   do{
     aux2 = aux;
     aux = aux->proximo;
+
   }while(aux != NULL);
 
   do{
@@ -403,7 +370,6 @@ void liberarLista(No *lista){
     aux->proximo = NULL;
     aux->anterior = NULL;
     printf("Apagando: %s\n", aux->conteudo.nomeCompleto);
-    //free(aux->conteudo);
     free(aux);
   }while(aux2 != NULL);
 

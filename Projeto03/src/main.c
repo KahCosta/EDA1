@@ -8,13 +8,11 @@
 int main(int argc, char *argv[]){
   setlocale(LC_ALL, "Portuguese");
 
-  //Variaveis
   FILE *arq;
   int opcao, qtdRegistros;
   contato novoContato;
-  No *lista = NULL;//Referencia da lista
+  No *lista = NULL;
 
-  //Instruções
   arq = abreArquivo(NOMEARQUIVO);
   darBoasVindas();
   qtdRegistros = calculaQtdRegistros(arq);
@@ -40,6 +38,7 @@ int main(int argc, char *argv[]){
           break;
         case REMOVER:
           lista = excluiElemento(lista);
+          //liberarLista(lista);
           break;
         case VISUALIZARNOME:
           pesquisaElemento(lista);
