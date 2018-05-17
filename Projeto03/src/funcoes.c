@@ -148,7 +148,7 @@ No* leArquivo(FILE *arq, int qtdRegistros, No* lista){
 void validaNome(char *nome) {
   //Instruções
   while(strlen(nome) < 3 || strstr(nome, " ") == NULL){
-    printf("\nNome inválido.");
+    printf("\nNome inválido. Digite nome e sobrenome separados por pelo menos um espaço");
 		printf("\nNome completo (MAX: %d): ", (MAXNOMEENDERECO - 1));
     entradaString(nome, MAXNOMEENDERECO);
   }
@@ -156,28 +156,32 @@ void validaNome(char *nome) {
 
 void validaTelefone(char *telefone){
   //Variaveis
-
+  int tamanho;
   //Instruções
-  while(telefone[5] != '-' || strlen(telefone) < 10){//(MAXTELEFONEDATA - 1)){
+  tamanho = strlen(telefone);
+  while(telefone[5] != '-' || tamanho != 10){
     printf("\nFormato inválido.");
     printf("\nTelefone (FORMATO: xxxxx-xxxx): ");
     entradaString(telefone, MAXTELEFONEDATA);
+    tamanho = strlen(telefone);
   }
 }
 
 
 void validaDataNascimento(char *dataNascimento){
   //Variaveis
-
+  int tamanho;
   //Instruções
-  while(dataNascimento[2] != '/' || dataNascimento[5] != '/' || strlen(dataNascimento) < 10){//(MAXTELEFONEDATA - 1)){
+  tamanho = strlen(dataNascimento);
+  while(dataNascimento[2] != '/' || dataNascimento[5] != '/' || tamanho != 10){
     printf("\nFormato inválido.");
     printf("\nData de nascimento (FORMATO: dd/mm/aaaa): ");
     entradaString(dataNascimento, MAXTELEFONEDATA);
+    tamanho = strlen(dataNascimento);
   }
 }
 
-void validaOpcao(char opcao){
+char validaOpcao(char opcao){
   //Variaveis
 
   //Instruções
@@ -188,6 +192,7 @@ void validaOpcao(char opcao){
     opcao = getchar();
     opcao = tolower(opcao);
   }
+  return opcao;
 }
 
 contato insereDadosContato(){
@@ -214,11 +219,12 @@ contato insereDadosContato(){
     entradaString(novoContato.dataNascimento, MAXTELEFONEDATA);
     validaDataNascimento(novoContato.dataNascimento);
     novoContato.cifrao[0] = '$';
+    novoContato.cifrao[1] = '\0';
     printf("\n\n\nConfirma os dados do novo contato? (s/n): ");
     LIMPA_BUFFER;
     opcao = getchar();
     opcao = tolower(opcao);
-    validaOpcao(opcao);
+    opcao = validaOpcao(opcao);
   }while(opcao == 'n');
 
   return novoContato;
@@ -276,7 +282,7 @@ void imprimeLista(No *lista){
   //Instruções
   aux = lista;
   LIMPA_TELA;
-  printf("CONTEUDO DA LISTA");
+  printf("CONTATOS EM ORDEM ALFABÉTICA\n");
   if(aux == NULL){
     printf("Lista Vazia!");
   }
@@ -287,8 +293,7 @@ void imprimeLista(No *lista){
       printf("\nEndereço: %s", aux->conteudo.endereco);
       printf("\nCEP: %u", aux->conteudo.cep);
       printf("\nData Nascimento: %s", aux->conteudo.dataNascimento);
-      printf("\nFim do registro: %s", aux->conteudo.cifrao);
-      printf("\n");
+      printf("\n\n");
       aux = aux->proximo;
     }while(aux != NULL);
   }
@@ -302,7 +307,7 @@ void pesquisaElemento(No *lista){
   //Variaveis
   char nomePesquisado[MAXNOMEENDERECO];
   No *auxLista;
-
+  int encontrou = 0;
   //Instruções
   LIMPA_TELA;
   printf("Insira o nome completo do registro que deseja buscar: ");
@@ -315,9 +320,12 @@ void pesquisaElemento(No *lista){
       printf("\nEndereço: %s", auxLista->conteudo.endereco);
       printf("\nCEP: %u", auxLista->conteudo.cep);
       printf("\nData Nascimento: %s", auxLista->conteudo.dataNascimento);
-      printf("\nFim do registro: %s", auxLista->conteudo.cifrao);
       printf("\n");
+      encontrou = 1;
     }
+  }
+  if(encontrou == 0){
+    printf("\nRegistro não encotrado!\n");
   }
   printf("\nAperte ENTER para sair... ");
   LIMPA_BUFFER;
@@ -328,7 +336,6 @@ No* excluiElemento(No* lista){
   //Variaveis
   No *aux;
   char nomePesquisado[MAXNOMEENDERECO];
-
   //Instruções
   LIMPA_TELA;
   printf("\nInsira o nome completo do registro que deseja APAGAR: ");

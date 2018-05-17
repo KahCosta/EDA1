@@ -29,7 +29,6 @@
 #define REMOVER 2
 #define VISUALIZARNOME 3
 #define VISUALIZARORDEMALFABETICA 4
-#define FIMREGISTRO '$'
 
 //Structs
 typedef struct Contato{
@@ -49,8 +48,8 @@ typedef struct No{
 
 
 //Prototipos
-void darBoasVindas();
 FILE* abreArquivo(char *);
+void darBoasVindas();
 int menu();
 int calculaQtdRegistros(FILE *);
 void entradaString(char *, int);
@@ -60,7 +59,7 @@ contato insereDadosContato();
 void validaNome(char *);
 void validaTelefone(char *);
 void validaDataNascimento(char *);
-void validaOpcao(char);
+char validaOpcao(char);
 No* insereLista(No *, contato);
 No* excluiElemento(No*);
 void imprimeLista(No *);
