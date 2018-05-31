@@ -9,8 +9,10 @@ int main(int argc, char *argv[]){
   setlocale(LC_ALL, "Portuguese");
 
   //Declaracoes
+  int nVoos = NUMMINVOOS, nAproximacoes = NUMMINAPROXDECOLAGEM, nDecolagens = NUMMINAPROXDECOLAGEM, combA[NUMMAXAPROXDECOLAGEM];
 
   //Instrucoes
+  sorteiaNumero(nVoos, nAproximacoes, nDecolagens, combA);
 
   return 0;
 }
