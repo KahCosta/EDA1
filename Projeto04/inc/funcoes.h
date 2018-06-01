@@ -50,7 +50,7 @@ typedef struct fila {
 
 //Prototipos
 int sorteiaNumero(int *, int *);
-void selecionaCodigosVoos(int *, char*[], char *[], char *[]);
+void selecionaCodigosVoos(int *, char*[], char *[], char *[], int *);
 void imprimeResultados(int *);
 
 /*

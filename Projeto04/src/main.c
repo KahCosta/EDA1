@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
   nAproximacoes = *(vetInformacoes + 1);
   nDecolagens = *(vetInformacoes + 2);
   char *codAproximacoes[nAproximacoes], *codDecolagens[nDecolagens];
-  selecionaCodigosVoos(vetInformacoes, codVoos, codAproximacoes, codDecolagens);
+  selecionaCodigosVoos(vetInformacoes, codVoos, codAproximacoes, codDecolagens, combA);
   imprimeResultados(vetInformacoes);
   return 0;
 }

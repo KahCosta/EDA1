@@ -34,19 +34,30 @@ int sorteiaNumero(int *combA, int *vetInformacoes){
   return 0;
 }
 
-void selecionaCodigosVoos(int *vetInformacoes, char *codVoos[], char *codAproximacoes[],  char *codDecolagens[]){
+void selecionaCodigosVoos(int *vetInformacoes, char *codVoos[], char *codAproximacoes[],  char *codDecolagens[], int *combA){
   int nAproximacoes, nDecolagens;
+  char str[9];
+  char str2[3];
   nAproximacoes = *(vetInformacoes + 1);
   nDecolagens = *(vetInformacoes + 2);
-  printf("\nCodigos dos voos de aproximação");
+  printf("\nCodigos dos voos de aproximação\n");
   for(int i=0; i < nAproximacoes; i++){
     codAproximacoes[i] = codVoos[i];
-    printf("\t %s", codAproximacoes[i]);
+    strcpy(str, codAproximacoes[i]);
+    strcat(str, "A");
+    sprintf(str2,"%d", combA[i]);
+    strcat(str, str2);
+    codAproximacoes[i] = str;
+    printf("%s\t", codAproximacoes[i]);
   }
-  printf("\nCodigos dos voos de decolagens");
+  printf("\n\n\n");
+  printf("\nCodigos dos voos de decolagens\n");
   for(int i = 0;i < nDecolagens; i++){
     codDecolagens[i] = codVoos[i+(nAproximacoes)];
-    printf("\t %s", codDecolagens[i]);
+    strcpy(str, codDecolagens[i]);
+    strcat(str, "D");
+    codDecolagens[i] = str;
+    printf("%s\t", codDecolagens[i]);
   }
 }
 
