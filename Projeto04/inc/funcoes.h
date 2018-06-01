@@ -29,13 +29,35 @@
 #define NUMMINAPROXDECOLAGEM 10
 #define NUMMAXACOMBUSTIVEL 12
 #define NUMMINACOMBUSTIVEL 0
-
+#define UnTempo 5
+#define HORAINICIAL 6
 
 //Structs
+typedef struct info{
+  char codigoVoo[6];
+  int qtdCombustivel;
+}Info;
 
+typedef struct lista {
+  Info info;
+  struct lista* prox;
+} Lista;
+
+typedef struct fila {
+  Lista* inicio;
+  Lista* fim;
+} Fila;
 
 //Prototipos
-int sorteiaNumero(int, int, int, int*);
+int sorteiaNumero(int *, int *);
+void selecionaCodigosVoos(int *, char*[], char *[], char *[]);
+void imprimeResultados(int *);
+
+/*
+Tempo de aproximação -> 1*UnTempo
+Tempo de pouso -> 3*UnTempo
+Tempo de decolagem -> 2*UnTempo
+*/
 
 
 /*
