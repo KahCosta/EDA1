@@ -35,23 +35,26 @@
 //Structs
 typedef struct info{
   char codigoVoo[6];
+  char status; //A ou D
   int qtdCombustivel;
 }Info;
 
-typedef struct lista {
+typedef struct TNo {
   Info info;
-  struct lista* prox;
-} Lista;
+  struct Tno* prox;
+} No;
 
 typedef struct fila {
-  Lista* inicio;
-  Lista* fim;
+  No* inicio;
+  No* fim;
 } Fila;
 
 //Prototipos
 int sorteiaNumero(int *, int *);
-void selecionaCodigosVoos(int *, char*[], char *[], char *[], int *);
+Fila* criaListaAproximacao(Fila*, int *, char*[], char *[], char *[], int *);
 void imprimeResultados(int *);
+No* insereFila(Fila*, Info);
+
 
 /*
 Tempo de aproximação -> 1*UnTempo

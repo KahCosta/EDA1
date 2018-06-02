@@ -9,7 +9,8 @@ int main(int argc, char *argv[]){
   setlocale(LC_ALL, "Portuguese");
 
   //Declaracoes
-  Lista *lista = NULL;
+  No *lista = NULL;
+  Fila *fila = NULL;
   int nVoos = NUMMINVOOS, nAproximacoes = NUMMINAPROXDECOLAGEM, nDecolagens = NUMMINAPROXDECOLAGEM, combA[NUMMAXAPROXDECOLAGEM];
   int vetInformacoes[3];
   char *codVoos[NUMMAXVOOS] = {"VG3001","JJ4404", "LN7001", "TG1501", "GL7602", "TT1010", "AZ1009", "AZ1008", "AZ1010", "TG1506",
@@ -25,7 +26,7 @@ int main(int argc, char *argv[]){
   nAproximacoes = *(vetInformacoes + 1);
   nDecolagens = *(vetInformacoes + 2);
   char *codAproximacoes[nAproximacoes], *codDecolagens[nDecolagens];
-  selecionaCodigosVoos(vetInformacoes, codVoos, codAproximacoes, codDecolagens, combA);
+  fila = criaFilaAproximacao(fila, vetInformacoes, codVoos, codAproximacoes, codDecolagens, combA);
   imprimeResultados(vetInformacoes);
   return 0;
 }
