@@ -105,64 +105,86 @@ void imprimeFila(Fila *f){
     printf("\nQuantidade de combustível: %d", aux->info.qtdCombustivel);
 
   }
-
-}
-/*
-
-Fila* criaFilaAproximacao(Fila* filaAproximacao,int *vetInformacoes, char *codVoos[],
-                          char *codAproximacoes[],  char *codDecolagens[], int *combA){
-
-  int nAproximacoes, nDecolagens, nVoos;
-  Info* vetAproximacao = NULL;
-  nVoos = *(vetInformacoes);
-  nAproximacoes = *(vetInformacoes + 1);
-  nDecolagens = *(vetInformacoes + 2);
-
-  vetAproximacao = (Info*) malloc(nAproximacoes * sizeof(Info));
-  if(vetAproximacao == NULL){
-    printf("Alocação falhou!\n");
-    exit(2);
-  }
-
-  filaAproximacao = (Fila*)malloc(nAproximacoes*sizeof(Fila));
-  if(filaAproximacao == NULL){
-    printf("Alocação falhou\n");
-    exit(2);
-  }
-
-  printf("\nCodigos dos voos de aproximação\n");
-  for(int i=0; i < nAproximacoes; i++){
-    //printf("Teste: %s\n", codVoos[i]);
-    strcpy(vetAproximacao[i].codigoVoo,codVoos[i]);
-    printf("Código: %s\n", vetAproximacao[i].codigoVoo);
-    vetAproximacao[i].status = 'A';
-    printf("Status: %c\n", vetAproximacao[i].status);
-    vetAproximacao[i].qtdCombustivel = combA[i];
-    printf("Combustivel: %d\n\n", vetAproximacao[i].qtdCombustivel);
-
-    filaAproximacao = insereFila(filaAproximacao, vetAproximacao[i]);
-  }
 }
 
-No* insereFila(Fila* filaAproximacao, Info novoVoo){
-  No *inicio, *fim, *aux, *novoElemento;
-  novoElemento->info = novoVoo;
-  aux = filaAproximacao->inicio;
-  if(aux!=NULL){
-    while (aux->prox) {
-      aux = aux->prox;
+Fila* criaFilaPista1(){
+  Fila *fPista1 = (Fila*)malloc(sizeof(Fila));
+  fPista1->inicio = NULL;
+  fPista1->fim = NULL;
+
+  return fPista1;
+}
+
+Fila* criaFilaPista2(){
+  Fila *fPista2 = (Fila*)malloc(sizeof(Fila));
+  fPista2->inicio = NULL;
+  fPista2->fim = NULL;
+
+  return fPista2;
+}
+
+Fila* criaFilaPista3(){
+  Fila *fPista3 = (Fila*)malloc(sizeof(Fila));
+  fPista3->inicio = NULL;
+  fPista3->fim = NULL;
+
+  return fPista3;
+}
+
+No* auxDesenfileiraFila(No* inicio){
+  No *p = inicio->prox;
+  free(inicio);
+  printf("DESENFILEIROU\n");
+  return p;
+}
+
+Info desenfileiraFila(Fila *f){
+  Info aux;
+
+  if(filaVazia(f)){
+    printf("Fila vazia\n");
+    exit(2);
+  }
+  aux = f->inicio->info;
+  f->inicio = auxDesenfileiraFila(f->inicio);
+  if(f->inicio == NULL){
+    f->fim = NULL;
+  }
+  return aux;
+}
+
+int filaVazia (Fila* f)
+{
+   return (f->inicio==NULL);
+}
+
+
+
+
+
+
+void insereFilaPista(Fila *pista, No *final){
+  No* aux;
+    pista->fim = insereFinalFilaPista(pista->fim, final);
+    if(pista->inicio == NULL){
+      pista->inicio = pista->fim;
     }
-    aux->prox = novoElemento;
-    filaAproximacao->fim = novoElemento;
-    filaAproximacao->fim->prox = NULL;
-  }else{
-    filaAproximacao->inicio = novoElemento;
-    filaAproximacao->fim = novoElemento;
-    filaAproximacao->fim->prox = NULL;
-  }
-  return filaAproximacao;
 }
-*/
+
+No* insereFinalFilaPista(No* final, Fila *f){
+  No* novoElemento = NULL;
+  No* aux;
+  for (aux = f->inicio; aux != NULL; aux = aux->prox) {
+    novoElemento = (No*) malloc(sizeof(No));
+    novoElemento->info = aux->info /*f->inicio->info*/ ;
+    novoElemento->prox = NULL;
+    if(final != NULL){
+      final->prox = novoElemento;
+    }
+  }
+  return novoElemento;
+}
+
 
 void imprimeResultados(int *vetInformacoes){
   //LIMPA_TELA;

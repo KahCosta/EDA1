@@ -58,6 +58,20 @@ Fila* criaFilaDecolagem();
 void insereFila(Fila *, char *[], char, int, int *);
 No* insereFinalFila(No*, char *[], char, int, int *);
 void imprimeFila(Fila *);
+Fila* criaFilaPista1();
+Fila* criaFilaPista2();
+Fila* criaFilaPista3();
+void insereFilaPista(Fila *, No *);
+No* insereFinalFilaPista(No *, Fila *);
+
+
+
+
+
+No* auxDesenfileiraFila(No *);
+Info desenfileiraFila(Fila *);
+int filaVazia (Fila*);
+
 
 //Fila* criaListaAproximacao(Fila*, int *, char*[], char *[], char *[], int *);
 //No* insereFila(Fila*, Info);

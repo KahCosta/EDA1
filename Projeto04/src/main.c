@@ -9,10 +9,10 @@ int main(int argc, char *argv[]){
   setlocale(LC_ALL, "Portuguese");
 
   //Declaracoes
-  No *lista = NULL;
-  Fila *fAprox = NULL, *fDec = NULL;
+  Fila *fAprox = NULL, *fDec = NULL, *fPista1 = NULL, *fPista2 = NULL, *fPista3 = NULL;
   int nVoos = NUMMINVOOS, nAproximacoes = NUMMINAPROXDECOLAGEM, nDecolagens = NUMMINAPROXDECOLAGEM, combA[NUMMAXAPROXDECOLAGEM];
   int vetInformacoes[3];
+  Info info;
   char statusDec = 'D', statusAprox = 'A';
   char *codVoos[NUMMAXVOOS] = {"VG3001","JJ4404", "LN7001", "TG1501", "GL7602", "TT1010", "AZ1009", "AZ1008", "AZ1010", "TG1506",
                   "VG3002", "JJ4402", "GL7603", "RL7880", "AL0012","TT4544", "TG1505", "VG3003","JJ4403", "JJ4401",
@@ -28,11 +28,23 @@ int main(int argc, char *argv[]){
   nDecolagens = *(vetInformacoes + 2);
   char *codAproximacoes[nAproximacoes], *codDecolagens[nDecolagens];
   selecionaCodigosVoos(vetInformacoes, codVoos, codAproximacoes, codDecolagens);
+
+  //Pistas
+  fPista1 = criaFilaPista1();
+  fPista2 = criaFilaPista2();
+  fPista3 = criaFilaPista3();
+
   //Aproximação
   fAprox = criaFilaAproximacao();
   for(int i = 0; i < nAproximacoes; i++){
     insereFila(fAprox, codAproximacoes, statusAprox, i, combA);
+    insereFilaPista(fPista1, fAprox);
   }
+  //info = desenfileiraFila(fAprox); //pra desenfileirar tudo, sobe isso pra dentro do for
+  printf("\n\n\n============= PISTA 1 =======================");
+
+  imprimeFila(fPista1);
+
   printf("\n\n\n=============LISTA DE APROXIMAÇÃO =======================");
   imprimeFila(fAprox);
   //Decolagem
@@ -42,7 +54,9 @@ int main(int argc, char *argv[]){
   }
   printf("\n\n\n=============LISTA DE DECOLAGENS =======================");
   imprimeFila(fDec);
-  //fila = criaFilaAproximacao(fila, vetInformacoes, codVoos, codAproximacoes, codDecolagens, combA);
+
   imprimeResultados(vetInformacoes);
+
+
   return 0;
 }
