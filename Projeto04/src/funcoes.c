@@ -39,6 +39,75 @@ int sorteiaNumero(int *combA, int *vetInformacoes){
   *(vetInformacoes + 2) = nDecolagens;
   return 0;
 }
+void selecionaCodigosVoos(int *vetInformacoes, char *codVoos[], char *codAproximacoes[],  char *codDecolagens[]){
+  int nAproximacoes, nDecolagens;
+  nAproximacoes = *(vetInformacoes + 1);
+  nDecolagens = *(vetInformacoes + 2);
+  printf("\nCodigos dos voos de aproximação");
+  for(int i=0; i < nAproximacoes; i++){
+    codAproximacoes[i] = codVoos[i];
+    printf("\t %s", codAproximacoes[i]);
+  }
+  printf("\nCodigos dos voos de decolagens");
+  for(int i = 0;i < nDecolagens; i++){
+    codDecolagens[i] = codVoos[i+(nAproximacoes)];
+    printf("\t %s", codDecolagens[i]);
+  }
+}
+
+Fila* criaFilaAproximacao(){
+  Fila *fAprox = (Fila*)malloc(sizeof(Fila));
+  fAprox->inicio = NULL;
+  fAprox->fim = NULL;
+
+  return fAprox;
+}
+
+Fila* criaFilaDecolagem(){
+
+  Fila *fDec = (Fila*)malloc(sizeof(Fila));
+  fDec->inicio = NULL;
+  fDec->fim = NULL;
+
+  return fDec;
+}
+
+void insereFila(Fila *f, char *cod[], char status, int i, int *combA){
+  f->fim = insereFinalFila(f->fim, cod, status, i, combA);
+  if(f->inicio == NULL){
+    f->inicio = f->fim;
+  }
+}
+
+No* insereFinalFila(No* fim, char *cod[], char status, int i, int *combA){
+  No* novoElemento = NULL;
+  novoElemento = (No*) malloc(sizeof(No));
+  novoElemento->info.status = status;
+  strcpy(novoElemento->info.codigoVoo, cod[i]);
+  if(status == 'D'){
+    novoElemento->info.qtdCombustivel = 12;
+  }
+  else{
+    novoElemento->info.qtdCombustivel = combA[i];
+  }
+  novoElemento->prox = NULL;
+  if(fim != NULL){
+    fim->prox = novoElemento;
+  }
+  return novoElemento;
+}
+
+void imprimeFila(Fila *f){
+  No* aux;
+  for(aux = f->inicio; aux != NULL; aux = aux->prox){
+    printf("\n\n\nCódigo do Voo: %s", aux->info.codigoVoo);
+    printf("\nStatus: %c", aux->info.status);
+    printf("\nQuantidade de combustível: %d", aux->info.qtdCombustivel);
+
+  }
+
+}
+/*
 
 Fila* criaFilaAproximacao(Fila* filaAproximacao,int *vetInformacoes, char *codVoos[],
                           char *codAproximacoes[],  char *codDecolagens[], int *combA){
@@ -93,7 +162,7 @@ No* insereFila(Fila* filaAproximacao, Info novoVoo){
   }
   return filaAproximacao;
 }
-
+*/
 
 void imprimeResultados(int *vetInformacoes){
   //LIMPA_TELA;

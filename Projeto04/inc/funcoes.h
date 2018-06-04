@@ -34,7 +34,7 @@
 
 //Structs
 typedef struct info{
-  char codigoVoo[6];
+  char codigoVoo[7];
   char status; //A ou D
   int qtdCombustivel;
 }Info;
@@ -51,9 +51,16 @@ typedef struct fila {
 
 //Prototipos
 int sorteiaNumero(int *, int *);
-Fila* criaListaAproximacao(Fila*, int *, char*[], char *[], char *[], int *);
+void selecionaCodigosVoos(int *, char*[], char *[], char *[]);
 void imprimeResultados(int *);
-No* insereFila(Fila*, Info);
+Fila* criaFilaAproximacao();
+Fila* criaFilaDecolagem();
+void insereFila(Fila *, char *[], char, int, int *);
+No* insereFinalFila(No*, char *[], char, int, int *);
+void imprimeFila(Fila *);
+
+//Fila* criaListaAproximacao(Fila*, int *, char*[], char *[], char *[], int *);
+//No* insereFila(Fila*, Info);
 
 
 /*
