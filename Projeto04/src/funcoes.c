@@ -32,11 +32,14 @@ int sorteiaNumero(int *combA, int *vetInformacoes){
   for(int i = 0; i < nAproximacoes; i++){
     numSorteadoCombA = ((rand() % NUMMAXACOMBUSTIVEL) + 1);
     *(combA+i) = numSorteadoCombA;
+  }
+  for(int i = 0; i < nAproximacoes; i++){
     printf("Aviao %d = %d \n",i+1, combA[i]);
   }
   *(vetInformacoes + 0) = nVoos;
   *(vetInformacoes + 1) = nAproximacoes;
   *(vetInformacoes + 2) = nDecolagens;
+  ordenaPrioridade(combA, nAproximacoes);
   return 0;
 }
 void selecionaCodigosVoos(int *vetInformacoes, char *codVoos[], char *codAproximacoes[],  char *codDecolagens[]){
@@ -52,6 +55,24 @@ void selecionaCodigosVoos(int *vetInformacoes, char *codVoos[], char *codAproxim
   for(int i = 0;i < nDecolagens; i++){
     codDecolagens[i] = codVoos[i+(nAproximacoes)];
     printf("\t %s", codDecolagens[i]);
+  }
+}
+
+void ordenaPrioridade( int *vetor, int TAM){
+  int x,y;
+  int aux;
+  for( x = 0; x < TAM; x++ ){
+    for( y = x + 1; y < TAM; y++ ){
+      if ( vetor[x] > vetor[y] ){
+           aux = vetor[x];
+           vetor[x] = vetor[y];
+           vetor[y] = aux;
+        }
+      }
+    }
+  printf("\n\nVetor ordenado\n");
+  for(int i = 0; i < TAM; i++){
+    printf("%d\t", vetor[i]);
   }
 }
 
