@@ -33,13 +33,13 @@ int sorteiaNumero(int *combA, int *vetInformacoes){
     numSorteadoCombA = ((rand() % NUMMAXACOMBUSTIVEL) + 1);
     *(combA+i) = numSorteadoCombA;
   }
-  ordenaPrioridade(combA, nAproximacoes);
   for(int i = 0; i < nAproximacoes; i++){
     printf("Aviao %d = %d \n",i+1, combA[i]);
   }
   *(vetInformacoes + 0) = nVoos;
   *(vetInformacoes + 1) = nAproximacoes;
   *(vetInformacoes + 2) = nDecolagens;
+  ordenaPrioridade(combA, nAproximacoes);
   return 0;
 }
 void selecionaCodigosVoos(int *vetInformacoes, char *codVoos[], char *codAproximacoes[],  char *codDecolagens[]){
@@ -70,6 +70,10 @@ void ordenaPrioridade( int *vetor, int TAM){
         }
       }
     }
+  printf("\n\nVetor ordenado\n");
+  for(int i = 0; i < TAM; i++){
+    printf("%d\t", vetor[i]);
+  }
 }
 
 Fila* criaFilaAproximacao(){
