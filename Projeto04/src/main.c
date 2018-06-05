@@ -38,12 +38,9 @@ int main(int argc, char *argv[]){
   fAprox = criaFilaAproximacao();
   for(int i = 0; i < nAproximacoes; i++){
     insereFila(fAprox, codAproximacoes, statusAprox, i, combA);
-    insereFilaPista(fPista1, fAprox);
+//    insereFilaPista(fPista1, fAprox);
+    //info = desenfileiraFila(fAprox); //pra desenfileirar tudo, sobe isso pra dentro do for
   }
-  //info = desenfileiraFila(fAprox); //pra desenfileirar tudo, sobe isso pra dentro do for
-  printf("\n\n\n============= PISTA 1 =======================");
-
-  imprimeFila(fPista1);
 
   printf("\n\n\n=============LISTA DE APROXIMAÇÃO =======================");
   imprimeFila(fAprox);
@@ -51,9 +48,35 @@ int main(int argc, char *argv[]){
   fDec = criaFilaDecolagem();
   for(int i = 0; i < nDecolagens; i++){
     insereFila(fDec, codDecolagens, statusDec, i, combA);
+    insereFilaPista(fPista3, fDec);
   }
+
+  printf("\n\n\n============= PISTA 1 =======================");
+
+  No* aux2;
+  //for(aux2 = f->inicio; aux2 != NULL; aux2 = aux2->prox){
+  //while (fAprox->fim != NULL && fDec->fim != NULL) {
+    if (fPista1->inicio == NULL) {
+      insereFilaPista(fPista1, fAprox);
+      printf("P1\n" );
+    }else if(fPista1->inicio != NULL && fPista2->inicio == NULL){
+      printf("P2\n" );
+      insereFilaPista(fPista2, fAprox);
+    }
+//  }
+
+
   printf("\n\n\n=============LISTA DE DECOLAGENS =======================");
   imprimeFila(fDec);
+
+  printf("\n\n\n=============FILA DA PISTA 1 =======================");
+  imprimeFila(fPista1);
+
+  printf("\n\n\n=============LISTA DA PISTA 2 =======================");
+  imprimeFila(fPista2);
+
+  printf("\n\n\n=============LISTA DA PISTA 3 =======================");
+  imprimeFila(fPista3);
 
   imprimeResultados(vetInformacoes);
 
