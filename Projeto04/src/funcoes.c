@@ -118,6 +118,33 @@ No* insereFinalFila(No* fim, char *cod[], char status, int i, int *combA){
   return novoElemento;
 }
 
+void imprimeFilaAlternada(Fila *f1, Fila *f2){
+   if (f1->inicio == NULL && f2->inicio == NULL){
+       printf("Listas Vazias");
+   }else {
+      No* aux1 = f1->inicio;
+      No* aux2 = f2->inicio;
+       while (aux1 || aux2){
+         if(aux1){
+           printf("\n\n\nCódigo do Voo: %s", aux1->info.codigoVoo);
+           printf("\nStatus: %c", aux1->info.status);
+           printf("\nQuantidade de combustível: %d", aux1->info.qtdCombustivel);
+           printf("\nHorário do início do procedimento:");
+           printf("\nNúmero da pista: 1");
+           aux1 = aux1->prox;
+         }
+         if(aux2) {
+           printf("\n\n\nCódigo do Voo: %s", aux2->info.codigoVoo);
+           printf("\nStatus: %c", aux2->info.status);
+           printf("\nQuantidade de combustível: %d", aux2->info.qtdCombustivel);
+           printf("\nHorário do início do procedimento:");
+           printf("\nNúmero da pista: 2");
+           aux2 = aux2->prox;
+         }
+       }
+   }
+}
+
 void imprimeFila(Fila *f, Fila *fPista1, Fila *fPista2, Fila *fPista3){
   No* aux;
   for(aux = f->inicio; aux != NULL; aux = aux->prox){
