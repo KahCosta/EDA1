@@ -48,26 +48,31 @@ int main(int argc, char *argv[]){
   fDec = criaFilaDecolagem();
   for(int i = 0; i < nDecolagens; i++){
     insereFila(fDec, codDecolagens, statusDec, i, combA);
-    insereFilaPista(fPista3, fDec);
   }
 
-  printf("\n\n\n============= PISTA 1 =======================");
 
   No* aux2;
   //for(aux2 = f->inicio; aux2 != NULL; aux2 = aux2->prox){
   //while (fAprox->fim != NULL && fDec->fim != NULL) {
     if (fPista1->inicio == NULL) {
       insereFilaPista(fPista1, fAprox);
-      printf("P1\n" );
+      info = desenfileiraFila(fAprox);
+  //    printf("P1\n" );
     }else if(fPista1->inicio != NULL && fPista2->inicio == NULL){
-      printf("P2\n" );
+//      printf("P2\n" );
       insereFilaPista(fPista2, fAprox);
+      info = desenfileiraFila(fAprox);
     }
 //  }
 
 
   printf("\n\n\n=============LISTA DE DECOLAGENS =======================");
   imprimeFila(fDec);
+
+  for(int i = 0; i < nDecolagens; i++){
+    insereFilaPista(fPista3, fDec);
+    info = desenfileiraFila(fDec);
+  }
 
   printf("\n\n\n=============FILA DA PISTA 1 =======================");
   imprimeFila(fPista1);
@@ -80,6 +85,8 @@ int main(int argc, char *argv[]){
 
   imprimeResultados(vetInformacoes);
 
+  printf("\n\n\n=============LISTA DE DECOLAGENS DEPOIS DE DESENFILEIRAR=======================");
+  imprimeFila(fDec);
 
   return 0;
 }

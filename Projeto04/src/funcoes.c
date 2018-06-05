@@ -155,7 +155,7 @@ Fila* criaFilaPista3(){
 No* auxDesenfileiraFila(No* inicio){
   No *p = inicio->prox;
   free(inicio);
-  printf("DESENFILEIROU\n");
+  //printf("DESENFILEIROU p = %s\n", p);
   return p;
 }
 
