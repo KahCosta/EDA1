@@ -212,12 +212,21 @@ No* insereFinalFilaPista(No* final, Fila *f){
   return novoElemento;
 }
 
+void libera (Fila* f){
+  No* q = f->inicio;
+  while (q!=NULL) {
+    No* t = q->prox;
+    free(q);
+    q = t;
+  }
+  free(f);
+}
 
 void imprimeResultados(int *vetInformacoes, Fila *fPista1, Fila *fPista2, Fila *fPista3){
   LIMPA_TELA;
   printf("\n---------------------------------------------------------");
   printf("\nAeroporto Internacional de Brasília");
-  printf("\nHora inicial: %d:00", HORAINICIAL);
+  printf("\nHora inicial: %s", __TIME__);
   printf("\nFila de Pedidos:");
   printf("\nNVoos: %d", *(vetInformacoes + 0));
   printf("\nNAproximações: %d", *(vetInformacoes + 1));

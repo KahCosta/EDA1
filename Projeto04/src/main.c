@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
   fAprox = criaFilaAproximacao();
   for(int i = 0; i < nAproximacoes; i++){
     insereFila(fAprox, codAproximacoes, statusAprox, i, combA);
-//    insereFilaPista(fPista1, fAprox);
+    //    insereFilaPista(fPista1, fAprox);
     //info = desenfileiraFila(fAprox); //pra desenfileirar tudo, sobe isso pra dentro do for
   }
 
@@ -71,7 +71,11 @@ int main(int argc, char *argv[]){
   imprimeResultados(vetInformacoes, fPista1, fPista2, fPista3);
   printf("\n\n\n=============LISTA DE DECOLAGENS DEPOIS DE DESENFILEIRAR=======================");
   imprimeFila(fDec, fPista1, fPista2, fPista3);
-
+  libera(fDec);
+  libera(fAprox);
+  libera(fPista1);
+  libera(fPista2);
+  libera(fPista3);
 
   return 0;
 }
