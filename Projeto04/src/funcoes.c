@@ -194,10 +194,10 @@ void insereFilaPista(Fila *pista, No *final){
 
 No* insereFinalFilaPista(No* final, Fila *f){
   No* novoElemento = NULL;
-  No* aux;
+  No* aux = NULL;
   for (aux = f->inicio; aux != NULL; aux = aux->prox) {
     novoElemento = (No*) malloc(sizeof(No));
-    novoElemento->info = aux->info /*f->inicio->info*/ ;
+    novoElemento->info = aux->info;
     novoElemento->prox = NULL;
     if(final != NULL){
       final->prox = novoElemento;

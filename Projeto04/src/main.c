@@ -47,30 +47,24 @@ int main(int argc, char *argv[]){
   //Decolagem
   fDec = criaFilaDecolagem();
   for(int i = 0; i < nDecolagens; i++){
+    insereFilaPista(fPista3, fDec);
     insereFila(fDec, codDecolagens, statusDec, i, combA);
   }
 
 
-  No* aux2;
-  //for(aux2 = f->inicio; aux2 != NULL; aux2 = aux2->prox){
-  //while (fAprox->fim != NULL && fDec->fim != NULL) {
-    if (fPista1->inicio == NULL) {
+    if (fPista1->inicio == NULL) { //tentando inserir no inicio da pista1 se vazia
       insereFilaPista(fPista1, fAprox);
       info = desenfileiraFila(fAprox);
-  //    printf("P1\n" );
     }else if(fPista1->inicio != NULL && fPista2->inicio == NULL){
-//      printf("P2\n" );
       insereFilaPista(fPista2, fAprox);
       info = desenfileiraFila(fAprox);
     }
-//  }
 
 
   printf("\n\n\n=============LISTA DE DECOLAGENS =======================");
   imprimeFila(fDec);
 
   for(int i = 0; i < nDecolagens; i++){
-    insereFilaPista(fPista3, fDec);
     info = desenfileiraFila(fDec);
   }
 
