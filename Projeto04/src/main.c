@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
   //Declaracoes
   Fila *fAprox = NULL, *fDec = NULL, *fPista1 = NULL, *fPista2 = NULL, *fPista3 = NULL;
   int nVoos = NUMMINVOOS, nAproximacoes = NUMMINAPROXDECOLAGEM, nDecolagens = NUMMINAPROXDECOLAGEM, combA[NUMMAXAPROXDECOLAGEM];
-  int vetInformacoes[3];
+  int vetInformacoes[3], fila = 1;
   Info info;
   char statusDec = 'D', statusAprox = 'A';
   char *codVoos[NUMMAXVOOS] = {"VG3001","JJ4404", "LN7001", "TG1501", "GL7602", "TT1010", "AZ1009", "AZ1008", "AZ1010", "TG1506",
@@ -37,8 +37,14 @@ int main(int argc, char *argv[]){
   //Aproximação
   fAprox = criaFilaAproximacao();
   for(int i = 0; i < nAproximacoes; i++){
+    if(fila==1){
+      insereFilaPista(fPista1, fAprox);
+      fila = 2;
+    }else{
+      insereFilaPista(fPista2, fAprox);
+      fila = 1;
+    }
     insereFila(fAprox, codAproximacoes, statusAprox, i, combA);
-    // insereFilaPista(fPista1, fAprox);
     //info = desenfileiraFila(fAprox); //pra desenfileirar tudo, sobe isso pra dentro do for
   }
 
@@ -64,16 +70,14 @@ int main(int argc, char *argv[]){
   imprimeFila(fDec, fPista1, fPista2, fPista3);
 
   for(int i = 0; i < nDecolagens; i++){
-    info = desenfileiraFila(fDec);
+    // info = desenfileiraFila(fDec);
   }
   LIMPA_TELA;
   //teste impressão alternada começa aqui
   printf("\n\n\n=============LISTA DE APROXIMAÇÃO =======================");
-  imprimeFilaAlternada(fAprox, fAprox);
-  printf("\n\n\n============= TOP TOP =======================");
+  imprimeFilaAlternada(fPista1, fPista2);
   // imprimeFilaAlternada(fAprox, fAprox);
   //teste impressão alternada acaba aqui
-  printf("\n\n\n=============LISTA DE DECOLAGENS DEPOIS DE DESENFILEIRAR=======================\n\n\n");
   imprimeFila(fDec, fPista1, fPista2, fPista3);
   libera(fDec);
   libera(fAprox);
