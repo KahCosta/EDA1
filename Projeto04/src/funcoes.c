@@ -24,12 +24,12 @@ int sorteiaNumero(int *combA, int *vetInformacoes){
 
   nVoos = nAproximacoes + nDecolagens;
 
-  printf("\nnVoos: ");
-  printf("%d\n", nVoos);
-  printf("\nnAproximacoes: %d\n", nAproximacoes);
-  printf("\nnDecolagens: %d\n", nDecolagens);
-  printf("\n\nVetor de pousos e combustiveis: \n");
-  for(int i = 0; i < nAproximacoes; i++){
+   printf("\nnVoos: ");
+   printf("%d\n", nVoos);
+   printf("\nnAproximacoes: %d\n", nAproximacoes);
+   printf("\nnDecolagens: %d\n", nDecolagens);
+   printf("\n\nVetor de pousos e combustiveis: \n");
+   for(int i = 0; i < nAproximacoes; i++){
     numSorteadoCombA = ((rand() % NUMMAXACOMBUSTIVEL) + 1);
     *(combA+i) = numSorteadoCombA;
   }
@@ -118,13 +118,23 @@ No* insereFinalFila(No* fim, char *cod[], char status, int i, int *combA){
   return novoElemento;
 }
 
-void imprimeFila(Fila *f){
+void imprimeFila(Fila *f, Fila *fPista1, Fila *fPista2, Fila *fPista3){
   No* aux;
   for(aux = f->inicio; aux != NULL; aux = aux->prox){
+    if(f == fPista1){
+      aux->info.nPista = 1;
+    }
+    if(f == fPista2){
+      aux->info.nPista = 2;
+    }
+    if(f == fPista3){
+      aux->info.nPista = 3;
+    }
     printf("\n\n\nCódigo do Voo: %s", aux->info.codigoVoo);
     printf("\nStatus: %c", aux->info.status);
     printf("\nQuantidade de combustível: %d", aux->info.qtdCombustivel);
-
+    printf("\nHorário do início do procedimento:");
+    printf("\nNúmero da pista: %d", aux->info.nPista);
   }
 }
 
@@ -180,10 +190,6 @@ int filaVazia (Fila* f)
 }
 
 
-
-
-
-
 void insereFilaPista(Fila *pista, No *final){
   No* aux;
     pista->fim = insereFinalFilaPista(pista->fim, final);
@@ -207,8 +213,8 @@ No* insereFinalFilaPista(No* final, Fila *f){
 }
 
 
-void imprimeResultados(int *vetInformacoes){
-  //LIMPA_TELA;
+void imprimeResultados(int *vetInformacoes, Fila *fPista1, Fila *fPista2, Fila *fPista3){
+  LIMPA_TELA;
   printf("\n---------------------------------------------------------");
   printf("\nAeroporto Internacional de Brasília");
   printf("\nHora inicial: %d:00", HORAINICIAL);
@@ -216,5 +222,14 @@ void imprimeResultados(int *vetInformacoes){
   printf("\nNVoos: %d", *(vetInformacoes + 0));
   printf("\nNAproximações: %d", *(vetInformacoes + 1));
   printf("\nNDecolagens: %d", *(vetInformacoes + 2));
-  printf("\n---------------------------------------------------------\n");
+  printf("\n---------------------------------------------------------");
+  printf("\nListagem dos eventos");
+  printf("\n\n\n=============FILA DA PISTA 1 =======================");
+  imprimeFila(fPista1, fPista1, fPista2, fPista3);
+
+  printf("\n\n\n=============LISTA DA PISTA 2 =======================");
+  imprimeFila(fPista2, fPista1, fPista2, fPista3);
+
+  printf("\n\n\n=============LISTA DA PISTA 3 =======================");
+  imprimeFila(fPista3, fPista1, fPista2, fPista3);
 }

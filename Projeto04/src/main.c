@@ -43,7 +43,7 @@ int main(int argc, char *argv[]){
   }
 
   printf("\n\n\n=============LISTA DE APROXIMAÇÃO =======================");
-  imprimeFila(fAprox);
+  imprimeFila(fAprox, fPista1, fPista2, fPista3);
   //Decolagem
   fDec = criaFilaDecolagem();
   for(int i = 0; i < nDecolagens; i++){
@@ -62,25 +62,16 @@ int main(int argc, char *argv[]){
 
 
   printf("\n\n\n=============LISTA DE DECOLAGENS =======================");
-  imprimeFila(fDec);
+  imprimeFila(fDec, fPista1, fPista2, fPista3);
 
   for(int i = 0; i < nDecolagens; i++){
     info = desenfileiraFila(fDec);
   }
-
-  printf("\n\n\n=============FILA DA PISTA 1 =======================");
-  imprimeFila(fPista1);
-
-  printf("\n\n\n=============LISTA DA PISTA 2 =======================");
-  imprimeFila(fPista2);
-
-  printf("\n\n\n=============LISTA DA PISTA 3 =======================");
-  imprimeFila(fPista3);
-
-  imprimeResultados(vetInformacoes);
-
+  LIMPA_TELA;
+  imprimeResultados(vetInformacoes, fPista1, fPista2, fPista3);
   printf("\n\n\n=============LISTA DE DECOLAGENS DEPOIS DE DESENFILEIRAR=======================");
-  imprimeFila(fDec);
+  imprimeFila(fDec, fPista1, fPista2, fPista3);
+
 
   return 0;
 }
