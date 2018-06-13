@@ -9,9 +9,9 @@ int main(int argc, char *argv[]) {
   setlocale(LC_ALL, "Portuguese");
 
   //Declaracoes
-  int opcao;
+  int opcao, tamanho;
   char lock;
-  char fileName[15];
+  char userFileName[100], *fileName;
   Arvore *raiz = NULL; //Criando arvore vazia
 
   //Instrucoes
@@ -20,8 +20,18 @@ int main(int argc, char *argv[]) {
     switch(opcao){
       case 1:
         LIMPA_TELA;
-        concatenateFileName(fileName);
-        // printf("\nMain Filename: %s", fileName); //DEBUGANDO
+
+        printf("Enter the name of the file: ");
+        LIMPA_BUFFER;
+        fgets(userFileName, 100, stdin);
+        tamanho = strlen(userFileName);// Conta o terminador
+        /* DEBUGANDO
+        printf("\nName entered by user: %s", userFileName); //DEBUGANDO
+        printf("tamanho %d\t", tamanho); //DEBUGANDO
+        */
+        fileName = calloc((tamanho-1), sizeof(char));
+        strncpy(fileName, userFileName, (tamanho-1));
+        //printf("fileName %s", fileName); //DEBUGANDO
         raiz = loadTreeFromFile(fileName);
         printf("\nWait... Creating Tree\n");
         for(int i = 0; i < 3; i++){
@@ -29,6 +39,7 @@ int main(int argc, char *argv[]) {
           printf("*\n");
         }
         printf("\nSuccessfully created tree... Press ENTER ");
+        free(fileName);
         LIMPA_BUFFER;
         lock = getchar();
       break;

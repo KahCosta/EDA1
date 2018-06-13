@@ -24,8 +24,7 @@
 #endif
 
 //Constantes
-#define FILENAME "./BSTs/bst"
-#define EXTENSION ".txt"
+
 
 //Structs
 typedef struct Arvore{
@@ -37,10 +36,11 @@ typedef struct Arvore{
 //Prototipos
 int menu();
 int validateNumbers(int, int, int);
-void concatenateFileName(char *);
+int calculateQuantityOfNumbers(FILE *);
+FILE* openArchive(char *);
+void readNumbersFromArchive(FILE *, int, int *);
 Arvore* createNewNode(int);
 Arvore* insert(Arvore *, Arvore *);
-void readNumbersFromArchive(char *, int *);
 Arvore* loadTreeFromFile(char *);
 void showTree();
 void isFull();

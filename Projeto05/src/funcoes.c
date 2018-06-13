@@ -41,23 +41,45 @@ int validateNumbers(int numberEntered, int min, int max){
   return 0;
 }
 
-void concatenateFileName(char *fileName){
+int calculateQuantityOfNumbers(FILE *arq){
+  int qtdRegistros = 0;
+  char detectaRegistro;
+
+  fseek(arq, 0, SEEK_SET);
+
+  while(fread(&detectaRegistro,sizeof(char),1,arq)==1){
+    if(detectaRegistro == ' '){
+      qtdRegistros++;
+    }
+  }
+
+  return qtdRegistros;
+}
+
+FILE* openArchive(char *fileName){
+  FILE *arq;
+
+  arq = fopen(fileName, "r");
+  if(arq == NULL){
+    printf("Erro ao abrir o arquivo!");
+  }
+
+  return arq;
+}
+
+
+void readNumbersFromArchive(FILE *arq, int totalOfNumbersInFile, int *fileNumbers){
   //Declarações
-  int fileNumber;
-  char strFileName[15] = FILENAME, strFileNumber[2];
 
   //Instruções
-  do{
-    printf("Enter the number between 1 and 6 of the file: ");
-    LIMPA_BUFFER;
-    scanf("%d", &fileNumber);
-  } while(validateNumbers(fileNumber, 1, 6) == 1);
-  sprintf(strFileNumber, "%d", fileNumber);
-  strcat(strFileName, strFileNumber);
-  strcat(strFileName, EXTENSION);
+  rewind(arq);
+  printf("Números do arquivo: "); //DEBUGANDO
+  for(int i = 0; i < totalOfNumbersInFile; i++){
+    fscanf(arq, "%d ", &fileNumbers[i]);
+    printf("\t%d", fileNumbers[i]); //DEBUGANDO
+  }
+  fclose(arq);
 
-  strcpy(fileName, strFileName);
-  // printf("fileName %s", fileName); //DEBUGANDO
 }
 
 Arvore* createNewNode(int fileNumber){
@@ -79,6 +101,7 @@ Arvore* insert(Arvore *raiz, Arvore *novoNo){
   if(raiz == NULL){ //arvore vazia
     return novoNo;
   }
+
   if(raiz->info > novoNo->info){
     raiz->esquerda = insert(raiz->esquerda, novoNo);
   }
@@ -87,39 +110,30 @@ Arvore* insert(Arvore *raiz, Arvore *novoNo){
   }
 
   return raiz;
-}
-
-void readNumbersFromArchive(char *fileName, int *fileNumbers){
-  //Declarações
-  FILE *arq;
-
-  //Instruções
-  arq = fopen(fileName, "r");
-  if(arq == NULL){
-    printf("Erro ao abrir o arquivo!");
-  }
-  printf("Números do arquivo: "); //DEBUGANDO
-  for(int i = 0; i < 10; i++){
-    fscanf(arq, "%d ", &fileNumbers[i]);
-    printf("\t%d", fileNumbers[i]); //DEBUGANDO
-  }
-  fclose(arq);
 
 }
 
 Arvore* loadTreeFromFile(char *fileName){
   //Declarações
-  Arvore *raiz, *novoNo;
-  int fileNumbers[10];
+  FILE *arq;
+  Arvore *raiz = NULL, *novoNo = NULL;
+  int totalOfNumbersInFile, *fileNumbers = NULL;
+  //int tamanho; //DEBUGANDO
 
   //Instruções
-  readNumbersFromArchive(fileName, fileNumbers);
-  for(int i = 0; i < 10; i++){
+  // tamanho = strlen(fileName); //DEBUGANDO
+  //printf("\nFileName dentro da função %s e tamanho da string %d", fileName, tamanho); //DEBUGANDO
+  arq = openArchive(fileName);
+  totalOfNumbersInFile = (calculateQuantityOfNumbers(arq) + 1);
+  //printf("\nqtdRegistros: %d\n", totalOfNumbersInFile);//DEBUGANDO
+  fileNumbers = calloc(totalOfNumbersInFile, sizeof(int));
+  readNumbersFromArchive(arq, totalOfNumbersInFile, fileNumbers);
+  for(int i = 0; i < totalOfNumbersInFile; i++){
     novoNo = createNewNode(fileNumbers[i]);
     raiz = insert(raiz, novoNo);
   }
-
   return raiz;
+
 }
 
 void showTree(Arvore* raiz){
