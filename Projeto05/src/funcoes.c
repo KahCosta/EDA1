@@ -60,9 +60,6 @@ FILE* openArchive(char *fileName){
   FILE *arq;
 
   arq = fopen(fileName, "r");
-  if(arq == NULL){
-    printf("Erro ao abrir o arquivo!");
-  }
 
   return arq;
 }
@@ -78,7 +75,6 @@ void readNumbersFromArchive(FILE *arq, int totalOfNumbersInFile, int *fileNumber
     fscanf(arq, "%d ", &fileNumbers[i]);
     printf("\t%d", fileNumbers[i]); //DEBUGANDO
   }
-  fclose(arq);
 
 }
 
@@ -98,7 +94,7 @@ Arvore* insert(Arvore *raiz, Arvore *novoNo){
   //Declarações
 
   //Instruções
-  if(raiz == NULL){ //arvore vazia
+  if(raiz == NULL){
     return novoNo;
   }
 
@@ -124,16 +120,42 @@ Arvore* loadTreeFromFile(char *fileName){
   // tamanho = strlen(fileName); //DEBUGANDO
   //printf("\nFileName dentro da função %s e tamanho da string %d", fileName, tamanho); //DEBUGANDO
   arq = openArchive(fileName);
-  totalOfNumbersInFile = (calculateQuantityOfNumbers(arq) + 1);
-  //printf("\nqtdRegistros: %d\n", totalOfNumbersInFile);//DEBUGANDO
-  fileNumbers = calloc(totalOfNumbersInFile, sizeof(int));
-  readNumbersFromArchive(arq, totalOfNumbersInFile, fileNumbers);
-  for(int i = 0; i < totalOfNumbersInFile; i++){
-    novoNo = createNewNode(fileNumbers[i]);
-    raiz = insert(raiz, novoNo);
+  if(arq == NULL){
+    printf("Cannot open file!");
+    printf("\nPress ENTER to comeback to menu ");
+    LIMPA_BUFFER;
+    getchar();
+  }else{
+    totalOfNumbersInFile = (calculateQuantityOfNumbers(arq) + 1);
+    //printf("\nqtdRegistros: %d\n", totalOfNumbersInFile);//DEBUGANDO
+    fileNumbers = calloc(totalOfNumbersInFile, sizeof(int));
+    readNumbersFromArchive(arq, totalOfNumbersInFile, fileNumbers);
+    fclose(arq);
+    for(int i = 0; i < totalOfNumbersInFile; i++){
+      novoNo = createNewNode(fileNumbers[i]);
+      raiz = insert(raiz, novoNo);
+    }
+    printf("\nWait... Creating Tree\n");
+    for(int i = 0; i < 3; i++){
+      sleep(1);
+      printf("*\n");
+    }
+    printf("\nSuccessfully created tree... Press ENTER ");
+    LIMPA_BUFFER;
+    getchar();
   }
-  return raiz;
 
+  return raiz;
+}
+
+int isEmpty(Arvore *raiz){
+  //Declarações
+
+  //Instruções
+  if(raiz == NULL){
+    return 1;
+  }
+  return 0;
 }
 
 void showTree(Arvore* raiz){
@@ -148,50 +170,106 @@ void showTree(Arvore* raiz){
 
 }
 
-void isFull(){
+int isFull(Arvore *raiz){
+  //Declarações
+
+  //Instruções
+  if(raiz == NULL){
+    return 1;//verdadeiro
+    //0 filhos
+  }
+  if(raiz->esquerda == NULL && raiz->direita == NULL){
+    return 1;//0 filhos
+  }
+  if((raiz->esquerda) && (raiz->direita)){ //nao for null
+    return (isFull(raiz->esquerda) && isFull(raiz->direita));
+  }
+  return 0;
+}
+
+void searchValue(Arvore *raiz, int value){
   //Declarações
 
   //Instruções
 }
 
-void searchValue(){
+int getHeight(Arvore *raiz){
+  //Declarações
+  int hEsq, hDir, altura;
+  //Instruções
+  if (raiz == NULL){
+    return 0;
+  }
+  hEsq = getHeight(raiz->esquerda);
+  hDir = getHeight(raiz->direita);
+  altura = hEsq > hDir ? hEsq + 1 : hDir + 1;
+
+  return altura;
+}
+
+void removeValue(Arvore *raiz, int valueDeleted){
   //Declarações
 
   //Instruções
 }
 
-void getHeight(){
+void printInOrder(Arvore* raiz){
   //Declarações
 
   //Instruções
+  if (!(raiz == NULL)){
+    printInOrder(raiz->esquerda);
+    printf("%d\t", raiz->info);
+    printInOrder(raiz->direita);
+  }
 }
 
-void removeValue(){
+void printPreOrder(Arvore* raiz){
   //Declarações
 
   //Instruções
+  if (!(raiz == NULL)){
+    printf("%d\t", raiz->info);
+    printPreOrder(raiz->esquerda);
+    printPreOrder(raiz->direita);
+  }
+
 }
 
-void printInOrder(){
+void printPostOrder(Arvore* raiz){
   //Declarações
 
   //Instruções
+  if (!(raiz == NULL)){
+    printPostOrder(raiz->esquerda);
+    printPostOrder(raiz->direita);
+    printf("%d\t", raiz->info);
+  }
 }
 
-void printPreOrder(){
+int checkIfTreeIsBalanced(Arvore *raiz) {
   //Declarações
+  int value;
 
   //Instruções
+  if (raiz == NULL){
+    return 1;
+  }
+  value = abs(getHeight(raiz->direita) - getHeight(raiz->esquerda)) <= 1;
+  if(checkIfTreeIsBalanced(raiz->direita) == 0 && checkIfTreeIsBalanced(raiz->esquerda) == 0){
+    value = 0;
+  }
+  return value;
 }
 
-void printPostOrder(){
+void balanceTree(Arvore *raiz){
   //Declarações
 
   //Instruções
-}
-
-void balanceTree(){
-  //Declarações
-
-  //Instruções
+  if(checkIfTreeIsBalanced(raiz) == 0){
+    printf("Tree is not balanced");
+  }
+  else{
+    printf("Balanced Tree");
+  }
 }

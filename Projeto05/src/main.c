@@ -9,8 +9,7 @@ int main(int argc, char *argv[]) {
   setlocale(LC_ALL, "Portuguese");
 
   //Declaracoes
-  int opcao, tamanho;
-  char lock;
+  int opcao, tamanho, valueSearched, valueDeleted;
   char userFileName[100], *fileName;
   Arvore *raiz = NULL; //Criando arvore vazia
 
@@ -33,62 +32,104 @@ int main(int argc, char *argv[]) {
         strncpy(fileName, userFileName, (tamanho-1));
         //printf("fileName %s", fileName); //DEBUGANDO
         raiz = loadTreeFromFile(fileName);
-        printf("\nWait... Creating Tree\n");
-        for(int i = 0; i < 3; i++){
-          sleep(1);
-          printf("*\n");
-        }
-        printf("\nSuccessfully created tree... Press ENTER ");
+
         free(fileName);
-        LIMPA_BUFFER;
-        lock = getchar();
+
       break;
 
       case 2:
         LIMPA_TELA;
-        showTree(raiz);
+        if(isEmpty(raiz) == 1){
+          printf("Empty tree");
+        }
+        else{
+          showTree(raiz);
+        }
         printf("\nPress ENTER to comeback to menu ");
         LIMPA_BUFFER;
-        lock = getchar();
+        getchar();
       break;
 
       case 3:
         LIMPA_TELA;
-        isFull();
+        if(isFull(raiz) == 1){
+            printf("Tree is full");
+        }
+        else{
+            printf("Tree is not full");
+        }
+        printf("\nPress ENTER to comeback to menu ");
+        LIMPA_BUFFER;
+        getchar();
       break;
 
       case 4:
         LIMPA_TELA;
-        searchValue();
+        printf("Enter the value you would like to search: ");
+        scanf("%d", &valueSearched);
+        searchValue(raiz, valueSearched);
       break;
 
       case 5:
         LIMPA_TELA;
-        getHeight();
+        printf("Tree Height: %d", getHeight(raiz));
+        printf("\nPress ENTER to comeback to menu ");
+        LIMPA_BUFFER;
+        getchar();
       break;
 
       case 6:
         LIMPA_TELA;
-        removeValue();
+        printf("Enter the value you would like to delete: ");
+        scanf("%d", &valueDeleted);
+        removeValue(raiz, valueDeleted);
       break;
 
       case 7:
         LIMPA_TELA;
-        printInOrder();
+        if(isEmpty(raiz) == 1){
+          printf("Empty tree");
+        }
+        else{
+          printInOrder(raiz);
+        }
+        printf("\nPress ENTER to comeback to menu ");
+        LIMPA_BUFFER;
+        getchar();
       break;
 
       case 8:
         LIMPA_TELA;
-        printPreOrder();
+        if(isEmpty(raiz) == 1){
+          printf("Empty tree");
+        }
+        else{
+          printPreOrder(raiz);
+        }
+        printf("\nPress ENTER to comeback to menu ");
+        LIMPA_BUFFER;
+        getchar();
       break;
 
       case 9:
         LIMPA_TELA;
-        printPostOrder();
+        if(isEmpty(raiz) == 1){
+          printf("Empty tree");
+        }
+        else{
+          printPostOrder(raiz);
+        }
+        printf("\nPress ENTER to comeback to menu ");
+        LIMPA_BUFFER;
+        getchar();
       break;
 
       case 10:
-        balanceTree();
+        LIMPA_TELA;
+        balanceTree(raiz);
+        printf("\nPress ENTER to comeback to menu ");
+        LIMPA_BUFFER;
+        getchar();
       break;
     }
   }while(opcao != 0);
