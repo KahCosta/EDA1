@@ -191,6 +191,32 @@ void searchValue(Arvore *raiz, int value){
   //Declarações
 
   //Instruções
+  if (!(raiz == NULL)){
+    if(value == raiz->info){
+      printf("Fatherless node\n");
+      return;
+    }else if((raiz->esquerda != NULL) && value < raiz->info){
+      if(raiz->esquerda->info == value){
+        printf("Daddy: %d\n",raiz->info);
+        if(!(raiz->direita == NULL)){
+        printf("Brother: %d\n", raiz->direita->info);
+        }
+        return;
+      }
+      searchValue(raiz->esquerda, value);
+    }else if((raiz->direita != NULL)){
+      if(raiz->direita->info == value){
+        printf("Daddy: %d\n",raiz->info);
+        if(!(raiz->esquerda == NULL)){
+        printf("Brother: %d\n", raiz->esquerda->info);
+        }
+        return;
+      }
+      searchValue(raiz->direita, value);
+    }else{
+      printf("Node not found in the tree");
+    }
+  }
 }
 
 int getHeight(Arvore *raiz){

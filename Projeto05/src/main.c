@@ -68,6 +68,9 @@ int main(int argc, char *argv[]) {
         printf("Enter the value you would like to search: ");
         scanf("%d", &valueSearched);
         searchValue(raiz, valueSearched);
+        printf("\nPress ENTER to comeback to menu ");
+        LIMPA_BUFFER;
+        getchar();
       break;
 
       case 5:
