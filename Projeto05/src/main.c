@@ -43,7 +43,10 @@ int main(int argc, char *argv[]) {
           printf("Empty tree");
         }
         else{
+          printf("Show tree\t");
           showTree(raiz);
+          printf("\n\nGraficamente");
+          print2D(raiz);
         }
         printf("\nPress ENTER to comeback to menu ");
         LIMPA_BUFFER;
@@ -52,12 +55,7 @@ int main(int argc, char *argv[]) {
 
       case 3:
         LIMPA_TELA;
-        if(isFull(raiz) == 1){
-            printf("Tree is full");
-        }
-        else{
-            printf("Tree is not full");
-        }
+        isFull(raiz);
         printf("\nPress ENTER to comeback to menu ");
         LIMPA_BUFFER;
         getchar();
@@ -75,7 +73,7 @@ int main(int argc, char *argv[]) {
 
       case 5:
         LIMPA_TELA;
-        printf("Tree Height: %d", getHeight(raiz));
+        getHeight(raiz);
         printf("\nPress ENTER to comeback to menu ");
         LIMPA_BUFFER;
         getchar();
@@ -130,7 +128,7 @@ int main(int argc, char *argv[]) {
       case 10:
         LIMPA_TELA;
         balanceTree(raiz);
-        printf("\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to comeback to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
