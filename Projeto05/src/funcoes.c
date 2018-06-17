@@ -166,17 +166,17 @@ void print2DUtil(Arvore *raiz, int space){
     // Increase distance between levels
     space += 10;
 
-    // Process right child first
-    print2DUtil(raiz->direita, space);
 
     // Print current node after space
     // count
     printf("\n");
     for (int i = 10; i < space; i++){
-      printf(" ");
+      printf("-");
     }
     printf("%d\n", raiz->info);
 
+    // Process right child first
+    print2DUtil(raiz->direita, space);
     // Process left child
     print2DUtil(raiz->esquerda, space);
 }
