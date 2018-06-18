@@ -67,9 +67,10 @@ int main(int argc, char *argv[]) {
           printf("Empty tree");
         }
         else{
+          int height = calculateHeight(raiz);
           printf("Enter the value you would like to search: ");
           scanf("%d", &valueSearched);
-          searchValue(raiz, valueSearched);
+          searchValue(raiz, valueSearched,height);
         }
         printf("\n\nPress ENTER to comeback to menu ");
         LIMPA_BUFFER;

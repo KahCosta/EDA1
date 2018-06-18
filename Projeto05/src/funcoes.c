@@ -211,8 +211,22 @@ void isFull(Arvore *raiz){
   }
 }
 
+// int level(Arvore *raiz){
+//   //Declarações
+//   int hEsq, hDir, level;
+//   //Instruções
+//   if (raiz == NULL){
+//     return 0;
+//   }
+//   hEsq = level(raiz->esquerda);
+//   hDir = level(raiz->direita);
+//   level = hEsq > hDir ? hEsq + 1 : hDir + 1;
+//
+//   return level;
+// }
 
-void searchValue(Arvore *raiz, int value){
+
+void searchValue(Arvore *raiz, int value, int fullHeight){
   //Declarações
 
   //Instruções
@@ -222,6 +236,7 @@ void searchValue(Arvore *raiz, int value){
       return;
     }else if((raiz->esquerda != NULL) && value < raiz->info){
       if(raiz->esquerda->info == value){
+        printf("Node level: %d\n", fullHeight-calculateHeight(raiz->esquerda));
         printf("\n\nDad: %d\n",raiz->info);
         if(!(raiz->direita == NULL)){
           printf("Brother: %d\n\n", raiz->direita->info);
@@ -231,9 +246,10 @@ void searchValue(Arvore *raiz, int value){
         }
         return;
       }
-      searchValue(raiz->esquerda, value);
+      searchValue(raiz->esquerda, value, fullHeight);
     }else if((raiz->direita != NULL)){
       if(raiz->direita->info == value){
+        printf("Node level: %d\n", fullHeight-calculateHeight(raiz->direita));
         printf("\n\nDad: %d\n",raiz->info);
         if(!(raiz->esquerda == NULL)){
         printf("Brother: %d\n", raiz->esquerda->info);
@@ -243,7 +259,7 @@ void searchValue(Arvore *raiz, int value){
       }
         return;
       }
-      searchValue(raiz->direita, value);
+      searchValue(raiz->direita, value, fullHeight);
     }else{
       printf("\n\nNode not found in the tree\n\n");
     }

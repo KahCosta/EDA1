@@ -47,7 +47,7 @@ void print2D(Arvore *);
 void showTree(Arvore *);
 int checkIsFull(Arvore *);
 void isFull(Arvore *);
-void searchValue(Arvore *, int);
+void searchValue(Arvore *, int, int);
 int calculateHeight(Arvore *);
 void getHeight(Arvore *);
 void removeValue(Arvore *, int);
