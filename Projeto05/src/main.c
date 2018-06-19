@@ -6,6 +6,7 @@
 #include "funcoes.h"
 
 
+Arvore *raiz = NULL;
 
 int main(int argc, char *argv[]) {
   setlocale(LC_ALL, "Portuguese");
@@ -13,7 +14,6 @@ int main(int argc, char *argv[]) {
   //Declaracoes
   int opcao, tamanho, valueSearched, valueDeleted;
   char userFileName[100], *fileName;
-  Arvore *raiz = NULL;
 
   //Instrucoes
   do{
@@ -93,9 +93,18 @@ int main(int argc, char *argv[]) {
           printf("Empty tree");
         }
         else{
+          int height = calculateHeight(raiz);
           printf("Enter the value you would like to delete: ");
           scanf("%d", &valueDeleted);
-          removeValue(raiz, valueDeleted);
+          if(searchValue(raiz, valueDeleted, height) != -1){
+            raiz = removeValue(raiz, valueDeleted);
+            printf("\n\nWait... Deleting Node\n");
+            for(int i = 0; i < 3; i++){
+              sleep(1);
+              printf("*\n");
+            }
+            printf("\nSuccessfully Deleted node...");
+          }
         }
         printf("\n\nPress ENTER to comeback to menu ");
         LIMPA_BUFFER;

@@ -211,59 +211,48 @@ void isFull(Arvore *raiz){
   }
 }
 
-// int level(Arvore *raiz){
-//   //Declarações
-//   int hEsq, hDir, level;
-//   //Instruções
-//   if (raiz == NULL){
-//     return 0;
-//   }
-//   hEsq = level(raiz->esquerda);
-//   hDir = level(raiz->direita);
-//   level = hEsq > hDir ? hEsq + 1 : hDir + 1;
-//
-//   return level;
-// }
 
-
-void searchValue(Arvore *raiz, int value, int fullHeight){
+int searchValue(Arvore *raiz, int value, int fullHeight){
   //Declarações
 
   //Instruções
   if (!(raiz == NULL)){
     if(value == raiz->info){
-      printf("\n\nRoot\n\n");
-      return;
+      printf("\n\nRoot\n");
+      printf("Node level: 1\n");
+      return 0;
     }else if((raiz->esquerda != NULL) && value < raiz->info){
       if(raiz->esquerda->info == value){
-        printf("Node level: %d\n", fullHeight-calculateHeight(raiz->esquerda));
-        printf("\n\nDad: %d\n",raiz->info);
+        printf("\n\nNode level: %d", fullHeight-calculateHeight(raiz->esquerda));
+        printf("\nDad: %d\n",raiz->info);
         if(!(raiz->direita == NULL)){
           printf("Brother: %d\n\n", raiz->direita->info);
         }
         else{
           printf("\n\nThis node doesn't have brother\n\n");
         }
-        return;
+        return 0;
       }
       searchValue(raiz->esquerda, value, fullHeight);
     }else if((raiz->direita != NULL)){
       if(raiz->direita->info == value){
-        printf("Node level: %d\n", fullHeight-calculateHeight(raiz->direita));
-        printf("\n\nDad: %d\n",raiz->info);
+        printf("\n\nNode level: %d", fullHeight-calculateHeight(raiz->direita));
+        printf("\nDad: %d\n",raiz->info);
         if(!(raiz->esquerda == NULL)){
         printf("Brother: %d\n", raiz->esquerda->info);
       }
       else{
         printf("\n\nThis node doesn't have brother\n\n");
       }
-        return;
+        return 0;
       }
       searchValue(raiz->direita, value, fullHeight);
     }else{
       printf("\n\nNode not found in the tree\n\n");
+      return -1;
     }
   }
+  return 0;
 }
 
 int calculateHeight(Arvore *raiz){
@@ -291,10 +280,52 @@ void getHeight(Arvore *raiz){
   }
 }
 
-void removeValue(Arvore *raiz, int valueDeleted){
+Arvore* findSuccessor(Arvore *no){
   //Declarações
-
+   Arvore *aux = no;
   //Instruções
+  while(aux-> esquerda != NULL){
+    aux = aux->esquerda;
+  }
+
+  return aux;
+}
+
+Arvore* removeValue(Arvore *raiz, int valueDeleted){
+  //Declarações
+  Arvore *aux = NULL;
+  //Instruções
+  if(raiz == NULL){
+    return raiz;
+  }
+  if(valueDeleted > raiz->info){
+    raiz->direita = removeValue(raiz->direita, valueDeleted);
+  }else if(valueDeleted < raiz->info){
+    raiz->esquerda = removeValue(raiz->esquerda, valueDeleted);
+  }
+  else{
+    //Remover folha
+    if(raiz->esquerda == NULL && raiz->direita == NULL){
+      raiz = NULL;
+      return raiz;
+    }
+    //Remover nó com 1 filho
+    if(raiz->esquerda == NULL && raiz->direita != NULL){
+      aux = raiz->direita;
+      raiz = aux;
+    }
+    if(raiz->esquerda != NULL && raiz->direita == NULL){
+      aux = raiz->esquerda;
+      raiz = aux;
+    }
+    //Remover nó com 2 filhos
+    if(raiz-> esquerda != NULL && raiz-> direita != NULL){
+      aux = findSuccessor(raiz->direita);
+      raiz->info = aux->info;
+      raiz->direita = removeValue(raiz->direita, aux->info);
+    }
+  }
+  return raiz;
 }
 
 void printInOrder(Arvore* raiz){

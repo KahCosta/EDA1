@@ -36,21 +36,21 @@ typedef struct Arvore{
 //Prototipos
 int menu();
 int validateNumbers(int, int, int);
+Arvore* loadTreeFromFile(char *);
 int calculateQuantityOfNumbers(FILE *);
 void readNumbersFromArchive(FILE *, int, int *);
 Arvore* createNewNode(int);
 Arvore* insert(Arvore *, Arvore *);
-Arvore* loadTreeFromFile(char *);
 int isEmpty(Arvore *);
 void print2DUtil(Arvore *, int);
-void print2D(Arvore *);
 void showTree(Arvore *);
 int checkIsFull(Arvore *);
 void isFull(Arvore *);
-void searchValue(Arvore *, int, int);
+int searchValue(Arvore *, int, int);
 int calculateHeight(Arvore *);
 void getHeight(Arvore *);
-void removeValue(Arvore *, int);
+Arvore* findSuccessor(Arvore *);
+Arvore* removeValue(Arvore *, int);
 void printInOrder(Arvore *);
 void printPreOrder(Arvore *);
 void printPostOrder(Arvore *);
