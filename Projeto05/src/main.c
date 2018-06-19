@@ -5,33 +5,31 @@
 
 #include "funcoes.h"
 
-
-Arvore *raiz = NULL;
-
 int main(int argc, char *argv[]) {
   setlocale(LC_ALL, "Portuguese");
 
   //Declaracoes
-  int opcao, tamanho, valueSearched, valueDeleted;
+  int option, size, valueSearched, deleteValue;
   char userFileName[100], *fileName;
+  Node *raiz = NULL;
 
   //Instrucoes
   do{
-    opcao = menu();
-    switch(opcao){
+    option = menu();
+    switch(option){
       case 1:
         LIMPA_TELA;
         printf("=============== LOAD TREE =================\n\n");
         printf("Enter the name of the file: ");
         LIMPA_BUFFER;
         fgets(userFileName, 100, stdin);
-        tamanho = strlen(userFileName);
-        fileName = calloc((tamanho-1), sizeof(char));
+        size = strlen(userFileName);
+        fileName = calloc((size-1), sizeof(char));
         if(fileName == NULL){
-          printf("Alocação falhou!");
+          printf("Allocation Failed!");
           exit(1);
         }
-        strncpy(fileName, userFileName, (tamanho-1));
+        strncpy(fileName, userFileName, (size-1));
         raiz = loadTreeFromFile(fileName);
         free(fileName);
 
@@ -46,7 +44,7 @@ int main(int argc, char *argv[]) {
         else{
           showTree(raiz);
         }
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
@@ -55,7 +53,7 @@ int main(int argc, char *argv[]) {
         LIMPA_TELA;
         printf("=============== IS FULL  =================\n\n");
         isFull(raiz);
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
@@ -67,12 +65,12 @@ int main(int argc, char *argv[]) {
           printf("Empty tree");
         }
         else{
-          int height = calculateHeight(raiz);
           printf("Enter the value you would like to search: ");
           scanf("%d", &valueSearched);
-          searchValue(raiz, valueSearched,height);
+          nodeLevel = 1;
+          searchValue(raiz, valueSearched);
         }
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
@@ -81,7 +79,7 @@ int main(int argc, char *argv[]) {
         LIMPA_TELA;
         printf("=============== TREE HEIGHT ==================\n\n");
         getHeight(raiz);
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
@@ -93,12 +91,13 @@ int main(int argc, char *argv[]) {
           printf("Empty tree");
         }
         else{
-          int height = calculateHeight(raiz);
+
           printf("Enter the value you would like to delete: ");
-          scanf("%d", &valueDeleted);
-          if(searchValue(raiz, valueDeleted, height) != -1){
-            raiz = removeValue(raiz, valueDeleted);
-            printf("\n\nWait... Deleting Node\n");
+          scanf("%d", &deleteValue);
+          if(searchValue(raiz, deleteValue) != -1){
+            LIMPA_TELA;
+            raiz = removeValue(raiz, deleteValue);
+            printf("Wait... Deleting Node\n");
             for(int i = 0; i < 3; i++){
               sleep(1);
               printf("*\n");
@@ -106,7 +105,7 @@ int main(int argc, char *argv[]) {
             printf("\nSuccessfully Deleted node...");
           }
         }
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
@@ -120,7 +119,7 @@ int main(int argc, char *argv[]) {
         else{
           printInOrder(raiz);
         }
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
@@ -134,7 +133,7 @@ int main(int argc, char *argv[]) {
         else{
           printPreOrder(raiz);
         }
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
@@ -148,7 +147,7 @@ int main(int argc, char *argv[]) {
         else{
           printPostOrder(raiz);
         }
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
@@ -157,12 +156,12 @@ int main(int argc, char *argv[]) {
         LIMPA_TELA;
         printf("=============== BALANCE ==================\n\n");
         raiz = balanceTree(raiz);
-        printf("\n\nPress ENTER to comeback to menu ");
+        printf("\n\nPress ENTER to return to menu ");
         LIMPA_BUFFER;
         getchar();
       break;
     }
-  }while(opcao != 0);
+  }while(option != 0);
 
   LIMPA_TELA;
   printf("===========================================================");

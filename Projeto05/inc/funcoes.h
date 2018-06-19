@@ -23,42 +23,43 @@
     #define LIMPA_BUFFER __fpurge(stdin)
 #endif
 
-//Constantes
+//Variáveis Globais
+int nodeLevel;
 
 
 //Structs
-typedef struct Arvore{
+typedef struct Node{
   int info;
-  struct Arvore *direita;
-  struct Arvore *esquerda;
-}Arvore;
+  struct Node *direita;
+  struct Node *esquerda;
+}Node;
 
 //Prototipos
 int menu();
 int validateNumbers(int, int, int);
-Arvore* loadTreeFromFile(char *);
+Node* loadTreeFromFile(char *);
 int calculateQuantityOfNumbers(FILE *);
 void readNumbersFromArchive(FILE *, int, int *);
-Arvore* createNewNode(int);
-Arvore* insert(Arvore *, Arvore *);
-int isEmpty(Arvore *);
-void print2DUtil(Arvore *, int);
-void showTree(Arvore *);
-int checkIsFull(Arvore *);
-void isFull(Arvore *);
-int searchValue(Arvore *, int, int);
-int calculateHeight(Arvore *);
-void getHeight(Arvore *);
-Arvore* findSuccessor(Arvore *);
-Arvore* removeValue(Arvore *, int);
-void printInOrder(Arvore *);
-void printPreOrder(Arvore *);
-void printPostOrder(Arvore *);
-Arvore* balanceTree(Arvore *);
-int checkIfTreeIsBalanced(Arvore *);
-int calculateBalanceFactor(Arvore *);
-Arvore* balanceNode(Arvore *);
-Arvore* rotateLeftLeft(Arvore *);
-Arvore* rotateLeftRight(Arvore *);
-Arvore* rotateRightLeft(Arvore *);
-Arvore* rotateRightRight(Arvore *);
+Node* createNewNode(int);
+Node* insert(Node *, Node *);
+int isEmpty(Node *);
+void print2DUtil(Node *, int);
+void showTree(Node *);
+int checkIsFull(Node *);
+void isFull(Node *);
+int searchValue(Node *, int);
+int calculateHeight(Node *);
+void getHeight(Node *);
+Node* findSuccessor(Node *);
+Node* removeValue(Node *, int);
+void printInOrder(Node *);
+void printPreOrder(Node *);
+void printPostOrder(Node *);
+Node* balanceTree(Node *);
+int checkIfTreeIsBalanced(Node *);
+int calculateBalanceFactor(Node *);
+Node* balanceNode(Node *);
+Node* rotateLeftLeft(Node *);
+Node* rotateLeftRight(Node *);
+Node* rotateRightLeft(Node *);
+Node* rotateRightRight(Node *);

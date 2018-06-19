@@ -7,7 +7,7 @@
 
 int menu(){
   //Declarações
-  int opcao;
+  int option;
 
   //Instruções
   LIMPA_TELA;
@@ -25,10 +25,10 @@ int menu(){
   printf("\n0 - Exit");
   do{
     printf("\n\nEnter the number of the function you would like to do: ");
-    scanf("%d", &opcao);
-  }while(validateNumbers(opcao, 0, 10) == 1);
+    scanf("%d", &option);
+  }while(validateNumbers(option, 0, 10) == 1);
 
-  return opcao;
+  return option;
 }
 
 int validateNumbers(int numberEntered, int min, int max){
@@ -42,24 +42,24 @@ int validateNumbers(int numberEntered, int min, int max){
   return 0;
 }
 
-Arvore* loadTreeFromFile(char *fileName){
+Node* loadTreeFromFile(char *fileName){
   //Declarações
   FILE *arq;
-  Arvore *raiz = NULL, *novoNo = NULL;
+  Node *raiz = NULL, *novoNo = NULL;
   int totalOfNumbersInFile, *fileNumbers = NULL;
 
   //Instruções
   arq = fopen(fileName, "r");
   if(arq == NULL){
     printf("Cannot open file!");
-    printf("\nPress ENTER to comeback to menu ");
+    printf("\nPress ENTER to return to menu ");
     LIMPA_BUFFER;
     getchar();
   }else{
     totalOfNumbersInFile = (calculateQuantityOfNumbers(arq) + 1);
     fileNumbers = calloc(totalOfNumbersInFile, sizeof(int));
     if(fileNumbers == NULL){
-      printf("Alocação falhou!");
+      printf("Allocation Failed!");
       exit(1);
     }
     readNumbersFromArchive(arq, totalOfNumbersInFile, fileNumbers);
@@ -109,11 +109,11 @@ void readNumbersFromArchive(FILE *arq, int totalOfNumbersInFile, int *fileNumber
 
 }
 
-Arvore* createNewNode(int fileNumber){
+Node* createNewNode(int fileNumber){
   //Declarações
 
   //Instruções
-  Arvore *novoNo = (Arvore*) malloc(sizeof(Arvore));
+  Node *novoNo = (Node*) malloc(sizeof(Node));
   novoNo->info = fileNumber;
   novoNo->esquerda = NULL;
   novoNo->direita = NULL;
@@ -121,7 +121,7 @@ Arvore* createNewNode(int fileNumber){
   return novoNo;
 }
 
-Arvore* insert(Arvore *raiz, Arvore *novoNo){
+Node* insert(Node *raiz, Node *novoNo){
   //Declarações
 
   //Instruções
@@ -140,7 +140,7 @@ Arvore* insert(Arvore *raiz, Arvore *novoNo){
 
 }
 
-int isEmpty(Arvore *raiz){
+int isEmpty(Node *raiz){
   //Declarações
 
   //Instruções
@@ -150,29 +150,29 @@ int isEmpty(Arvore *raiz){
   return 0;
 }
 
-void print2DUtil(Arvore *raiz, int space){
-    // Base case
+void print2DUtil(Node *raiz, int space){
+  //Declarações
+
+  //Instruções
     if (raiz == NULL)
         return;
 
-    // Increase distance between levels
     space += 10;
 
-    // Process right child first
+
     print2DUtil(raiz->direita, space);
 
-    // Print current node after space
+
     printf("\n");
     for (int i = 10; i < space; i++){
       printf(" ");
     }
     printf("%d\n", raiz->info);
 
-    // Process left child
     print2DUtil(raiz->esquerda, space);
 }
 
-void showTree(Arvore* raiz){
+void showTree(Node* raiz){
   //Declarações
 
   //Instruções
@@ -180,7 +180,7 @@ void showTree(Arvore* raiz){
 
 }
 
-int checkIsFull(Arvore *raiz){
+int checkIsFull(Node *raiz){
   //Declarações
 
   //Instruções
@@ -196,7 +196,7 @@ int checkIsFull(Arvore *raiz){
   return 0;
 }
 
-void isFull(Arvore *raiz){
+void isFull(Node *raiz){
   //Declarações
 
   //Instruções
@@ -211,8 +211,7 @@ void isFull(Arvore *raiz){
   }
 }
 
-
-int searchValue(Arvore *raiz, int value, int fullHeight){
+int searchValue(Node *raiz, int value){
   //Declarações
 
   //Instruções
@@ -223,7 +222,7 @@ int searchValue(Arvore *raiz, int value, int fullHeight){
       return 0;
     }else if((raiz->esquerda != NULL) && value < raiz->info){
       if(raiz->esquerda->info == value){
-        printf("\n\nNode level: %d", fullHeight-calculateHeight(raiz->esquerda));
+        printf("\n\nNode level: %d", nodeLevel+1);
         printf("\nDad: %d\n",raiz->info);
         if(!(raiz->direita == NULL)){
           printf("Brother: %d\n\n", raiz->direita->info);
@@ -233,29 +232,31 @@ int searchValue(Arvore *raiz, int value, int fullHeight){
         }
         return 0;
       }
-      searchValue(raiz->esquerda, value, fullHeight);
+        nodeLevel++;
+        searchValue(raiz->esquerda, value);
     }else if((raiz->direita != NULL)){
       if(raiz->direita->info == value){
-        printf("\n\nNode level: %d", fullHeight-calculateHeight(raiz->direita));
+        printf("\n\nNode level: %d", nodeLevel+1);
         printf("\nDad: %d\n",raiz->info);
         if(!(raiz->esquerda == NULL)){
-        printf("Brother: %d\n", raiz->esquerda->info);
-      }
-      else{
-        printf("\n\nThis node doesn't have brother\n\n");
-      }
+          printf("Brother: %d\n", raiz->esquerda->info);
+        }
+        else{
+          printf("\n\nThis node doesn't have brother\n\n");
+        }
         return 0;
       }
-      searchValue(raiz->direita, value, fullHeight);
+      nodeLevel++;
+      searchValue(raiz->direita, value);
     }else{
       printf("\n\nNode not found in the tree\n\n");
       return -1;
     }
   }
-  return 0;
+
 }
 
-int calculateHeight(Arvore *raiz){
+int calculateHeight(Node *raiz){
   //Declarações
   int hEsq, hDir, altura;
   //Instruções
@@ -269,7 +270,7 @@ int calculateHeight(Arvore *raiz){
   return altura;
 }
 
-void getHeight(Arvore *raiz){
+void getHeight(Node *raiz){
   //Declarações
   //Instruções
   if(calculateHeight(raiz) == 0){
@@ -280,9 +281,9 @@ void getHeight(Arvore *raiz){
   }
 }
 
-Arvore* findSuccessor(Arvore *no){
+Node* findSuccessor(Node *no){
   //Declarações
-   Arvore *aux = no;
+   Node *aux = no;
   //Instruções
   while(aux-> esquerda != NULL){
     aux = aux->esquerda;
@@ -291,17 +292,17 @@ Arvore* findSuccessor(Arvore *no){
   return aux;
 }
 
-Arvore* removeValue(Arvore *raiz, int valueDeleted){
+Node* removeValue(Node *raiz, int deleteValue){
   //Declarações
-  Arvore *aux = NULL;
+  Node *aux = NULL;
   //Instruções
   if(raiz == NULL){
     return raiz;
   }
-  if(valueDeleted > raiz->info){
-    raiz->direita = removeValue(raiz->direita, valueDeleted);
-  }else if(valueDeleted < raiz->info){
-    raiz->esquerda = removeValue(raiz->esquerda, valueDeleted);
+  if(deleteValue > raiz->info){
+    raiz->direita = removeValue(raiz->direita, deleteValue);
+  }else if(deleteValue < raiz->info){
+    raiz->esquerda = removeValue(raiz->esquerda, deleteValue);
   }
   else{
     //Remover folha
@@ -328,7 +329,7 @@ Arvore* removeValue(Arvore *raiz, int valueDeleted){
   return raiz;
 }
 
-void printInOrder(Arvore* raiz){
+void printInOrder(Node* raiz){
   //Declarações
 
   //Instruções
@@ -339,7 +340,7 @@ void printInOrder(Arvore* raiz){
   }
 }
 
-void printPreOrder(Arvore* raiz){
+void printPreOrder(Node* raiz){
   //Declarações
 
   //Instruções
@@ -351,7 +352,7 @@ void printPreOrder(Arvore* raiz){
 
 }
 
-void printPostOrder(Arvore* raiz){
+void printPostOrder(Node* raiz){
   //Declarações
 
   //Instruções
@@ -363,9 +364,9 @@ void printPostOrder(Arvore* raiz){
 }
 
 
-Arvore* balanceTree(Arvore *raiz){
+Node* balanceTree(Node *raiz){
   //Declarações
-  Arvore *newroot = NULL;
+  Node *newroot = NULL;
 
   //Instruções
   switch(checkIfTreeIsBalanced(raiz)){
@@ -392,7 +393,7 @@ Arvore* balanceTree(Arvore *raiz){
   return raiz;
 }
 
-int checkIfTreeIsBalanced(Arvore *raiz) {
+int checkIfTreeIsBalanced(Node *raiz) {
   //Declarações
   int value;
 
@@ -407,7 +408,7 @@ int checkIfTreeIsBalanced(Arvore *raiz) {
   return value;
 }
 
-int calculateBalanceFactor(Arvore *no){
+int calculateBalanceFactor(Node *no){
   //Declarações
   int bf = 0;
 
@@ -422,9 +423,9 @@ int calculateBalanceFactor(Arvore *no){
   return bf;
 }
 
-Arvore* balanceNode(Arvore *no){
+Node* balanceNode(Node *no){
   //Declarações
-  Arvore *newroot = NULL;
+  Node *newroot = NULL;
 
   //Instruções
   if(no->esquerda){
@@ -461,10 +462,10 @@ Arvore* balanceNode(Arvore *no){
   return newroot;
 }
 
-Arvore* rotateLeftLeft(Arvore *no){
+Node* rotateLeftLeft(Node *no){
   //Declarações
-  Arvore *a = no;
-  Arvore *b = a->esquerda;
+  Node *a = no;
+  Node *b = a->esquerda;
 
   //Instruções
 	a->esquerda = b->direita;
@@ -473,11 +474,11 @@ Arvore* rotateLeftLeft(Arvore *no){
 	return b;
 }
 
-Arvore* rotateLeftRight(Arvore *no){
+Node* rotateLeftRight(Node *no){
   //Declarações
-  Arvore *a = no;
-  Arvore *b = a->esquerda;
-  Arvore *c = b->direita;
+  Node *a = no;
+  Node *b = a->esquerda;
+  Node *c = b->direita;
 
   //Instruções
 	a->esquerda = c->direita;
@@ -488,11 +489,11 @@ Arvore* rotateLeftRight(Arvore *no){
 	return c;
 }
 
-Arvore* rotateRightLeft(Arvore *no){
+Node* rotateRightLeft(Node *no){
   //Declarações
-  Arvore *a = no;
-  Arvore *b = a->direita;
-  Arvore *c = b->esquerda;
+  Node *a = no;
+  Node *b = a->direita;
+  Node *c = b->esquerda;
 
   //Instruções
 	a->direita = c->esquerda;
@@ -503,10 +504,10 @@ Arvore* rotateRightLeft(Arvore *no){
 	return c;
 }
 
-Arvore* rotateRightRight(Arvore *no){
+Node* rotateRightRight(Node *no){
   //Declarações
-  Arvore *a = no;
-  Arvore *b = a->direita;
+  Node *a = no;
+  Node *b = a->direita;
 
   //Instruções
 	a->direita = b->esquerda;
