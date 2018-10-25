@@ -10,8 +10,11 @@ FILE* abreArquivo(char *nomeArquivo){
 
   arq = fopen(nomeArquivo, "r+");
   if(arq == NULL){
-    printf("Erro  ao abrir o arquivo!");
-    exit(1);
+    arq = fopen(nomeArquivo, "w+");
+    printf("Arquivo não encontrado! Criando novo...");
+    printf("\nAperte ENTER para continuar... ");
+    LIMPA_BUFFER;
+    getchar();
   }
   return arq;
 }
