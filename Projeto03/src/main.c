@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
     opcao = menu();
     switch(opcao){
         case SAIR:
-          arq = fopen(NOMEARQUIVO, "w+");
+          arq = abreArquivo(NOMEARQUIVO);
           escreveArquivo(lista, arq);
           fclose(arq);
           //liberarLista(lista);
